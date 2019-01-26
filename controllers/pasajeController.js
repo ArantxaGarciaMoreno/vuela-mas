@@ -19,13 +19,13 @@ controller.getPasajes = async function (callback) {
     }
 }
 
-controller.deletePasaje = async function (id, callback) {
+controller.deletePasaje = async function (Reserva, callback) {
     try {
         let response = await Pasaje.update({
-            /* Activo: false */
+            Activo: 0
         }, {
                 where: {
-                    id
+                    Reserva
                 }
             });
         callback(null);
@@ -36,9 +36,12 @@ controller.deletePasaje = async function (id, callback) {
 
 controller.createPasaje = async function (data, callback) {
     try {
-        /* console.log(data.nombre, data.precio); */
-        // code goes here
+        let response = await Pasaje.create({
+            Reserva: data.Reserva,
+            Pasajero: data.Pasajero,
+        });
         callback(null);
+
     } catch (error) {
         callback(error);
     }

@@ -19,17 +19,17 @@ block content
               td #{pasajes[i].Reserva}
               td #{pasajes[i].Pasajero}
               td
-                form(action=`show/${pasajes[i].Numero}`,method="POST")
+                form(action=`show/${pasajes[i].Reserva}`,method="POST")
                   button.btn.btn-outline-dark(type='submit') Detalle
               td
-                form(action=`delete/${pasajes[i].Numero}`,method="POST")
+                form(action=`delete/${pasajes[i].Reserva}`,method="POST")
                   button.btn.btn-outline-danger(type='submit') Eliminar
-        //h4.mt-5 Crear Pasajes
-        //form(action='create' method="POST")
+        h4.mt-5 Crear Pasajes
+        form(action='create/' method="POST")
           .form-group
-            label(for='numero') Numero
-            input#numero.form-control(type='text' aria-describedby='numero' placeholder='Numero' name='numero')
+            label(for='Reserva') Reserva
+            input#Reserva.form-control(type='text' aria-describedby='Reserva' placeholder='Reserva' name='Reserva')
           .form-group
-            label(for='precio') Precio
-            input#precio.form-control(type='number' placeholder='Precio' name='precio')
+            label(for='Pasajero') Pasajero
+            input#Pasajero.form-control(type='text' placeholder='Pasajero' name='Pasajero')
           button.btn.btn-primary(type='submit') Crear
