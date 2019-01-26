@@ -2,17 +2,7 @@ const sequelize = require('sequelize');
 const db = require('../config/db');
 
 const Pasaje = db.define('Pasaje', {
-    Numero: {
-        type: sequelize.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true,
 
-        validate: {
-            isNumeric: true,
-            notEmpty: true
-        }
-    },
     Reserva: {
         type: sequelize.INTEGER,
         allowNull: false,
@@ -26,6 +16,7 @@ const Pasaje = db.define('Pasaje', {
     Pasajero: {
         type: sequelize.INTEGER,
         allowNull: false,
+        primaryKey: true,
 
         validate: {
             isNumeric: true,

@@ -7,7 +7,6 @@ block content
         table.table.bg-white
           thead
             tr
-              th(scope='col') Numero
               th(scope='col') Reserva
               th(scope='col') Pasajero
               th(scope='col')
@@ -15,8 +14,7 @@ block content
           tbody
           - for (var i = 0; i < pasajes.length; i++)
             tr
-              th(scope='row') #{pasajes[i].Numero}
-              td #{pasajes[i].Reserva}
+              th(scope='row') #{pasajes[i].Reserva}
               td #{pasajes[i].Pasajero}
               td
                 form(action=`show/${pasajes[i].Reserva}`,method="POST")
@@ -31,5 +29,5 @@ block content
             input#Reserva.form-control(type='text' aria-describedby='Reserva' placeholder='Reserva' name='Reserva')
           .form-group
             label(for='Pasajero') Pasajero
-            input#Pasajero.form-control(type='text' placeholder='Pasajero' name='Pasajero')
+            input#Pasajero.form-control(type='number' placeholder='Pasajero' name='Pasajero')
           button.btn.btn-primary(type='submit') Crear
