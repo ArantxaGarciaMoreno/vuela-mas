@@ -4,6 +4,7 @@ const Pasaje = require('../models/Pasaje');
 
 const controller = {};
 
+//Obtiene los pasajes que se encuentren activos (Activo=1)
 controller.getPasajes = async function (callback) {
     try {
         let response = await Pasaje.findAll({
@@ -19,6 +20,7 @@ controller.getPasajes = async function (callback) {
     }
 }
 
+//(Activo=n => Activo=0)
 controller.deletePasaje = async function (Reserva, callback) {
     try {
         let response = await Pasaje.update({
@@ -34,6 +36,7 @@ controller.deletePasaje = async function (Reserva, callback) {
     }
 }
 
+//Crea un pasaje nuevo
 controller.createPasaje = async function (data, callback) {
     try {
         let response = await Pasaje.create({
