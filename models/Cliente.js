@@ -21,7 +21,7 @@ const Cliente = db.define('Cliente', {
         }
     },
 
-    CI: {
+    Pasajero: {
         type: sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,

@@ -22,7 +22,7 @@ controller.createCliente = async function (data, callback) {
         let response = await Cliente.create({
             Nombre: data.Nombre,
             Apellido: data.Apellido,
-            CI: data.CI
+            Pasajero: data.Pasajero
         });
         callback(null)
     } catch (error) {
