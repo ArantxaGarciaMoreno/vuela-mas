@@ -40,16 +40,14 @@ block content
               td #{clientes[i].Cedula}
               td #{clientes[i].Reserva}
         h4.mt-5 Crear Pasajes
-        form(action='create/pasaje/' method="POST")
+        form(action='create/' method="POST")
           .form-group
             label(for='Reserva') Reserva
             input#Reserva.form-control(type='text' aria-describedby='Reserva' placeholder='Reserva' name='Reserva')
           .form-group
             label(for='Pasajero') Pasajero
             input#Pasajero.form-control(type='number' placeholder='Pasajero' name='Pasajero')
-          button.btn.btn-primary(type='submit') Crear
-        h4.mt-5 Crear Clientes
-        form(action='create/cliente/' method="POST")
+
           .form-group
             label(for='Nombre') Nombre
             input#Nombre.form-control(type='text' aria-describedby='Nombre' placeholder='Nombre' name='Nombre')
@@ -60,6 +58,5 @@ block content
             label(for='Cedula') Cedula
             input#Cedula.form-control(type='number' placeholder='Cedula' name='Cedula')
           .form-group
-            label(for='Reserva') Reserva
-            input#Reserva.form-control(type='text' aria-describedby='Reserva' placeholder='Reserva' name='Reserva')
+
           button.btn.btn-primary(type='submit') Crear
