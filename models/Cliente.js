@@ -22,7 +22,7 @@ const Cliente = db.define('Cliente', {
     },
 
 //Sugerencia de clave para asociar con tabla de Pasaje. (Ej.: mostrar cuál cliente corresponde a cada pasaje)
-    Pasajero: {
+    Reserva: {
         type: sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
