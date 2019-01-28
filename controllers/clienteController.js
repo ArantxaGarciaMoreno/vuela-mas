@@ -1,16 +1,16 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
-const Cliente = require('../models/Cliente');
+const cliente = require('../models/Cliente');
 
 const controller = {};
 
 //Obtiene todos los clientes
 controller.getClientes = async function (callback) {
     try {
-        let response = await Pasaje.findAll();
+        let response = await cliente.findAll();
         let clientes = response.map(result => result.dataValues);
         console.log(clientes);
-        callback(clientes,null);
+        callback(clientes, null);
     }catch (error) {
         callback(null, error);
     }
@@ -19,10 +19,11 @@ controller.getClientes = async function (callback) {
 //Crea un cliente
 controller.createCliente = async function (data, callback) {
     try {
-        let response = await Cliente.create({
+        let response = await cliente.create({
             Nombre: data.Nombre,
             Apellido: data.Apellido,
-            Pasajero: data.Pasajero
+            Reserva: data.Reserva,
+            Cedula: data.Cedula
         });
         callback(null)
     } catch (error) {

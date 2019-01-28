@@ -41,7 +41,7 @@ controller.createPasaje = async function (data, callback) {
     try {
         let response = await Pasaje.create({
             Reserva: data.Reserva,
-            Pasajero: data.Pasajero,
+            Pasajero: data.Pasajero
         });
         callback(null);
 

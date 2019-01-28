@@ -41,6 +41,9 @@ const Cliente = db.define('Cliente', {
         notEmpty: true
     }
 }
+}, {
+    timestamps: false,
+    freezeTableName: true
 });
 
 module.exports = Cliente;
