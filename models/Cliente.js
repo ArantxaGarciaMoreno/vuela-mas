@@ -25,13 +25,22 @@ const Cliente = db.define('Cliente', {
     Reserva: {
         type: sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true,
         validate: {
             isNumeric: true,
             notEmpty: true
         }
-    }
+    },
 
+//Identificador unico del cliente
+    Cedula: {
+    type: sequelize.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    validate: {
+        isNumeric: true,
+        notEmpty: true
+    }
+}
 });
 
 module.exports = Cliente;
