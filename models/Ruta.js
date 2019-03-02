@@ -1,49 +1,18 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
-const Aeropuerto = require('../models/Aeropuerto');
 
-const VueloProgramado = db.define('VueloProgramado', {
+const Ruta = db.define('Ruta', {
 
-    CodigoVuelo: {
+    ID: {
         type: sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true,
-
-        validate: {
-            isNumeric: true,
-            notEmpty: true
-        }
-    },
-    Origen: {
-        type: sequelize.STRING,
-        allowNull: false,
-        foreignKey: true,
 
         validate: {
             notEmpty: true
-        },
-        references: {
-            model: Aeropuerto,
-            key: 'CodigoIATA',
-            deferrable: sequelize.Deferrable.INITIALLY_IMMEDIATE
         }
     },
-    Destino: {
-        type: sequelize.STRING,
-        allowNull: false,
-        foreignKey: true,
-
-        validate: {
-            notEmpty: true
-        },
-        references: {
-            model: Aeropuerto,
-            key: 'CodigoIATA',
-            deferrable: sequelize.Deferrable.INITIALLY_IMMEDIATE
-        }
-    },
-    Dia: {
+    CodigoIATAOrigen: {
         type: sequelize.STRING,
         allowNull: false,
 
@@ -51,20 +20,52 @@ const VueloProgramado = db.define('VueloProgramado', {
             notEmpty: true
         }
     },
-    Hora: {
-        type: sequelize.TIME,
-        allowNull: false,
-
-        validate: {
-            notEmpty: true
-        }
-    },
-    Duracion: {
+    CodigoIATADestino: {
         type: sequelize.FLOAT,
         allowNull: false,
 
         validate: {
-            notEmpty: true,
+            notEmpty: true
+        }
+    },
+    CantEquipaje: {
+        type: sequelize.INTEGER,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    PesoEquipaje: {
+        type: sequelize.FLOAT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    FeeReserva: {
+        type: sequelize.FLOAT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    FeeEquipajeExtra: {
+        type: sequelize.FLOAT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    FeePorVueloNoAbordado: {
+        type: sequelize.FLOAT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
         }
     },
     Activo: {
@@ -83,4 +84,4 @@ const VueloProgramado = db.define('VueloProgramado', {
         freezeTableName: true
     });
 
-module.exports = VueloProgramado;
+module.exports = Tarifa;

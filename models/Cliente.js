@@ -1,10 +1,10 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
 
-const Aeropuerto = db.define('Aeropuerto', {
+const Cliente = db.define('Cliente', {
 
-    CodigoIATA: {
-        type: sequelize.STRING,
+    ID: {
+        type: sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
 
@@ -12,7 +12,16 @@ const Aeropuerto = db.define('Aeropuerto', {
             notEmpty: true
         }
     },
-    Ciudad: {
+    Pasaporte: {
+        type: sequelize.STRING,
+        allowNull: false,
+        unique: true,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    Nombre: {
         type: sequelize.STRING,
         allowNull: false,
 
@@ -20,7 +29,7 @@ const Aeropuerto = db.define('Aeropuerto', {
             notEmpty: true
         }
     },
-    Pais: {
+    Apellido: {
         type: sequelize.STRING,
         allowNull: false,
 
@@ -28,8 +37,16 @@ const Aeropuerto = db.define('Aeropuerto', {
             notEmpty: true
         }
     },
-    ZonaHoraria: {
-        type: sequelize.FLOAT,
+    Nacionalidad: {
+        type: sequelize.STRING,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    FechaNacimiento: {
+        type: sequelize.DATE,
         allowNull: false,
 
         validate: {
@@ -52,4 +69,4 @@ const Aeropuerto = db.define('Aeropuerto', {
         freezeTableName: true
     });
 
-module.exports = Aeropuerto;
+module.exports = Cliente;
