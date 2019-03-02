@@ -3,47 +3,70 @@ const db = require('../config/db');
 
 const Cliente = db.define('Cliente', {
 
+    ID: {
+        type: sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    Pasaporte: {
+        type: sequelize.STRING,
+        allowNull: false,
+        unique: true,
+
+        validate: {
+            notEmpty: true
+        }
+    },
     Nombre: {
         type: sequelize.STRING,
         allowNull: false,
+
         validate: {
-            isAlpha: true,
             notEmpty: true
         }
     },
-
     Apellido: {
         type: sequelize.STRING,
         allowNull: false,
+
         validate: {
-            isAlpha: true,
             notEmpty: true
         }
     },
-
-//Sugerencia de clave para asociar con tabla de Pasaje. (Ej.: mostrar cuál cliente corresponde a cada pasaje)
-    Reserva: {
-        type: sequelize.INTEGER,
+    Nacionalidad: {
+        type: sequelize.STRING,
         allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    FechaNacimiento: {
+        type: sequelize.DATE,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    Activo: {
+        type: sequelize.TINYINT,
+        allowNull: false,
+        defaultValue: 1,
+
         validate: {
             isNumeric: true,
             notEmpty: true
         }
     },
 
-//Identificador unico del cliente
-    Cedula: {
-    type: sequelize.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    validate: {
-        isNumeric: true,
-        notEmpty: true
-    }
-}
 }, {
-    timestamps: false,
-    freezeTableName: true
-});
+        timestamps: false,
+        freezeTableName: true
+    });
 
 module.exports = Cliente;

@@ -1,10 +1,10 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
 
-const Aeropuerto = db.define('Aeropuerto', {
+const Tarifa = db.define('Tarifa', {
 
-    CodigoIATA: {
-        type: sequelize.STRING,
+    ID: {
+        type: sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
 
@@ -12,7 +12,7 @@ const Aeropuerto = db.define('Aeropuerto', {
             notEmpty: true
         }
     },
-    Ciudad: {
+    Clase: {
         type: sequelize.STRING,
         allowNull: false,
 
@@ -20,15 +20,47 @@ const Aeropuerto = db.define('Aeropuerto', {
             notEmpty: true
         }
     },
-    Pais: {
-        type: sequelize.STRING,
+    PrecioBase: {
+        type: sequelize.FLOAT,
         allowNull: false,
 
         validate: {
             notEmpty: true
         }
     },
-    ZonaHoraria: {
+    CantEquipaje: {
+        type: sequelize.INTEGER,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    PesoEquipaje: {
+        type: sequelize.FLOAT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    FeeReserva: {
+        type: sequelize.FLOAT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    FeeEquipajeExtra: {
+        type: sequelize.FLOAT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    FeePorVueloNoAbordado: {
         type: sequelize.FLOAT,
         allowNull: false,
 
@@ -52,4 +84,4 @@ const Aeropuerto = db.define('Aeropuerto', {
         freezeTableName: true
     });
 
-module.exports = Aeropuerto;
+module.exports = Tarifa;
