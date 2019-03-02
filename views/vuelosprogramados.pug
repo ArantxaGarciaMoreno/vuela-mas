@@ -1,0 +1,61 @@
+extends base
+block content
+  .container.pt-4
+    h2 Vuelos Programados 
+    .row.mt-5
+      .col-12
+        table.table.bg-white
+          thead
+            tr
+              th(scope='col') Código del vuelo
+              th(scope='col') Origen
+              th(scope='col') Destino
+              th(scope='col') Dia
+              th(scope='col') Hora
+              th(scope='col') Duración
+              th(scope='col') 
+          tbody
+          - for (var i = 0; i < vuelosProgramados.length; i++)
+            tr
+              th(scope='row') #{vuelosProgramados[i].CodigoVuelo}
+              td #{vuelosProgramados[i].Origen}
+              td #{vuelosProgramados[i].Destino}
+              td #{vuelosProgramados[i].Dia}
+              td #{vuelosProgramados[i].Hora}
+              td #{vuelosProgramados[i].Duracion}
+              td
+                form(action=`delete/${vuelosProgramados[i].CodigoVuelo}`,method="POST")
+                  button.btn.btn-outline-danger(type='submit') Eliminar
+        h4.mt-5 Agregar un nuevo vuelo a la planificación semanal
+        form(action='create/' method="POST")
+          .form-group
+            label(for='Origen') Origen
+            select#Origen.form-control(type='text' aria-describedby='Origen' placeholder='Origen' name='Origen').custom-select
+                option(value="") ...
+                - for (var i = 0; i< aeropuertos.length; i++)
+                  option(value=`${aeropuertos[i].CodigoIATA}`) #{aeropuertos[i].Ciudad}, #{aeropuertos[i].Pais}
+          .form-group
+            label(for='Destino') Destino
+            select#Destino.form-control(type='text' aria-describedby='Destino' placeholder='Destino' name='Destino').custom-select
+                option(value="") ...
+                - for (var i = 0; i< aeropuertos.length; i++)
+                  option(value=`${aeropuertos[i].CodigoIATA}`) #{aeropuertos[i].Ciudad}, #{aeropuertos[i].Pais}
+          .form-group
+            label(for='Dia') Dia
+            select#Dia.form-control(type='text' aria-describedby='Dia' placeholder='Dia' name='Dia').custom-select
+                option(value="") ...
+                option(value="Lunes") Lunes
+                option(value="Martes") Martes
+                option(value="Miercoles") Miércoles
+                option(value="Jueves") Jueves
+                option(value="Viernes") Viernes
+                option(value="Sabado") Sabado
+                option(value="Domingo") Domingo
+          .form-group
+            label(for='Hora') Hora
+            input#Hora.form-control(type='time' aria-describedby='Hora' placeholder='Hora' name='Hora')
+          .form-group
+            label(for='Duracion') Duración
+            input#Duracion.form-control(type='number' aria-describedby='Duracion' placeholder='Duracion' name='Duracion')
+          button.btn.btn-primary(type='submit') Agregar
+          h4.mt-5

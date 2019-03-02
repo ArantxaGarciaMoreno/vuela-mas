@@ -15,8 +15,14 @@ html(lang="en")
   body.bg-light
     block navbar
       // Navbar
-      nav.navbar.bg-dark.text-light
-        h4.navbar-text.font-weight-light.pr-3 VuelaMAS
+      nav.navbar.navbar-expand-md.bg-dark.text-light
+        a(href="/").navbar-brand.pr-5.text-light VuelaMAS
+        div(id="collapsibleNavbar").collapse.navbar-collapse
+          ul.navbar-nav
+            li.nav-item
+              a(href="/aeropuertos/").nav-link.pr-5.text-light Aeropuertos
+            li.nav-item
+              a(href="/vuelosprogramados/").nav-link.pr-5.text-light Vuelos Programados
     block content
       // Content
     block scripts

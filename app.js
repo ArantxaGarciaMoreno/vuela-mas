@@ -3,6 +3,8 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const routes = require("./routes/index");
+const aeropuertoRoute = require("./routes/aeropuertos");
+const vueloProgramadoRoute = require("./routes/vuelosprogramados");
 const sequelize = require("./config/db");
 const app = express();
 
@@ -12,6 +14,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", routes);
+app.use("/aeropuertos", aeropuertoRoute);
+app.use("/vuelosprogramados", vueloProgramadoRoute);
 
 sequelize
   .authenticate()
@@ -20,7 +24,7 @@ sequelize
     console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
   });
 
-  sequelize.sync({logging: false});
+sequelize.sync({ logging: false });
 
 app.set("port", process.env.PORT || 7777);
 const server = app.listen(app.get("port"), () => {

@@ -1,62 +1,7 @@
 extends base
 block content
   .container.pt-4
-    h2 Pasajes
+    h1 Bienvenido a VuelaMAS
     .row.mt-5
       .col-12
-        table.table.bg-white
-          thead
-            tr
-              th(scope='col') Reserva
-              th(scope='col') Pasajero
-              th(scope='col')
-              th(scope='col')
-          tbody
-          - for (var i = 0; i < pasajes.length; i++)
-            tr
-              th(scope='row') #{pasajes[i].Reserva}
-              td #{pasajes[i].Pasajero}
-              td
-                form(action=`show/${pasajes[i].Reserva}`,method="POST")
-                  button.btn.btn-outline-dark(type='submit') Detalle
-              td
-                form(action=`delete/${pasajes[i].Reserva}`,method="POST")
-                  button.btn.btn-outline-danger(type='submit') Eliminar
-    h2 Clientes
-    .row.mt-5
-      .col-12
-        table.table.bg-white
-          thead
-            tr
-              th(scope='col') Nombre
-              th(scope='col') Apellido
-              th(scope='col') Cédula
-              th(scope='col') Reserva
-          tbody
-          - for (var i = 0; i < clientes.length; i++)
-            tr
-              td #{clientes[i].Nombre}
-              td #{clientes[i].Apellido}
-              td #{clientes[i].Cedula}
-              td #{clientes[i].Reserva}
-        h4.mt-5 Crear Pasajes
-        form(action='create/' method="POST")
-          .form-group
-            label(for='Reserva') Reserva
-            input#Reserva.form-control(type='text' aria-describedby='Reserva' placeholder='Reserva' name='Reserva')
-          .form-group
-            label(for='Pasajero') Pasajero
-            input#Pasajero.form-control(type='number' placeholder='Pasajero' name='Pasajero')
-
-          .form-group
-            label(for='Nombre') Nombre
-            input#Nombre.form-control(type='text' aria-describedby='Nombre' placeholder='Nombre' name='Nombre')
-          .form-group
-            label(for='Apellido') Apellido
-            input#Apellido.form-control(type='text' placeholder='Apellido' name='Apellido')
-          .form-group
-            label(for='Cedula') Cedula
-            input#Cedula.form-control(type='number' placeholder='Cedula' name='Cedula')
-          .form-group
-
-          button.btn.btn-primary(type='submit') Crear
+        h2 Proximamente...
