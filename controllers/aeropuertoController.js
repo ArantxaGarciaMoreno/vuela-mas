@@ -10,7 +10,8 @@ controller.getAeropuertos = async function (callback) {
         let response = await Aeropuerto.findAll({
             where: {
                 Activo: 1
-            }
+            },
+            attributes: ['CodigoIATA','Ciudad','Pais',[sequelize.fn('concat','UTC',sequelize.col('ZonaHoraria'),':00'),'ZonaHoraria']] 
         });
         let aeropuertos = response.map(result => result.dataValues);
         console.log(aeropuertos);
