@@ -4,6 +4,7 @@ const Aeropuerto = require('../models/Aeropuerto');
 
 const controller = {};
 
+//Obtiene todos los aeropuertos
 controller.getAeropuertos = async function (callback) {
     try {
         let response = await Aeropuerto.findAll({
@@ -19,6 +20,7 @@ controller.getAeropuertos = async function (callback) {
     }
 }
 
+//Desactiva un aeropuerto (Activo = 0)
 controller.deleteAeropuerto = async function (CodigoIATA, callback) {
     try {
         let response = await Aeropuerto.update({
@@ -34,12 +36,14 @@ controller.deleteAeropuerto = async function (CodigoIATA, callback) {
     }
 }
 
+//Crea un aeropuerto nuevo
 controller.createAeropuerto = async function (data, callback) {
     try {
         let response = await Aeropuerto.create({
             CodigoIATA: data.CodigoIATA,
             Ciudad: data.Ciudad,
-            Pais: data.Pais
+            Pais: data.Pais,
+            ZonaHoraria: data.ZonaHoraria
         });
         callback(null);
 

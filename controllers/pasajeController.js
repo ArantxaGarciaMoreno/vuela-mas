@@ -20,14 +20,14 @@ controller.getPasajes = async function (callback) {
     }
 }
 
-//(Activo=n => Activo=0)
-controller.deletePasaje = async function (Reserva, callback) {
+//Desactiva un pasaje (Activo = 0)
+controller.deletePasaje = async function (ID, callback) {
     try {
         let response = await Pasaje.update({
             Activo: 0
         }, {
                 where: {
-                    Reserva
+                    ID
                 }
             });
         callback(null);
@@ -40,8 +40,15 @@ controller.deletePasaje = async function (Reserva, callback) {
 controller.createPasaje = async function (data, callback) {
     try {
         let response = await Pasaje.create({
-            Reserva: data.Reserva,
-            Pasajero: data.Pasajero
+            IDPasajero: data.IDPasajero,
+            IDVueloReservado: data.IDVueloReservado,
+            IDTarifa: data.IDTarifa,
+            IDComprador: data.IDComprador,
+            IDVueloAbordado: data.IDVueloAbordado,
+            Asiento: data.Asiento,
+            Estado: data.Estado,
+            FechaReserva: data.FechaReserva,
+            MetodoPago: data.MetodoPago
         });
         callback(null);
 

@@ -7,6 +7,7 @@ const Ruta = db.define('Ruta', {
         type: sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
 
         validate: {
             notEmpty: true
@@ -28,7 +29,7 @@ const Ruta = db.define('Ruta', {
             notEmpty: true
         }
     },
-    CantEquipaje: {
+    IDAvion: {
         type: sequelize.INTEGER,
         allowNull: false,
 
@@ -36,32 +37,16 @@ const Ruta = db.define('Ruta', {
             notEmpty: true
         }
     },
-    PesoEquipaje: {
-        type: sequelize.FLOAT,
+    HoraSalida: {
+        type: sequelize.TIME,
         allowNull: false,
 
         validate: {
             notEmpty: true
         }
     },
-    FeeReserva: {
-        type: sequelize.FLOAT,
-        allowNull: false,
-
-        validate: {
-            notEmpty: true
-        }
-    },
-    FeeEquipajeExtra: {
-        type: sequelize.FLOAT,
-        allowNull: false,
-
-        validate: {
-            notEmpty: true
-        }
-    },
-    FeePorVueloNoAbordado: {
-        type: sequelize.FLOAT,
+    HoraLlegada: {
+        type: sequelize.TIME,
         allowNull: false,
 
         validate: {

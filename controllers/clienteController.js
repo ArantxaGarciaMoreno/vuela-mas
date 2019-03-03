@@ -20,10 +20,11 @@ controller.getClientes = async function (callback) {
 controller.createCliente = async function (data, callback) {
     try {
         let response = await cliente.create({
+            Pasaporte: data.Pasaporte,
             Nombre: data.Nombre,
             Apellido: data.Apellido,
-            Reserva: data.Reserva,
-            Cedula: data.Cedula
+            Nacionalidad: data.Nacionalidad,
+            FechaNacimiento: data.FechaNacimiento
         });
         callback(null)
     } catch (error) {

@@ -7,6 +7,7 @@ const Tarifa = db.define('Tarifa', {
         type: sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
 
         validate: {
             notEmpty: true
