@@ -40,11 +40,33 @@ const Alquiler = db.define('Alquiler', {
         validate: {
             notEmpty: true
         }
+    },
+    FechaEntrega: {
+        type: sequelize.DATE,
+        allowNull: true,
+    },
+    FechaDevolucion: {
+        type: sequelize.DATE,
+        allowNull: true
+    },
+    MontoPagado: {
+        type: sequelize.FLOAT,
+        allowNull: true
+    },
+    Activo: {
+        type: sequelize.TINYINT,
+        allowNull: false,
+        defaultValue: 1,
+
+        validate: {
+            isNumeric: true,
+            notEmpty: true
+        }
     }
 },
-{
-    timestamps: false,
-    freezeTableName: true
-});
+    {
+        timestamps: false,
+        freezeTableName: true
+    });
 
 module.exports = Alquiler;

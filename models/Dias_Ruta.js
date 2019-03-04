@@ -14,7 +14,7 @@ const Dias_Ruta = db.define('Dias_Ruta', {
         },
 
         validate: {
-            notEmpty:  true
+            notEmpty: true
         }
     },
     DiaSemana: {
@@ -25,11 +25,21 @@ const Dias_Ruta = db.define('Dias_Ruta', {
         validate: {
             notEmpty: true
         }
+    },
+    Activo: {
+        type: sequelize.TINYINT,
+        allowNull: false,
+        defaultValue: 1,
+
+        validate: {
+            isNumeric: true,
+            notEmpty: true
+        }
     }
 },
-{
-    timestamps: false,
-    freezeTableName: true
-});
+    {
+        timestamps: false,
+        freezeTableName: true
+    });
 
 module.exports = Dias_Ruta;

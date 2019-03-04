@@ -20,6 +20,7 @@ const Pasaje = db.define('Pasaje', {
     IDPasajero: {
         type: sequelize.INTEGER,
         allowNull: false,
+        unique: 'compositeIndex',
 
         references: {
             model: Cliente,
@@ -34,6 +35,7 @@ const Pasaje = db.define('Pasaje', {
     IDVueloReservado: {
         type: sequelize.INTEGER,
         allowNull: false,
+        unique: 'compositeIndex',
 
         references: {
             model: Vuelo,
@@ -81,20 +83,12 @@ const Pasaje = db.define('Pasaje', {
             model: Vuelo,
             key: 'ID'
         },
-        
-        validate: {
-            isNumeric: true,
-            notEmpty: false
-        }
+
     },
     Asiento: {
         type: sequelize.INTEGER,
         allowNull: true,
 
-        validate: {
-            isNumeric: true,
-            notEmpty: false
-        }
     },
     Estado: {
         type: sequelize.STRING,
@@ -118,7 +112,7 @@ const Pasaje = db.define('Pasaje', {
         type: sequelize.STRING,
         allowNull: false,
 
-        validate:{
+        validate: {
             isAlpha: true,
             notEmpty: true
         }

@@ -26,11 +26,21 @@ const Telefonos = db.define('Telefonos', {
         validate: {
             notEmpty: true
         }
+    },
+    Activo: {
+        type: sequelize.TINYINT,
+        allowNull: false,
+        defaultValue: 1,
+
+        validate: {
+            isNumeric: true,
+            notEmpty: true
+        }
     }
 },
-{
-    timestamps: false,
-    freezeTableName: true
-});
+    {
+        timestamps: false,
+        freezeTableName: true
+    });
 
 module.exports = Telefonos;

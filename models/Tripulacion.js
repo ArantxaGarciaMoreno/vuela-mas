@@ -22,7 +22,7 @@ const Tripulacion = db.define('Tripulacion', {
         type: sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
-        
+
         references: {
             model: Vuelo,
             key: 'ID'
@@ -31,11 +31,21 @@ const Tripulacion = db.define('Tripulacion', {
         validate: {
             notEmpty: true
         }
+    },
+    Activo: {
+        type: sequelize.TINYINT,
+        allowNull: false,
+        defaultValue: 1,
+
+        validate: {
+            isNumeric: true,
+            notEmpty: true
+        }
     }
 },
-{
-    timestamps: false,
-    freezeTableName: true
-});
+    {
+        timestamps: false,
+        freezeTableName: true
+    });
 
 module.exports = Tripulacion;

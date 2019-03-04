@@ -13,7 +13,7 @@ const Empleado = db.define('Empleado', {
         }
     },
     Pasaporte: {
-        type: sequelize.INTEGER,
+        type: sequelize.STRING,
         allowNull: true,
         unique: true,
 
@@ -33,9 +33,9 @@ const Empleado = db.define('Empleado', {
         type: sequelize.STRING,
         allowNull: false,
 
-         validate: {
-             notEmpty:  true
-         }
+        validate: {
+            notEmpty: true
+        }
     },
     Nacionalidad: {
         type: sequelize.STRING,
@@ -60,11 +60,21 @@ const Empleado = db.define('Empleado', {
         validate: {
             notEmpty: true
         }
+    },
+    Activo: {
+        type: sequelize.TINYINT,
+        allowNull: false,
+        defaultValue: 1,
+
+        validate: {
+            isNumeric: true,
+            notEmpty: true
+        }
     }
 },
-{
-    timestamps: false,
-    freezeTableName: true
-});
+    {
+        timestamps: false,
+        freezeTableName: true
+    });
 
 module.exports = Empleado;
