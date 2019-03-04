@@ -1,19 +1,27 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
 
-const Ruta = db.define('Ruta', {
-
+const Empleado = db.define('Empleado', {
     ID: {
         type: sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true,
         autoIncrement: true,
+        primaryKey: true,
 
         validate: {
             notEmpty: true
         }
     },
-    CodigoIATAOrigen: {
+    Pasaporte: {
+        type: sequelize.INTEGER,
+        allowNull: true,
+        unique: true,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    Nombre: {
         type: sequelize.STRING,
         allowNull: false,
 
@@ -21,52 +29,42 @@ const Ruta = db.define('Ruta', {
             notEmpty: true
         }
     },
-    CodigoIATADestino: {
-        type: sequelize.FLOAT,
+    Apellido: {
+        type: sequelize.STRING,
+        allowNull: false,
+
+         validate: {
+             notEmpty:  true
+         }
+    },
+    Nacionalidad: {
+        type: sequelize.STRING,
         allowNull: false,
 
         validate: {
             notEmpty: true
         }
     },
-    IDAvion: {
-        type: sequelize.INTEGER,
+    FechaNacimiento: {
+        type: sequelize.DATE,
         allowNull: false,
 
         validate: {
             notEmpty: true
         }
     },
-    HoraSalida: {
-        type: sequelize.TIME,
+    Cargo: {
+        type: sequelize.STRING,
         allowNull: false,
 
         validate: {
             notEmpty: true
         }
-    },
-    HoraLlegada: {
-        type: sequelize.TIME,
-        allowNull: false,
+    }
+},
+{
+    timestamps: false,
+    freezeTableName: true
+});
 
-        validate: {
-            notEmpty: true
-        }
-    },
-    Activo: {
-        type: sequelize.TINYINT,
-        allowNull: false,
-        defaultValue: 1,
-
-        validate: {
-            isNumeric: true,
-            notEmpty: true
-        }
-    },
-
-}, {
-        timestamps: false,
-        freezeTableName: true
-    });
-
-module.exports = Ruta;
+module.exports = Empleado;

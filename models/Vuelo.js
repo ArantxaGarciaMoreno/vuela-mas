@@ -1,8 +1,10 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
+const Ruta = require('./Ruta');
+const Avion = require('./Avion');
+const Aeropuerto = require('./Aeropuerto');
 
-const Ruta = db.define('Ruta', {
-
+const Vuelo = db.define('Vuelo',{
     ID: {
         type: sequelize.INTEGER,
         allowNull: false,
@@ -13,16 +15,21 @@ const Ruta = db.define('Ruta', {
             notEmpty: true
         }
     },
-    CodigoIATAOrigen: {
-        type: sequelize.STRING,
+    IDRuta: {
+        type: sequelize.INTEGER,
         allowNull: false,
+
+        references: {
+            model: Ruta,
+            key: 'ID'
+        },
 
         validate: {
             notEmpty: true
         }
     },
-    CodigoIATADestino: {
-        type: sequelize.FLOAT,
+    Fecha: {
+        type: sequelize.DATE,
         allowNull: false,
 
         validate: {
@@ -32,6 +39,24 @@ const Ruta = db.define('Ruta', {
     IDAvion: {
         type: sequelize.INTEGER,
         allowNull: false,
+
+        references: {
+            model: Avion,
+            key: 'ID'
+        },
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    CodigoIATADestino: {
+        type: sequelize.STRING,
+        allowNull: false,
+
+        references: {
+            model: Aeropuerto,
+            key: 'CodigoIATA'
+        },
 
         validate: {
             notEmpty: true
@@ -53,6 +78,14 @@ const Ruta = db.define('Ruta', {
             notEmpty: true
         }
     },
+    Estado: {
+        type: sequelize.STRING,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
     Activo: {
         type: sequelize.TINYINT,
         allowNull: false,
@@ -62,11 +95,11 @@ const Ruta = db.define('Ruta', {
             isNumeric: true,
             notEmpty: true
         }
-    },
+    }
+}, 
+{
+    timestamps: false,
+    freezeTableName: true  
+});
 
-}, {
-        timestamps: false,
-        freezeTableName: true
-    });
-
-module.exports = Ruta;
+module.exports = Vuelo;

@@ -23,9 +23,11 @@ router.post("/delete/:CodigoIATA", (req, res) => {
                     msg: 'Failed to delete pasaje'
                 });
             else
-                res.redirect('/aeropuertos/');
+            res.redirect('/aeropuertos/');
         });
+        
     }
+    
 });
 
 router.post("/create", (req, res) => {

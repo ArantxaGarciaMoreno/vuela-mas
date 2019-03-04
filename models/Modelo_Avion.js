@@ -1,12 +1,12 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
 
-const ModeloAvion = db.define('ModeloAvion', {
-
+const Modelo_Avion = db.define ('Modelo_Avion', {
     ID: {
         type: sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
 
         validate: {
             notEmpty: true
@@ -28,7 +28,7 @@ const ModeloAvion = db.define('ModeloAvion', {
             notEmpty: true
         }
     },
-    CantBanios: {
+    CantBanos: {
         type: sequelize.INTEGER,
         allowNull: false,
 
@@ -60,7 +60,62 @@ const ModeloAvion = db.define('ModeloAvion', {
             notEmpty: true
         }
     },
-    
+    DistDespegueCargaMax: {
+        type: sequelize.FLOAT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    VelocidadCrucero: {
+        type: sequelize.FLOAT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    PesoMax: {
+        type: sequelize.FLOAT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    TipoCombustible: {
+        type: sequelize.STRING,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    CantSalidasE: {
+        type: sequelize.INTEGER,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    MaxCargaCabina: {
+        type: sequelize.FLOAT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    CantCombustible: {
+        type: sequelize.FLOAT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
     Activo: {
         type: sequelize.TINYINT,
         allowNull: false,
@@ -70,11 +125,11 @@ const ModeloAvion = db.define('ModeloAvion', {
             isNumeric: true,
             notEmpty: true
         }
-    },
+    }
+},
+{
+    timestamps: false,
+    freezeTableName: true  
+});
 
-}, {
-        timestamps: false,
-        freezeTableName: true
-    });
-
-module.exports = Avion;
+module.exports = Modelo_Avion;

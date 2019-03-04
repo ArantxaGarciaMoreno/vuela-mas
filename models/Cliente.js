@@ -7,6 +7,7 @@ const Cliente = db.define('Cliente', {
         type: sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
 
         validate: {
             notEmpty: true

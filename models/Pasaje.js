@@ -1,5 +1,8 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
+const Cliente = require('./Cliente');
+const Tarifa = require('./Tarifa');
+const Vuelo = require('./Vuelo');
 
 const Pasaje = db.define('Pasaje', {
 
@@ -18,6 +21,11 @@ const Pasaje = db.define('Pasaje', {
         type: sequelize.INTEGER,
         allowNull: false,
 
+        references: {
+            model: Cliente,
+            key: 'ID'
+        },
+
         validate: {
             isNumeric: true,
             notEmpty: true
@@ -26,6 +34,11 @@ const Pasaje = db.define('Pasaje', {
     IDVueloReservado: {
         type: sequelize.INTEGER,
         allowNull: false,
+
+        references: {
+            model: Vuelo,
+            key: 'ID'
+        },
 
         validate: {
             isNumeric: true,
@@ -36,6 +49,11 @@ const Pasaje = db.define('Pasaje', {
         type: sequelize.INTEGER,
         allowNull: false,
 
+        references: {
+            model: Tarifa,
+            key: 'ID'
+        },
+
         validate: {
             isNumeric: true,
             notEmpty: true
@@ -45,6 +63,11 @@ const Pasaje = db.define('Pasaje', {
         type: sequelize.INTEGER,
         allowNull: false,
 
+        references: {
+            model: Cliente,
+            key: 'ID'
+        },
+
         validate: {
             isNumeric: true,
             notEmpty: true
@@ -53,6 +76,11 @@ const Pasaje = db.define('Pasaje', {
     IDVueloAbordado: {
         type: sequelize.INTEGER,
         allowNull: true,
+
+        references: {
+            model: Vuelo,
+            key: 'ID'
+        },
         
         validate: {
             isNumeric: true,
@@ -95,7 +123,6 @@ const Pasaje = db.define('Pasaje', {
             notEmpty: true
         }
     },
-    
     Activo: {
         type: sequelize.TINYINT,
         allowNull: false,

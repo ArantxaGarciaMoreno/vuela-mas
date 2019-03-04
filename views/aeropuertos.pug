@@ -10,6 +10,7 @@ block content
               th(scope='col') Codigo IATA
               th(scope='col') Ciudad
               th(scope='col') Pais
+              th(scope='col') Zona Horaria
               th(scope='col')
           tbody
           - for (var i = 0; i < aeropuertos.length; i++)
@@ -17,6 +18,7 @@ block content
               th(scope='row') #{aeropuertos[i].CodigoIATA}
               td #{aeropuertos[i].Ciudad}
               td #{aeropuertos[i].Pais}
+              td #{aeropuertos[i].ZonaHoraria}
               td
                 form(action=`delete/${aeropuertos[i].CodigoIATA}`,method="POST")
                   button.btn.btn-outline-danger(type='submit') Eliminar
@@ -31,5 +33,34 @@ block content
           .form-group
             label(for='Pais') Pais
             input#Pais.form-control(type='text' placeholder='Pais' name='Pais')
+          .form-group
+            label(for='ZonaHoraria') Zona Horaria
+            select#Pais.select.form-control.input-lg(type='number' name='ZonaHoraria')
+              option(value='-12') UTC -12:00
+              option(value='-11') UTC -11:00
+              option(value='-10') UTC -10:00
+              option(value='-9') UTC -9:00
+              option(value='-8') UTC -8:00
+              option(value='-7') UTC -7:00
+              option(value='-6') UTC -6:00
+              option(value='-5') UTC -5:00
+              option(value='-4') UTC -4:00
+              option(value='-3') UTC -3:00
+              option(value='-2') UTC -2:00
+              option(value='-1') UTC -1:00
+              option(value='0' selected=true) UTC ±0:00
+              option(value='1') UTC +1:00
+              option(value='2') UTC +2:00
+              option(value='3') UTC +3:00
+              option(value='4') UTC +4:00
+              option(value='5') UTC +5:00
+              option(value='6') UTC +6:00
+              option(value='7') UTC +7:00
+              option(value='8') UTC +8:00
+              option(value='9') UTC +9:00
+              option(value='10') UTC +10:00
+              option(value='11') UTC +11:00
+              option(value='12') UTC +12:00
+          .form-group
           button.btn.btn-primary(type='submit') Agregar
           h4.mt-5
