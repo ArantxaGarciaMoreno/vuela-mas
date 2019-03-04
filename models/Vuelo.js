@@ -4,7 +4,7 @@ const Ruta = require('./Ruta');
 const Avion = require('./Avion');
 const Aeropuerto = require('./Aeropuerto');
 
-const Vuelo = db.define('Vuelo',{
+const Vuelo = db.define('Vuelo', {
     ID: {
         type: sequelize.INTEGER,
         allowNull: false,
@@ -98,10 +98,10 @@ const Vuelo = db.define('Vuelo',{
             notEmpty: true
         }
     }
-}, 
-{
-    timestamps: false,
-    freezeTableName: true  
-});
+},
+    {
+        timestamps: false,
+        freezeTableName: true
+    });
 
 module.exports = Vuelo;

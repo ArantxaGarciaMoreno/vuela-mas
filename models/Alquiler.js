@@ -44,10 +44,6 @@ const Alquiler = db.define('Alquiler', {
     FechaEntrega: {
         type: sequelize.DATE,
         allowNull: true,
-
-        validate: {
-            notEmpty: false
-        }
     },
     FechaDevolucion: {
         type: sequelize.DATE,

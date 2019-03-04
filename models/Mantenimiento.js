@@ -28,11 +28,7 @@ const Mantenimiento = db.define('Mantenimiento', {
     },
     FechaSalida: {
         type: sequelize.DATE,
-        allowNull: false,
-
-        validate: {
-            notEmpty: true
-        }
+        allowNull: true,
     },
     Tipo: {
         type: sequelize.STRING,

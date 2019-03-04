@@ -83,20 +83,12 @@ const Pasaje = db.define('Pasaje', {
             model: Vuelo,
             key: 'ID'
         },
-        
-        validate: {
-            isNumeric: true,
-            notEmpty: false
-        }
+
     },
     Asiento: {
         type: sequelize.INTEGER,
         allowNull: true,
 
-        validate: {
-            isNumeric: true,
-            notEmpty: false
-        }
     },
     Estado: {
         type: sequelize.STRING,
@@ -120,7 +112,7 @@ const Pasaje = db.define('Pasaje', {
         type: sequelize.STRING,
         allowNull: false,
 
-        validate:{
+        validate: {
             isAlpha: true,
             notEmpty: true
         }

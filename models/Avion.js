@@ -31,7 +31,7 @@ const Avion = db.define('Avion', {
         allowNull: false,
 
         validate: {
-             notEmpty: true
+            notEmpty: true
         }
     },
     Estado: {
@@ -69,9 +69,9 @@ const Avion = db.define('Avion', {
         }
     }
 },
-{
-    timestamps: false,
-    freezeTableName: true
-});
+    {
+        timestamps: false,
+        freezeTableName: true
+    });
 
 module.exports = Avion;
