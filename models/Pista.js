@@ -10,7 +10,7 @@ const Pista = db.define('Pista', {
 
         references: {
             model: Aeropuerto,
-            key: 'ID'
+            key: 'CodigoIATA'
         },
 
         validate: {

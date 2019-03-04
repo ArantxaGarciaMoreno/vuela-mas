@@ -5,6 +5,7 @@ const Aeropuerto = db.define('Aeropuerto', {
     CodigoIATA: {
         type: sequelize.STRING,
         allowNull: false,
+        primaryKey: true,
 
         validate: {
             notEmpty: true
