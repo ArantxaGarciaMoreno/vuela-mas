@@ -11,13 +11,47 @@ controller.getAeropuertos = async function (callback) {
             where: {
                 Activo: 1
             },
-            attributes: ['CodigoIATA','Ciudad','Pais',[sequelize.fn('concat','UTC ',sequelize.col('ZonaHoraria'),':00'),'ZonaHoraria']] 
+            attributes: ['CodigoIATA', 'Ciudad', 'Pais', [sequelize.fn('concat', 'UTC ', sequelize.col('ZonaHoraria'), ':00'), 'ZonaHoraria']]
         });
         let aeropuertos = response.map(result => result.dataValues);
         console.log(aeropuertos);
         callback(aeropuertos, null);
     } catch (error) {
         callback(null, error);
+    }
+}
+
+controller.getAeropuertosUpdate = async function (CodigoIATA, callback) {
+    try {
+        let response = await Aeropuerto.findAll({
+            where: {
+                Activo: 1,
+                CodigoIATA
+            }
+        });
+        let aeropuertosUpdate = response.map(result => result.dataValues);
+        console.log(aeropuertosUpdate);
+        callback(aeropuertosUpdate, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
+controller.updateAeropuerto = async function (data, CodigoIATA, callback) {
+    try {
+        let response = await Aeropuerto.update({
+            CodigoIATA: data.CodigoIATA,
+            Ciudad: data.Ciudad,
+            Pais: data.Pais,
+            ZonaHoraria: data.ZonaHoraria
+        }, {
+                where: {
+                    CodigoIATA
+                }
+            });
+        callback(null);
+    } catch (error) {
+        callback(error);
     }
 }
 

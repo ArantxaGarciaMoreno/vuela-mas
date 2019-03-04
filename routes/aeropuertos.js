@@ -20,14 +20,52 @@ router.post("/delete/:CodigoIATA", (req, res) => {
             if (err)
                 res.json({
                     success: false,
-                    msg: 'Failed to delete pasaje'
+                    msg: 'Failed to delete aeropuerto'
                 });
             else
-            res.redirect('/aeropuertos/');
+                res.redirect('/aeropuertos/');
         });
-        
+
     }
-    
+
+});
+
+router.get("/show/:CodigoIATA", (req, res) => {
+    if (!!req.params.CodigoIATA) {
+        aeropuertoController.getAeropuertosUpdate(req.params.CodigoIATA, (aeropuertosUpdate, err) => {
+            if (err) {
+                res.json({
+                    success: false,
+                    msg: 'Failed to show aeropuerto to update'
+                });
+            } else {
+                aeropuertoController.getAeropuertos((aeropuertos, err) => {
+                    if (err) {
+                        res.json({
+                            success: false,
+                            msg: 'Failed to show aeropuertos'
+                        });
+                    } else {
+                        res.render("aeropuertos", { aeropuertos, aeropuertosUpdate });
+                    }
+                });
+            }
+        });
+    }
+});
+
+router.post("/show/update/:CodigoIATA", (req, res) => {
+    if (!!req.body) {
+        aeropuertoController.updateAeropuerto(req.body, req.params.CodigoIATA, (err) => {
+            if (err)
+                res.json({
+                    success: false,
+                    msg: "Failed to update aeropuerto"
+                });
+            else
+                res.redirect("/aeropuertos/");
+        });
+    }
 });
 
 router.post("/create", (req, res) => {
