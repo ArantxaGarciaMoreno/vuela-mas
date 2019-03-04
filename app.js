@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const routes = require("./routes/index");
 const aeropuertoRoute = require("./routes/aeropuertos");
+const clienteRoute = require("./routes/clientes");
 const sequelize = require("./config/db");
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", routes);
 app.use("/aeropuertos", aeropuertoRoute);
+app.use("/clientes", clienteRoute);
 
 sequelize
   .authenticate()
