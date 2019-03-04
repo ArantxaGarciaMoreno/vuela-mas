@@ -2,11 +2,9 @@ const sequelize = require('sequelize');
 const db = require('../config/db');
 
 const Aeropuerto = db.define('Aeropuerto', {
-
     CodigoIATA: {
         type: sequelize.STRING,
         allowNull: false,
-        primaryKey: true,
 
         validate: {
             notEmpty: true

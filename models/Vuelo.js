@@ -55,7 +55,7 @@ const Vuelo = db.define('Vuelo',{
 
         references: {
             model: Aeropuerto,
-            key: 'CodigoIATA'
+            key: 'ID'
         },
 
         validate: {
