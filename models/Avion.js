@@ -1,7 +1,7 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
 
-const Ruta = db.define('Ruta', {
+const Avion = db.define('Avion', {
 
     ID: {
         type: sequelize.INTEGER,
@@ -12,23 +12,7 @@ const Ruta = db.define('Ruta', {
             notEmpty: true
         }
     },
-    CodigoIATAOrigen: {
-        type: sequelize.STRING,
-        allowNull: false,
-
-        validate: {
-            notEmpty: true
-        }
-    },
-    CodigoIATADestino: {
-        type: sequelize.FLOAT,
-        allowNull: false,
-
-        validate: {
-            notEmpty: true
-        }
-    },
-    IDAvion: {
+    IDModeloAvion: {
         type: sequelize.INTEGER,
         allowNull: false,
 
@@ -36,16 +20,32 @@ const Ruta = db.define('Ruta', {
             notEmpty: true
         }
     },
-    HoraSalida: {
-        type: sequelize.TIME,
+    Fabricante: {
+        type: sequelize.STRING,
         allowNull: false,
 
         validate: {
             notEmpty: true
         }
     },
-    HoraLlegada: {
-        type: sequelize.TIME,
+    Estado: {
+        type: sequelize.STRING,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    hasInternet: {
+        type: sequelize.TINYINT,
+        allowNull: false,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    CantTV: {
+        type: sequelize.TINYINT,
         allowNull: false,
 
         validate: {
@@ -68,4 +68,4 @@ const Ruta = db.define('Ruta', {
         freezeTableName: true
     });
 
-module.exports = Ruta;
+module.exports = Avion;
