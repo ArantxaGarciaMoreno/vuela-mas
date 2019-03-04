@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 
 router.post("/delete/:CodigoIATA", (req, res) => {
     if (!!req.params.CodigoIATA) {
-        aeropuertoController.destroyAeropuerto(req.params.CodigoIATA, (err) => {
+        aeropuertoController.deleteAeropuerto(req.params.CodigoIATA, (err) => {
             if (err)
                 res.json({
                     success: false,
