@@ -11,7 +11,7 @@ controller.getAeropuertos = async function (callback) {
             where: {
                 Activo: 1
             },
-            attributes: ['CodigoIATA','Ciudad','Pais',[sequelize.fn('concat','UTC',sequelize.col('ZonaHoraria'),':00'),'ZonaHoraria']] 
+            attributes: ['CodigoIATA','Ciudad','Pais',[sequelize.fn('concat','UTC ',sequelize.col('ZonaHoraria'),':00'),'ZonaHoraria']] 
         });
         let aeropuertos = response.map(result => result.dataValues);
         console.log(aeropuertos);
