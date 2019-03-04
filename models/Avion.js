@@ -1,8 +1,8 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
+const Modelo_Avion = require('./Modelo_Avion');
 
-const Ruta = db.define('Ruta', {
-
+const Avion = db.define('Avion', {
     ID: {
         type: sequelize.INTEGER,
         allowNull: false,
@@ -13,7 +13,28 @@ const Ruta = db.define('Ruta', {
             notEmpty: true
         }
     },
-    CodigoIATAOrigen: {
+    IDModeloAvion: {
+        type: sequelize.INTEGER,
+        allowNull: false,
+
+        references: {
+            model: Modelo_Avion,
+            key: 'ID'
+        },
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    Fabricante: {
+        type: sequelize.STRING,
+        allowNull: false,
+
+        validate: {
+             notEmpty: true
+        }
+    },
+    Estado: {
         type: sequelize.STRING,
         allowNull: false,
 
@@ -21,32 +42,16 @@ const Ruta = db.define('Ruta', {
             notEmpty: true
         }
     },
-    CodigoIATADestino: {
-        type: sequelize.FLOAT,
+    hasInternet: {
+        type: sequelize.TINYINT,
         allowNull: false,
 
         validate: {
             notEmpty: true
         }
     },
-    IDAvion: {
+    CantTV: {
         type: sequelize.INTEGER,
-        allowNull: false,
-
-        validate: {
-            notEmpty: true
-        }
-    },
-    HoraSalida: {
-        type: sequelize.TIME,
-        allowNull: false,
-
-        validate: {
-            notEmpty: true
-        }
-    },
-    HoraLlegada: {
-        type: sequelize.TIME,
         allowNull: false,
 
         validate: {
@@ -62,11 +67,11 @@ const Ruta = db.define('Ruta', {
             isNumeric: true,
             notEmpty: true
         }
-    },
+    }
+},
+{
+    timestamps: false,
+    freezeTableName: true
+});
 
-}, {
-        timestamps: false,
-        freezeTableName: true
-    });
-
-module.exports = Ruta;
+module.exports = Avion;

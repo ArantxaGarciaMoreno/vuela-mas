@@ -37,6 +37,20 @@ controller.deleteAeropuerto = async function (CodigoIATA, callback) {
     }
 }
 
+//Elimina un aeropuerto
+controller.destroyAeropuerto = async function (CodigoIATA, callback) {
+    try {
+        let response = await Aeropuerto.destroy({
+            where: {
+                CodigoIATA
+            }
+        });
+        callback(null);
+    } catch (error) {
+        callback(error);
+    }
+}
+
 //Crea un aeropuerto nuevo
 controller.createAeropuerto = async function (data, callback) {
     try {

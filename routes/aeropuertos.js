@@ -16,16 +16,18 @@ router.get("/", (req, res) => {
 
 router.post("/delete/:CodigoIATA", (req, res) => {
     if (!!req.params.CodigoIATA) {
-        aeropuertoController.deleteAeropuerto(req.params.CodigoIATA, (err) => {
+        aeropuertoController.destroyAeropuerto(req.params.CodigoIATA, (err) => {
             if (err)
                 res.json({
                     success: false,
                     msg: 'Failed to delete pasaje'
                 });
             else
-                res.redirect('/aeropuertos/');
+            res.redirect('/aeropuertos/');
         });
+        
     }
+    
 });
 
 router.post("/create", (req, res) => {
