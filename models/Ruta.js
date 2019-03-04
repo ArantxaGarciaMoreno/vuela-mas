@@ -1,5 +1,7 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
+const Aeropuerto = require('./Aeropuerto');
+const Avion = require('./Avion');
 
 const Ruta = db.define('Ruta', {
 
@@ -16,6 +18,12 @@ const Ruta = db.define('Ruta', {
     CodigoIATAOrigen: {
         type: sequelize.STRING,
         allowNull: false,
+        unique: 'compositeIndex',
+
+        references: {
+            model: Aeropuerto,
+            key: 'CodigoIATA'
+        },
 
         validate: {
             notEmpty: true
@@ -24,6 +32,12 @@ const Ruta = db.define('Ruta', {
     CodigoIATADestino: {
         type: sequelize.FLOAT,
         allowNull: false,
+        unique: 'compositeIndex',
+
+        references: {
+            model: Aeropuerto,
+            key: 'CodigoIATA'
+        },
 
         validate: {
             notEmpty: true
@@ -32,6 +46,11 @@ const Ruta = db.define('Ruta', {
     IDAvion: {
         type: sequelize.INTEGER,
         allowNull: false,
+
+        references: {
+            model: Avion,
+            key: 'ID'
+        },
 
         validate: {
             notEmpty: true

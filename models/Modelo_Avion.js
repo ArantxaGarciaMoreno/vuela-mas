@@ -1,12 +1,21 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
 
-const Modelo_Avion = db.define ('Modelo_Avion', {
+const Modelo_Avion = db.define('Modelo_Avion', {
     ID: {
         type: sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    Nombre: {
+        type: sequelize.STRING,
+        allowNull: false,
+        unique: true,
 
         validate: {
             notEmpty: true
@@ -28,7 +37,7 @@ const Modelo_Avion = db.define ('Modelo_Avion', {
             notEmpty: true
         }
     },
-    CantBanos: {
+    CantBanios: {
         type: sequelize.INTEGER,
         allowNull: false,
 
@@ -127,9 +136,9 @@ const Modelo_Avion = db.define ('Modelo_Avion', {
         }
     }
 },
-{
-    timestamps: false,
-    freezeTableName: true  
-});
+    {
+        timestamps: false,
+        freezeTableName: true
+    });
 
 module.exports = Modelo_Avion;

@@ -13,7 +13,7 @@ const Empleado = db.define('Empleado', {
         }
     },
     Pasaporte: {
-        type: sequelize.INTEGER,
+        type: sequelize.STRING,
         allowNull: true,
         unique: true,
 

@@ -20,6 +20,7 @@ const Pasaje = db.define('Pasaje', {
     IDPasajero: {
         type: sequelize.INTEGER,
         allowNull: false,
+        unique: 'compositeIndex',
 
         references: {
             model: Cliente,
@@ -34,6 +35,7 @@ const Pasaje = db.define('Pasaje', {
     IDVueloReservado: {
         type: sequelize.INTEGER,
         allowNull: false,
+        unique: 'compositeIndex',
 
         references: {
             model: Vuelo,

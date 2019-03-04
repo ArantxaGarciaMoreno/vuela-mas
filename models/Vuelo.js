@@ -18,6 +18,7 @@ const Vuelo = db.define('Vuelo',{
     IDRuta: {
         type: sequelize.INTEGER,
         allowNull: false,
+        unique: 'compositeIndex',
 
         references: {
             model: Ruta,
@@ -31,6 +32,7 @@ const Vuelo = db.define('Vuelo',{
     Fecha: {
         type: sequelize.DATE,
         allowNull: false,
+        unique: 'compositeIndex',
 
         validate: {
             notEmpty: true
