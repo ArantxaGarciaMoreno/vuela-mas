@@ -1,0 +1,73 @@
+extends base
+block content
+  .container.pt-4
+    h2 Modelos de Avion 
+    .row.mt-5
+      .col-12
+        table.table.bg-white
+          thead
+            tr
+              th(scope='col') ID            
+              th(scope='col') Codigo IATA Origen
+              th(scope='col') Codigo IATA Destino
+              th(scope='col') ID Avion
+              th(scope='col') Hora de Salida (Local Origen)
+              th(scope='col') Hora de Llegada (Local Destino)        
+          tbody
+          - for (var i = 0; i < rutas.length; i++)
+            tr
+              th(scope='row') #{rutas[i].ID}
+              td #{rutas[i].CodigoIATAOrigen}
+              td #{rutas[i].CodigoIATADestino}
+              td #{rutas[i].IDAvion}
+              td #{rutas[i].HoraSalida}
+              td #{rutas[i].HoraLlegada}
+              td
+                form(action=`show/${rutas[i].ID}`,method="GET")
+                  button.btn.btn-outline-danger(type='submit') Modificar
+              td
+                form(action=`delete/${rutas[i].ID}`,method="POST")
+                  button.btn.btn-outline-danger(type='submit') Eliminar
+        - if(rutaUpdate)
+          h4.mt-5 Modificar Datos
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action=`update/${rutaUpdate.ID}` method="POST")
+                  .form-group
+                    label(for='CodigoIATAOrigen') Código IATA de Origen
+                    input#CodigoIATAOrigen.form-control(type='text' value=`${rutaUpdate.CodigoIATAOrigen}` placeholder='CodigoIATAOrigen' name='CodigoIATAOrigen')
+                  .form-group
+                    label(for='CodigoIATADestino') Código IATA de Destino
+                    input#CodigoIATADestino.form-control(type='text' value= `${rutaUpdate.CodigoIATADestino}` placeholder='CodigoIATADestino' name='CodigoIATADestino')
+                  .form-group
+                    label(for='IDAvion') ID Avión
+                    input#IDAvion.form-control(type='number' value=`${rutaUpdate.IDAvion}` placeholder='IDAvion' name='IDAvion')
+                  .form-group
+                    label(for='HoraSalida') Hora Salida (Local Origen)
+                    input#HoraSalida.form-control(type='time' value=`${rutaUpdate.HoraSalida}` placeholder='HoraSalida' name='HoraSalida')
+                  .form-group
+                    label(for='HoraLlegada') Hora de Llegada (Local Origen)
+                    input#HoraLlegada.form-control(type='time' value=`${rutaUpdate.HoraLlegada}` placeholder='HoraLlegada' name='HoraLlegada')
+                  .form-group
+                  button.btn.btn-danger(type="submit") Modificar
+        h4.mt-5 Agregar una nueva ruta
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action='create/' method="POST")
+                  .form-group
+                    label(for='CodigoIATAOrigen') Código IATA del Origen
+                    input#CodigoIATAOrigen.form-control(type='text' placeholder='CodigoIATAOrigen' name='CodigoIATAOrigen')
+                  .form-group
+                    label(for='CodigoIATADestino') Código IATA del Destino
+                    input#CodigoIATADestino.form-control(type='text' placeholder='CodigoIATADestino' name='CodigoIATADestino')
+                  .form-group
+                    label(for='IDAvion') Avión
+                    input#IDAvion.form-control(type='number' placeholder='IDAvion' name='IDAvion')
+                  .form-group
+                    label(for='HoraSalida') Hora de Salida (Local Origen)
+                    input#HoraSalida.form-control(type='time' placeholder='HoraSalida' name='HoraSalida')
+                  .form-group
+                    label(for='HoraLlegada') Hora de Llegada (Local Origen)
+                    input#HoraLlegada.form-control(type='time' placeholder='HoraLlegada' name='HoraLlegada')
+                  .form-group
+                    button.btn.btn-primary(type='submit') Agregar
