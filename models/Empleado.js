@@ -46,7 +46,7 @@ const Empleado = db.define('Empleado', {
         }
     },
     FechaNacimiento: {
-        type: sequelize.DATE,
+        type: sequelize.DATEONLY,
         allowNull: false,
 
         validate: {

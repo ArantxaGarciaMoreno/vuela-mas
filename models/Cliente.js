@@ -47,7 +47,7 @@ const Cliente = db.define('Cliente', {
         }
     },
     FechaNacimiento: {
-        type: sequelize.DATE,
+        type: sequelize.DATEONLY,
         allowNull: false,
 
         validate: {

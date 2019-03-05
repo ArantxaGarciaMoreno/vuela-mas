@@ -1,51 +1,50 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
-const Cliente = require('../models/Cliente');
+const Empleado = require('../models/Empleado');
 
 const controller = {};
 
-//Obtiene todos los clientes
-controller.getClientes = async function (callback) {
+//Obtiene todos los empleados
+controller.getEmpleados = async function (callback) {
     try {
-        let response = await Cliente.findAll({
+        let response = await Empleado.findAll({
             where: {
                 Activo: 1
             },
         });
-        let clientes = response.map(result => result.dataValues);
-        console.log(clientes);
-        callback(clientes, null);
+        let empleados = response.map(result => result.dataValues);
+        console.log(empleados);
+        callback(empleados, null);
     } catch (error) {
         callback(null, error);
     }
 }
 
-//Obtiene el cliente cuyos atributos se quieren actualizar
-controller.getClienteUpdate = async function (ID, callback) {
+//Obtiene el empleado cuyos atributos se quieren actualizar
+controller.getEmpleadoUpdate = async function (ID, callback) {
     try {
-        let response = await Cliente.findAll({
+        let empleadoUpdate = await Empleado.findOne({
             where: {
-                Activo: 1,
                 ID
             }
         });
-        let clienteUpdate = response.map(result => result.dataValues);
-        console.log(clienteUpdate);
-        callback(clienteUpdate, null);
+        console.log(empleadoUpdate);
+        callback(empleadoUpdate, null);
     } catch (error) {
         callback(null, error);
     }
 }
 
-//Actualiza los atributos del cliente modificado
-controller.updateCliente = async function (data, ID, callback) {
+//Actualiza los atributos del empleado modificado
+controller.updateEmpleado = async function (data, ID, callback) {
     try {
-        let response = await Cliente.update({
+        let response = await Empleado.update({
             Pasaporte: data.Pasaporte,
             Nombre: data.Nombre,
             Apellido: data.Apellido,
             Nacionalidad: data.Nacionalidad,
-            FechaNacimiento: data.FechaNacimiento
+            FechaNacimiento: data.FechaNacimiento,
+            Cargo: data.Cargo
         }, {
                 where: {
                     ID
@@ -57,10 +56,10 @@ controller.updateCliente = async function (data, ID, callback) {
     }
 }
 
-//Desactiva un cliente (Activo = 0)
-controller.deleteCliente = async function (ID, callback) {
+//Desactiva un empleado (Activo = 0)
+controller.deleteEmpleado = async function (ID, callback) {
     try {
-        let response = await Cliente.update({
+        let response = await Empleado.update({
             Activo: 0
         }, {
                 where: {
@@ -73,15 +72,16 @@ controller.deleteCliente = async function (ID, callback) {
     }
 }
 
-//Crea un cliente
-controller.createCliente = async function (data, callback) {
+//Crea un empleado
+controller.createEmpleado = async function (data, callback) {
     try {
-        let response = await Cliente.create({
+        let response = await Empleado.create({
             Pasaporte: data.Pasaporte,
             Nombre: data.Nombre,
             Apellido: data.Apellido,
             Nacionalidad: data.Nacionalidad,
-            FechaNacimiento: data.FechaNacimiento
+            FechaNacimiento: data.FechaNacimiento,
+            Cargo: data.Cargo
         });
         callback(null)
     } catch (error) {
