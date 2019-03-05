@@ -30,7 +30,7 @@ const Modelo_Avion = db.define('Modelo_Avion', {
         }
     },
     MaxCargaEquipaje: {
-        type: sequelize.FLOAT,
+        type: sequelize.INTEGER,
         allowNull: false,
 
         validate: {
@@ -103,14 +103,6 @@ const Modelo_Avion = db.define('Modelo_Avion', {
     },
     CantSalidasE: {
         type: sequelize.INTEGER,
-        allowNull: false,
-
-        validate: {
-            notEmpty: true
-        }
-    },
-    MaxCargaCabina: {
-        type: sequelize.FLOAT,
         allowNull: false,
 
         validate: {
