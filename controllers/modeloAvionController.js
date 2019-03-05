@@ -97,7 +97,7 @@ controller.createModeloAvion = async function (data, callback) {
             CantSalidasE: data.CantSalidasE,
             CantCombustible: data.CantCombustible
         });
-        callback(null)
+        callback(null);
     } catch (error) {
         callback(error);
     }

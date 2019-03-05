@@ -81,6 +81,7 @@ controller.createRuta = async function (data, callback) {
             HoraSalida: data.HoraSalida,
             HoraLlegada: data.HoraLlegada
         });
+        callback(null);
     } catch(error) {
         callback(error);
     }
