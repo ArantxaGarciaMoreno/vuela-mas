@@ -21,11 +21,7 @@ controller.getAeropuertos = async function (callback) {
     }
 }
 
-<<<<<<< HEAD
-//Obtiene la data actualizada de un Aeropuerto
-=======
 //Obtiene el aeropuerto cuyos atributos se quieren actualizar
->>>>>>> 7c870422f76da63b1d4a771f6a541aee698deffe
 controller.getAeropuertosUpdate = async function (CodigoIATA, callback) {
     try {
         let response = await Aeropuerto.findAll({
@@ -42,11 +38,7 @@ controller.getAeropuertosUpdate = async function (CodigoIATA, callback) {
     }
 }
 
-<<<<<<< HEAD
-//Actualiza un Aeropuerto
-=======
 //Actualiza los atributos del aeropuerto modificado
->>>>>>> 7c870422f76da63b1d4a771f6a541aee698deffe
 controller.updateAeropuerto = async function (data, CodigoIATA, callback) {
     try {
         let response = await Aeropuerto.update({
