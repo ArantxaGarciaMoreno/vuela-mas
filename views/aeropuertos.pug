@@ -32,7 +32,7 @@ block content
                 form(action=`update/${aeropuertosUpdate[0].CodigoIATA}` method="POST")
                   .form-group
                     label(for="CodigoIATA") CodigoIATA
-                    input#CodigoIATA.form-control(type="text" value=`${aeropuertosUpdate[0].CodigoIATA}` aria-describedby='CodigoIATA' placeholder='CodigoIATA' name='CodigoIATA')
+                    input#CodigoIATA.form-control(type="text" value=`${aeropuertosUpdate[0].CodigoIATA}` aria-describedby='CodigoIATA' placeholder='CodigoIATA' name='CodigoIATA' required onkeyup = "javascript:this.value=this.value.toUpperCase();")
                   .form-group
                     label(for='Ciudad') Ciudad
                     input#Ciudad.form-control(type='text' value=`${aeropuertosUpdate[0].Ciudad}` placeholder='Ciudad' name='Ciudad')
@@ -74,7 +74,7 @@ block content
               form(action='create/' method="POST")
                 .form-group
                   label(for='CodigoIATA') Codigo IATA
-                  input#CodigoIATA.form-control(type='text' aria-describedby='CodigoIATA' placeholder='CodigoIATA' name='CodigoIATA')
+                  input#CodigoIATA.form-control(type='text' aria-describedby='CodigoIATA' placeholder='CodigoIATA' name='CodigoIATA' required onkeyup = "javascript:this.value=this.value.toUpperCase();")
                 .form-group
                   label(for='Ciudad') Ciudad
                   input#Ciudad.form-control(type='text' placeholder='Ciudad' name='Ciudad')
