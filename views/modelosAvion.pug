@@ -1,0 +1,140 @@
+extends base
+block content
+  .container.pt-4
+    h2 Modelos de Avion 
+    .row.mt-5
+      .col-12
+        table.table.bg-white
+          thead
+            tr
+              th(scope='col') Nombre
+              th(scope='col') Peso Vacío (en Kg)
+              th(scope='col') Carga máxima de Equipaje (piezas)
+              th(scope='col') Salidas de Emergencia
+              th(scope='col') Baños
+              th(scope='col') Velocidad máxima (km/h)
+              th(scope='col') Velocidad de crucero (km/h)
+              th(scope='col') Asientos Económicos
+              th(scope='col') Asientos Primera Clase
+              th(scope='col') Peso máximo (en Kg)
+              th(scope='col') Distancia de despegue con carga máxima (en metros)
+              th(scope='col') Tipo de combustible
+              th(scope='col') Cantidad de combustible (en litros)             
+          tbody
+          - for (var i = 0; i < modelosAvion.length; i++)
+            tr
+              th(scope='row') #{modelosAvion[i].Nombre}
+              td #{modelosAvion[i].PesoVacio}
+              td #{modelosAvion[i].MaxCargaEquipaje}
+              td #{modelosAvion[i].CantSalidasE}
+              td #{modelosAvion[i].CantBanios}
+              td #{modelosAvion[i].VelocidadMax}
+              td #{modelosAvion[i].VelocidadCrucero}
+              td #{modelosAvion[i].CantAsientosECO}
+              td #{modelosAvion[i].CantAsientosPC}
+              td #{modelosAvion[i].PesoMax}
+              td #{modelosAvion[i].DistDespegueCargaMax}
+              td #{modelosAvion[i].TipoCombustible}
+              td #{modelosAvion[i].CantCombustible}
+              td
+                form(action=`show/${modelosAvion[i].ID}`,method="GET")
+                  button.btn.btn-outline-danger(type='submit') Modificar
+              td
+                form(action=`delete/${modelosAvion[i].ID}`,method="POST")
+                  button.btn.btn-outline-danger(type='submit') Eliminar
+        - if(modeloAvionUpdate)
+          h4.mt-5 Modificar Datos
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action=`update/${modeloAvionUpdate.ID}` method="POST")
+                  .form-group
+                    label(for="Nombre") Nombre
+                    input#Nombre.form-control(type="text" value=`${modeloAvionUpdate.Nombre}` aria-describedby='Nombre' placeholder='Nombre' name='Nombre')
+                  .form-group
+                    label(for='PesoVacio') Peso Vacío (en Kg)
+                    input#PesoVacio.form-control(type='number' value=`${modeloAvionUpdate.PesoVacio}` placeholder='PesoVacio' name='PesoVacio')
+                  .form-group
+                    label(for='MaxCargaEquipaje') Carga máxima de Equipaje (piezas)
+                    input#MaxCargaEquipaje.form-control(type='number' value= `${modeloAvionUpdate.MaxCargaEquipaje}` placeholder='MaxCargaEquipaje' name='MaxCargaEquipaje')
+                  .form-group
+                    label(for='CantSalidasE') Salidas de Emergencia
+                    input#CantSalidasE.form-control(type='number' value=`${modeloAvionUpdate.CantSalidasE}` placeholder='CantSalidasE' name='CantSalidasE')
+                  .form-group
+                    label(for='CantBanios') Baños
+                    input#CantBanios.form-control(type='number' value=`${modeloAvionUpdate.CantBanios}` placeholder='CantBanios' name='CantBanios')
+                  .form-group
+                    label(for='VelocidadMax') Velocidad máxima (km/h)
+                    input#VelocidadMax.form-control(type='number' value=`${modeloAvionUpdate.VelocidadMax}` placeholder='VelocidadMax' name='VelocidadMax')
+                  .form-group
+                    label(for='VelocidadCrucero') Velocidad de crucero (km/h)
+                    input#VelocidadCrucero.form-control(type='number' value=`${modeloAvionUpdate.VelocidadCrucero}` placeholder='VelocidadCrucero' name='VelocidadCrucero')
+                  .form-group
+                    label(for='CantAsientosECO') Asientos Económicos
+                    input#CantAsientosECO.form-control(type='number' value=`${modeloAvionUpdate.CantAsientosECO}` placeholder='CantAsientosECO' name='CantAsientosECO')
+                  .form-group
+                    label(for='CantAsientosPC') Asientos Primera Clase
+                    input#CantAsientosPC.form-control(type='number' value=`${modeloAvionUpdate.CantAsientosPC}` placeholder='CantAsientosPC' name='CantAsientosPC')
+                  .form-group
+                    label(for='PesoMax') Peso máximo (en Kg)
+                    input#PesoMax.form-control(type='number' value=`${modeloAvionUpdate.PesoMax}` placeholder='PesoMax' name='PesoMax')
+                  .form-group
+                    label(for='DistDespegueCargaMax') Distancia de despegue con carga máxima (en metros)
+                    input#DistDespegueCargaMax.form-control(type='number' value=`${modeloAvionUpdate.DistDespegueCargaMax}` placeholder='DistDespegueCargaMax' name='DistDespegueCargaMax')
+                  .form-group
+                    label(for='TipoCombustible') Tipo de combustible
+                    select#TipoCombustible.select.form-control.input-lg(type='text' name='TipoCombustible')
+                      option(value='jet A-1' selected=(modeloAvionUpdate.TipoCombustible=='jet A-1')) jet A-1
+                      option(value='jet A' selected=(modeloAvionUpdate.TipoCombustible=='jet A')) jet A
+                      option(value='jet B' selected=(modeloAvionUpdate.TipoCombustible=='jet B')) jet B
+                  .form-group
+                    label(for='CantCombustible') Cantidad de combustible (en litros)
+                    input#CantCombustible.form-control(type='number' value=`${modeloAvionUpdate.CantCombustible}` placeholder='CantCombustible' name='CantCombustible')  
+                  button.btn.btn-danger(type="submit") Modificar
+        h4.mt-5 Agregar un nuevo modelo de avion
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action='create/' method="POST")
+                  .form-group
+                    label(for="Nombre") Nombre
+                    input#Nombre.form-control(type="text" aria-describedby='Nombre' placeholder='Nombre' name='Nombre')
+                  .form-group
+                    label(for='PesoVacio') Peso Vacío (en Kg)
+                    input#PesoVacio.form-control(type='number' placeholder='PesoVacio' name='PesoVacio')
+                  .form-group
+                    label(for='MaxCargaEquipaje') Carga máxima de Equipaje (piezas)
+                    input#MaxCargaEquipaje.form-control(type='number' placeholder='MaxCargaEquipaje' name='MaxCargaEquipaje')
+                  .form-group
+                    label(for='CantSalidasE') Salidas de Emergencia
+                    input#CantSalidasE.form-control(type='number' placeholder='CantSalidasE' name='CantSalidasE')
+                  .form-group
+                    label(for='CantBanios') Baños
+                    input#CantBanios.form-control(type='number' placeholder='CantBanios' name='CantBanios')
+                  .form-group
+                    label(for='VelocidadMax') Velocidad máxima (km/h)
+                    input#VelocidadMax.form-control(type='number' placeholder='VelocidadMax' name='VelocidadMax')
+                  .form-group
+                    label(for='VelocidadCrucero') Velocidad de crucero (km/h)
+                    input#VelocidadCrucero.form-control(type='number' placeholder='VelocidadCrucero' name='VelocidadCrucero')
+                  .form-group
+                    label(for='CantAsientosECO') Asientos Económicos
+                    input#CantAsientosECO.form-control(type='number' placeholder='CantAsientosECO' name='CantAsientosECO')
+                  .form-group
+                    label(for='CantAsientosPC') Asientos Primera Clase
+                    input#CantAsientosPC.form-control(type='number' placeholder='CantAsientosPC' name='CantAsientosPC')
+                  .form-group
+                    label(for='PesoMax') Peso máximo (en Kg)
+                    input#PesoMax.form-control(type='number' placeholder='PesoMax' name='PesoMax')
+                  .form-group
+                    label(for='DistDespegueCargaMax') Distancia de despegue con carga máxima (en metros)
+                    input#DistDespegueCargaMax.form-control(type='number' placeholder='DistDespegueCargaMax' name='DistDespegueCargaMax')
+                  .form-group
+                    label(for='TipoCombustible') Tipo de combustible
+                    select#TipoCombustible.select.form-control.input-lg(type='text' name='TipoCombustible')
+                      option(value='jet A-1') jet A-1
+                      option(value='jet A') jet A
+                      option(value='jet B') jet B
+                  .form-group
+                    label(for='CantCombustible') Cantidad de combustible (en litros)
+                    input#CantCombustible.form-control(type='number' placeholder='CantCombustible' name='CantCombustible')
+                  .form-group
+                    button.btn.btn-primary(type='submit') Agregar

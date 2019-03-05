@@ -5,7 +5,8 @@ const bodyParser = require("body-parser");
 const routes = require("./routes/index");
 const aeropuertoRoute = require("./routes/aeropuertos");
 const clienteRoute = require("./routes/clientes");
-const empleadoRoute = require("./routes/empleados")
+const empleadoRoute = require("./routes/empleados");
+const modeloAvionRoute = require("./routes/modelosAvion");
 const sequelize = require("./config/db");
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/", routes);
 app.use("/aeropuertos", aeropuertoRoute);
 app.use("/clientes", clienteRoute);
 app.use("/empleados", empleadoRoute);
+app.use("/modelosAvion", modeloAvionRoute);
 
 sequelize
   .authenticate()
