@@ -1,4 +1,5 @@
 require("dotenv").config({ path: "variables.env" });
+
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -8,6 +9,7 @@ const clienteRoute = require("./routes/clientes");
 const empleadoRoute = require("./routes/empleados");
 const modeloAvionRoute = require("./routes/modelosAvion");
 const proveedorRoute = require("./routes/proveedores");
+const tarifaRoute = require("./routes/tarifas");
 const sequelize = require("./config/db");
 const app = express();
 
@@ -22,6 +24,8 @@ app.use("/clientes", clienteRoute);
 app.use("/empleados", empleadoRoute);
 app.use("/modelosAvion", modeloAvionRoute);
 app.use("/proveedores", proveedorRoute);
+app.use("/tarifas", tarifaRoute);
+
 sequelize
   .authenticate()
   .then(value => value)
