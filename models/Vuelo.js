@@ -30,7 +30,7 @@ const Vuelo = db.define('Vuelo', {
         }
     },
     Fecha: {
-        type: sequelize.DATE,
+        type: sequelize.DATEONLY,
         allowNull: false,
         unique: 'compositeIndex',
 

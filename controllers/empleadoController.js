@@ -10,7 +10,7 @@ controller.getEmpleados = async function (callback) {
         let response = await Empleado.findAll({
             where: {
                 Activo: 1
-            },
+            }
         });
         let empleados = response.map(result => result.dataValues);
         console.log(empleados);

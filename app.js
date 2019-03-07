@@ -10,6 +10,9 @@ const empleadoRoute = require("./routes/empleados");
 const modeloAvionRoute = require("./routes/modelosAvion");
 const proveedorRoute = require("./routes/proveedores");
 const tarifaRoute = require("./routes/tarifas");
+const avionRoute = require("./routes/aviones");
+const rutasRoute = require("./routes/rutas");
+const vuelosRoute = require("./routes/vuelos");
 const sequelize = require("./config/db");
 const app = express();
 
@@ -25,6 +28,9 @@ app.use("/empleados", empleadoRoute);
 app.use("/modelosAvion", modeloAvionRoute);
 app.use("/proveedores", proveedorRoute);
 app.use("/tarifas", tarifaRoute);
+app.use("/aviones", avionRoute);
+app.use("/rutas", rutasRoute);
+app.use("/vuelos", vuelosRoute);
 
 sequelize
   .authenticate()
@@ -34,6 +40,7 @@ sequelize
   });
 
 sequelize.sync({ logging: false });
+
 
 app.set("port", process.env.PORT || 7777);
 const server = app.listen(app.get("port"), () => {
