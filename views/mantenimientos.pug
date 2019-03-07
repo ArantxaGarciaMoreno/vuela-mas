@@ -37,7 +37,7 @@ block content
                 form(action=`update/${mantenimientoUpdate.IDAvion}-${mantenimientoUpdate.FechaEntrada}` method="POST")
                   .form-group
                     label(for='IDAvion') ID Avion
-                    select#IDAvion.select.form-control.input-lg(type='number' name='IDAvion')
+                    select#IDAvion.select.form-control.input-lg(type='number' name='IDAvion').custom-select
                       - for(var i = 0; i < aviones.length; i++)
                         option(value=`${aviones[i].ID}` selected=(mantenimientoUpdate.IDAvion==aviones[i].ID)) #{aviones[i].ID}
                   .form-group
@@ -51,7 +51,7 @@ block content
                       input#FechaSalida.form-control(type='date' value=`${mantenimientoUpdate.FechaSalida}` name='FechaSalida')
                   .form-group
                     label(for='Tipo') Tipo
-                    select#Tipo.select.form-control.input-lg(type='text' name='Tipo')
+                    select#Tipo.select.form-control.input-lg(type='text' name='Tipo').custom-select
                       option(value='PERIÓDICO' selected=(mantenimientoUpdate.Tipo=='PERIÓDICO')) PERIÓDICO
                       option(value='POR FALLA' selected=(mantenimientoUpdate.Tipo=='POR FALLA')) POR FALLA
                   .form-group
@@ -65,7 +65,7 @@ block content
               form(action='create/' method="POST")
                   .form-group
                     label(for='IDAvion') ID Avion
-                    select#IDAvion.select.form-control.input-lg(type='number' name='IDAvion')
+                    select#IDAvion.select.form-control.input-lg(type='number' name='IDAvion').custom-select
                       - for(var i = 0; i < aviones.length; i++)
                         option(value=`${aviones[i].ID}`) #{aviones[i].ID}
                   .form-group
@@ -76,7 +76,7 @@ block content
                     input#FechaSalida.form-control(type='date' placeholder='FechaSalida' name='FechaSalida')
                   .form-group
                     label(for='Tipo') Tipo
-                    select#Tipo.select.form-control.input-lg(type='text' name='Tipo')
+                    select#Tipo.select.form-control.input-lg(type='text' name='Tipo').custom-select
                       option(value='PERIÓDICO') PERIÓDICO
                       option(value='POR FALLA') POR FALLA
                   .form-group
