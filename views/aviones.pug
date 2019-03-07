@@ -25,6 +25,8 @@ block content
               td #{aviones[i].Estado}
               - if(aviones[i].hasInternet == 1) 
                 td Si
+              - else
+                td No
               td #{aviones[i].CantTV}
               td
                 form(action=`show/${aviones[i].ID}`,method="GET")

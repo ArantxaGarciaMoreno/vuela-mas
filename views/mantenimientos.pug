@@ -1,0 +1,86 @@
+extends base
+block content
+  .container.pt-4
+    h2 Historial de Mantenimientos 
+    .row.mt-5
+      .col-12
+        table.table.bg-white
+          thead
+            tr
+              th(scope='col') ID Avion
+              th(scope='col') Fecha de Ingreso
+              th(scope='col') Fecha de Egreso
+              th(scope='col') Tipo de Mantenimiento
+              th(scope='col') Descripción
+
+          tbody
+          - for (var i = 0; i < mantenimientos.length; i++)
+            tr
+              th(scope='row') #{mantenimientos[i].IDAvion}
+              th #{mantenimientos[i].FechaEntrada}
+              - if(mantenimientos[i].FechaSalida == '0001-01-01')
+                td.text-danger Todavia en mantenimiento
+              - else
+                td #{mantenimientos[i].FechaSalida}
+              td #{mantenimientos[i].Tipo}
+              td #{mantenimientos[i].Descripcion}
+              td
+                form(action=`show/${mantenimientos[i].IDAvion}-${mantenimientos[i].FechaEntrada}`,method="GET")
+                  button.btn.btn-outline-danger(type='submit') Modificar
+              td
+                form(action=`delete/${mantenimientos[i].IDAvion}-${mantenimientos[i].FechaEntrada}`,method="POST")
+                  button.btn.btn-outline-danger(type='submit') Eliminar
+        - if(mantenimientoUpdate)
+          h4.mt-5 Modificar Datos del Mantenimiento
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action=`update/${mantenimientoUpdate.IDAvion}-${mantenimientoUpdate.FechaEntrada}` method="POST")
+                  .form-group
+                    label(for='IDAvion') ID Avion
+                    select#IDAvion.select.form-control.input-lg(type='number' name='IDAvion')
+                      - for(var i = 0; i < aviones.length; i++)
+                        option(value=`${aviones[i].ID}` selected=(mantenimientoUpdate.IDAvion==aviones[i].ID)) #{aviones[i].ID}
+                  .form-group
+                    label(for='FechaEntrada') Fecha de Ingreso
+                    input#FechaEntrada.form-control(type='date' value=`${mantenimientoUpdate.FechaEntrada}` placeholder='FechaEntrada' name='FechaEntrada')
+                  .form-group
+                    label(for='FechaSalida') Fecha de Egreso
+                    - if (mantenimientoUpdate.FechaSalida == '0001-01-01')
+                      input#FechaSalida.form-control(type='date' name='FechaSalida')
+                    - else
+                      input#FechaSalida.form-control(type='date' value=`${mantenimientoUpdate.FechaSalida}` name='FechaSalida')
+                  .form-group
+                    label(for='Tipo') Tipo
+                    select#Tipo.select.form-control.input-lg(type='text' name='Tipo')
+                      option(value='PERIÓDICO' selected=(mantenimientoUpdate.Tipo=='PERIÓDICO')) PERIÓDICO
+                      option(value='POR FALLA' selected=(mantenimientoUpdate.Tipo=='POR FALLA')) POR FALLA
+                  .form-group
+                    label(for='Descripcion') Descripción
+                    input#Descripcion.form-control(type='text' value=`${mantenimientoUpdate.Descripcion}` placeholder='Descripcion' name='Descripcion')
+                  .form-group
+                    button.btn.btn-danger(type="submit") Modificar
+        h4.mt-5 Agregar un nuevo mantenimiento
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action='create/' method="POST")
+                  .form-group
+                    label(for='IDAvion') ID Avion
+                    select#IDAvion.select.form-control.input-lg(type='number' name='IDAvion')
+                      - for(var i = 0; i < aviones.length; i++)
+                        option(value=`${aviones[i].ID}`) #{aviones[i].ID}
+                  .form-group
+                    label(for='FechaEntrada') Fecha de Ingreso
+                    input#FechaEntrada.form-control(type='date' placeholder='FechaEntrada' name='FechaEntrada') 
+                  .form-group
+                    label(for='FechaSalida') Fecha de Egreso
+                    input#FechaSalida.form-control(type='date' placeholder='FechaSalida' name='FechaSalida')
+                  .form-group
+                    label(for='Tipo') Tipo
+                    select#Tipo.select.form-control.input-lg(type='text' name='Tipo')
+                      option(value='PERIÓDICO') PERIÓDICO
+                      option(value='POR FALLA') POR FALLA
+                  .form-group
+                    label(for='Descripcion') Descripción
+                    input#Descripcion.form-control(type='text' placeholder='Descripcion' name='Descripcion')
+                  .form-group
+                    button.btn.btn-primary(type='submit') Agregar
