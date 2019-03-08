@@ -33,7 +33,7 @@ const Alquiler = db.define('Alquiler', {
         }
     },
     FechaSolicitud: {
-        type: sequelize.DATE,
+        type: sequelize.DATEONLY,
         allowNull: false,
         primaryKey: true,
 
@@ -42,11 +42,11 @@ const Alquiler = db.define('Alquiler', {
         }
     },
     FechaEntrega: {
-        type: sequelize.DATE,
+        type: sequelize.DATEONLY,
         allowNull: true,
     },
     FechaDevolucion: {
-        type: sequelize.DATE,
+        type: sequelize.DATEONLY,
         allowNull: true
     },
     MontoPagado: {
