@@ -1,0 +1,90 @@
+extends base
+block content
+  .container.pt-4
+    h2 Tarifas 
+    .row.mt-5
+      .col-12
+        table.table.bg-white
+          thead
+            tr
+              th(scope='col') Clase
+              th(scope='col') Precio Base
+              th(scope='col') Piezas de equipaje
+              th(scope='col') Peso por pieza de equipaje (Kg)
+              th(scope='col') Fee por Reservar pasaje
+              th(scope='col') Fee por equipaje extra
+              th(scope='col') Fee por vuelo no abordado      
+          tbody
+          - for (var i = 0; i < tarifas.length; i++)
+            tr
+              th(scope='row') #{tarifas[i].Clase}
+              td #{tarifas[i].PrecioBase}
+              td #{tarifas[i].CantEquipaje}
+              td #{tarifas[i].PesoEquipaje}
+              td #{tarifas[i].FeeReserva}
+              td #{tarifas[i].FeeEquipajeExtra}
+              td #{tarifas[i].FeePorVueloNoAbordado}
+              td
+                form(action=`show/${tarifas[i].ID}`,method="GET")
+                  button.btn.btn-outline-danger(type='submit') Modificar
+              td
+                form(action=`delete/${tarifas[i].ID}`,method="POST")
+                  button.btn.btn-outline-danger(type='submit') Eliminar
+        - if(tarifaUpdate)
+          h4.mt-5 Modificar Datos
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action=`update/${tarifaUpdate.ID}` method="POST")
+                  .form-group
+                    label(for='Clase') Clase
+                    select#Clase.select.form-control.input-lg(type='text' name='Clase')
+                      option(value='Primera Clase' selected=(tarifaUpdate.Clase=='Primera Clase')) Primera Clase
+                      option(value='Economica' selected=(tarifaUpdate.Clase=='Economica')) Económica
+                  .form-group
+                    label(for='PrecioBase') Precio Base
+                    input#PrecioBase.form-control(type='number' value=`${tarifaUpdate.PrecioBase}` placeholder='Precio Base' name='PrecioBase')
+                  .form-group
+                    label(for='CantEquipaje') Piezas de equipaje
+                    input#CantEquipaje.form-control(type='number' value= `${tarifaUpdate.CantEquipaje}` placeholder='Piezas de equipaje' name='CantEquipaje')
+                  .form-group
+                    label(for='PesoEquipaje') Peso por pieza de equipaje (Kg)
+                    input#PesoEquipaje.form-control(type='number' value= `${tarifaUpdate.PesoEquipaje}` placeholder='Peso por pieza de equipaje' name='PesoEquipaje')
+                  .form-group
+                    label(for='FeeReserva') Fee por Reservar pasaje
+                    input#FeeReserva.form-control(type='number' value= `${tarifaUpdate.FeeReserva}` placeholder='Fee por Reservar pasaje' name='FeeReserva')
+                  .form-group
+                    label(for='FeeEquipajeExtra') Fee por equipaje extra
+                    input#FeeEquipajeExtra.form-control(type='number' value= `${tarifaUpdate.FeeEquipajeExtra}` placeholder='Fee por equipaje extra' name='FeeEquipajeExtra')
+                  .form-group
+                    label(for='FeePorVueloNoAbordado') Fee por vuelo no abordado
+                    input#FeePorVueloNoAbordado.form-control(type='number' value= `${tarifaUpdate.FeePorVueloNoAbordado}` placeholder='Fee por vuelo no abordado' name='FeePorVueloNoAbordado')
+                  button.btn.btn-danger(type="submit") Modificar
+        h4.mt-5 Agregar una nueva tarifa
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action='create/' method="POST")
+                  .form-group
+                    label(for='Clase') Clase
+                    select#Clase.select.form-control.input-lg(type='text' name='Clase')
+                      option(value='Primera Clase') Primera Clase
+                      option(value='Economica') Económica
+                  .form-group
+                    label(for='PrecioBase') Precio Base
+                    input#PrecioBase.form-control(type='number' placeholder='Precio Base' name='PrecioBase')
+                  .form-group
+                    label(for='CantEquipaje') Piezas de equipaje
+                    input#CantEquipaje.form-control(type='number' placeholder='Piezas de equipaje' name='CantEquipaje')
+                  .form-group
+                    label(for='PesoEquipaje') Peso por pieza de equipaje (Kg)
+                    input#PesoEquipaje.form-control(type='number' placeholder='Peso por pieza de equipaje' name='PesoEquipaje')
+                  .form-group
+                    label(for='FeeReserva') Fee por Reservar pasaje
+                    input#FeeReserva.form-control(type='number' placeholder='Fee por Reservar pasaje' name='FeeReserva')
+                  .form-group
+                    label(for='FeeEquipajeExtra') Fee por equipaje extra
+                    input#FeeEquipajeExtra.form-control(type='number' placeholder='Fee por equipaje extra' name='FeeEquipajeExtra')
+                  .form-group
+                    label(for='FeePorVueloNoAbordado') Fee por vuelo no abordado
+                    input#FeePorVueloNoAbordado.form-control(type='number' placeholder='Fee por vuelo no abordado' name='FeePorVueloNoAbordado')
+                  .form-group
+                    button.btn.btn-primary(type='submit') Agregar

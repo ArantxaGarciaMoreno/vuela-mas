@@ -18,7 +18,7 @@ const Mantenimiento = db.define('Mantenimiento', {
         }
     },
     FechaEntrada: {
-        type: sequelize.DATE,
+        type: sequelize.DATEONLY,
         allowNull: false,
         primaryKey: true,
 
@@ -27,8 +27,12 @@ const Mantenimiento = db.define('Mantenimiento', {
         }
     },
     FechaSalida: {
-        type: sequelize.DATE,
+        type: sequelize.DATEONLY,
         allowNull: true,
+
+        validate: {
+            notEmpty: true
+        }
     },
     Tipo: {
         type: sequelize.STRING,

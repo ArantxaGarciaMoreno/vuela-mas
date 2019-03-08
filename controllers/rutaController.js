@@ -10,7 +10,7 @@ controller.getRutas = async function (callback) {
         let response = await Ruta.findAll({
             where: {
                 Activo: 1
-            },
+            }
         });
         let rutas = response.map(result => result.dataValues);
         console.log(rutas);
