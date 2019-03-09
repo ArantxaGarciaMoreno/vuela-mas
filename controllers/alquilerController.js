@@ -43,6 +43,9 @@ controller.getAlquilerUpdate = async function (IDProveedor, IDAvion, FechaSolici
 controller.updateAlquiler = async function (data, IDProveedor, IDAvion, FechaSolicitud, callback) {
     try {
         let response = await Alquiler.update({
+            IDProveedor: data.IDProveedor,
+            IDAvion: data.IDAvion,
+            FechaSolicitud: data.FechaSolicitud,
             FechaEntrega: data.FechaEntrega,
             FechaDevolucion: data.FechaDevolucion,
             MontoPagado: data.MontoPagado

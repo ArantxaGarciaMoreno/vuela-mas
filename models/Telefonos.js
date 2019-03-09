@@ -5,18 +5,21 @@ const Empleado = require('./Empleado');
 
 const Telefonos = db.define('Telefonos', {
     IDPersona: {
-        type: sequelize.INTEGER,
+        type: sequelize.STRING,
         allowNull: false,
         primaryKey: true,
 
         references: {
-            model: { Cliente, Empleado },
-            key: 'ID'
+            model: Cliente,
+            key: 'Pasaporte'
         },
 
         validate: {
             notEmpty: true
-        }
+        },
+
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     Telefono: {
         type: sequelize.INTEGER,
