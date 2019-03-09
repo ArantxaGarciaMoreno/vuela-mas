@@ -34,14 +34,20 @@ block content
               div.card-body.text-white
                 form(action=`update/${rutaUpdate.ID}` method="POST")
                   .form-group
-                    label(for='CodigoIATAOrigen') Código IATA de Origen
-                    input#CodigoIATAOrigen.form-control(type='text' value=`${rutaUpdate.CodigoIATAOrigen}` placeholder='CodigoIATAOrigen' name='CodigoIATAOrigen')
+                    label(for='CodigoIATAOrigen') Código IATA del Origen
+                    select#CodigoIATAOrigen.select.form-control.input-lg(type='text' name='CodigoIATAOrigen')
+                      - for (var i = 0; i < aeropuertos.length; i++)
+                        option(value=`${aeropuertos[i].CodigoIATA}` selected=(rutaUpdate.CodigoIATAOrigen==aeropuertos[i].CodigoIATA)) #{aeropuertos[i].CodigoIATA}
                   .form-group
-                    label(for='CodigoIATADestino') Código IATA de Destino
-                    input#CodigoIATADestino.form-control(type='text' value= `${rutaUpdate.CodigoIATADestino}` placeholder='CodigoIATADestino' name='CodigoIATADestino')
+                    label(for='CodigoIATADestino') Código IATA del Destino
+                    select#CodigoIATADestino.select.form-control.input-lg(type='text' name='CodigoIATADestino')
+                      - for (var i = 0; i < aeropuertos.length; i++)
+                        option(value=`${aeropuertos[i].CodigoIATA}` selected=(rutaUpdate.CodigoIATADestino==aeropuertos[i].CodigoIATA)) #{aeropuertos[i].CodigoIATA}
                   .form-group
                     label(for='IDAvion') ID Avión
-                    input#IDAvion.form-control(type='number' value=`${rutaUpdate.IDAvion}` placeholder='IDAvion' name='IDAvion')
+                    select#IDAvion.select.form-control.input-lg(type='number' name='IDAvion')
+                      - for (var i = 0; i < aviones.length; i++)
+                        option(value=`${aviones[i].ID}` selected=(rutaUpdate.IDAvion==aviones[i].ID)) #{aviones[i].ID}
                   .form-group
                     label(for='HoraSalida') Hora Salida (Local Origen)
                     input#HoraSalida.form-control(type='time' value=`${rutaUpdate.HoraSalida}` placeholder='HoraSalida' name='HoraSalida')
@@ -56,13 +62,19 @@ block content
               form(action='create/' method="POST")
                   .form-group
                     label(for='CodigoIATAOrigen') Código IATA del Origen
-                    input#CodigoIATAOrigen.form-control(type='text' placeholder='CodigoIATAOrigen' name='CodigoIATAOrigen')
+                    select#CodigoIATAOrigen.select.form-control.input-lg(type='text' name='CodigoIATAOrigen')
+                      - for (var i = 0; i < aeropuertos.length; i++)
+                        option(value=`${aeropuertos[i].CodigoIATA}`) #{aeropuertos[i].CodigoIATA}
                   .form-group
                     label(for='CodigoIATADestino') Código IATA del Destino
-                    input#CodigoIATADestino.form-control(type='text' placeholder='CodigoIATADestino' name='CodigoIATADestino')
+                    select#CodigoIATADestino.select.form-control.input-lg(type='text' name='CodigoIATADestino')
+                      - for (var i = 0; i < aeropuertos.length; i++)
+                        option(value=`${aeropuertos[i].CodigoIATA}`) #{aeropuertos[i].CodigoIATA}
                   .form-group
                     label(for='IDAvion') Avión
-                    input#IDAvion.form-control(type='number' placeholder='IDAvion' name='IDAvion')
+                    select#IDAvion.form-control(type='number' name='IDAvion')
+                      - for (var i = 0; i < aviones.length; i++)
+                        option(value=`${aviones[i].ID}`) #{aviones[i].ID}
                   .form-group
                     label(for='HoraSalida') Hora de Salida (Local Origen)
                     input#HoraSalida.form-control(type='time' placeholder='HoraSalida' name='HoraSalida')

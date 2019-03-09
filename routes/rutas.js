@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const rutaController = require("../controllers/rutaController");
+const aeropuertoController = require("../controllers/aeropuertoController");
+const avionController = require("../controllers/avionController");
 
 router.get("/", (req, res) => {
     rutaController.getRutas((rutas, err) => {
@@ -9,8 +11,27 @@ router.get("/", (req, res) => {
                 success: false,
                 msg: 'Failed to show ruta'
             });
-        else
-            res.render("rutas", { rutas });
+        else {
+            aeropuertoController.getAeropuertos((aeropuertos, err) => {
+                if (err) {
+                    res.json({
+                        success: false,
+                        msg: 'Failed to show aeropuertos'
+                    });
+                } else {
+                    avionController.getAviones((aviones, err) => {
+                        if (err) {
+                            res.json({
+                                success: false,
+                                msg: 'Failed to show aviones'
+                            });
+                        } else {
+                            res.render("rutas", { rutas, aeropuertos, aviones });
+                        }
+                    });
+                }
+            });
+        }
     });
 });
 
@@ -46,7 +67,25 @@ router.get("/show/:ID", (req, res) => {
                             msg: 'Failed to show rutas'
                         });
                     } else {
-                        res.render("rutas", { rutas, rutaUpdate });
+                        avionController.getAviones((aviones, err) => {
+                            if (err) {
+                                res.json({
+                                    success: false,
+                                    msg: 'Failed to show aviones'
+                                });
+                            } else {
+                                aeropuertoController.getAeropuertos((aeropuertos, err) => {
+                                    if (err) {
+                                        res.json({
+                                            success: false,
+                                            msg: 'Failed to show aeropuertos'
+                                        });
+                                    } else {
+                                        res.render("rutas", { rutas, aeropuertos, aviones, rutaUpdate });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             }
