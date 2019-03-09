@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const alquilerController = require("../controllers/alquilerController");
+const proveedorController = require("../controllers/proveedorController");
+const avionController = require("../controllers/avionController");
 
 router.get("/", (req, res) => {
     alquilerController.getAlquileres((alquileres, err) => {
@@ -9,8 +11,28 @@ router.get("/", (req, res) => {
                 success: false,
                 msg: 'Failed to show alquileres'
             });
-        else
-            res.render("alquileres", { alquileres });
+        else {
+            proveedorController.getProveedores((proveedores, err) => {
+                if (err) {
+                    res.json({
+                        success: false,
+                        msg: 'Failed to show proveedores'
+                    });
+                } else {
+                    avionController.getAviones((aviones, err) => {
+                        if (err) {
+                            res.json({
+                                success: false,
+                                msg: 'Failed to show aviones'
+                            });
+                        } else {
+                            res.render("alquileres", { alquileres, proveedores, aviones });
+                        }
+                    });
+                }
+            });
+        }
+            
     });
 });
 
@@ -46,7 +68,25 @@ router.get("/show/:IDProveedor/:IDAvion/:FechaSolicitud", (req, res) => {
                             msg: 'Failed to show alquileres'
                         });
                     } else {
-                        res.render("alquileres", { alquileres, alquilerUpdate });
+                        proveedorController.getProveedores((proveedores, err) => {
+                            if (err) {
+                                res.json({
+                                    success: false,
+                                    msg: 'Failed to show proveedores'
+                                });
+                            } else {
+                                avionController.getAviones((aviones, err) => {
+                                    if (err) {
+                                        res.json({
+                                            success: false,
+                                            msg: 'Failed to show aviones'
+                                        });
+                                    } else {
+                                        res.render("alquileres", { alquileres, proveedores, aviones, alquilerUpdate });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             }
