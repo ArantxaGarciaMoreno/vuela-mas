@@ -41,7 +41,7 @@ block content
                     label(for='IDRuta') Ruta
                     select#IDRuta.select.form-control.input-lg(type='number' value=`${vueloUpdate.IDRuta}` name='IDRuta')
                       - for (var i = 0; i < rutas.length; i++)
-                        option(value=`${rutas[i].ID}` selected=(vueloUpdate.IDRuta==rutas[i].ID)) #{rutas[i].CodigoIATAOrigen} - #{rutas[i].CodigoIATADestino}
+                        option(value=`${rutas[i].ID}` selected=(vueloUpdate.IDRuta==rutas[i].ID)) #{rutas[i].CodigoIATAOrigen} - #{rutas[i].CodigoIATADestino}, Salida #{rutas[i].HoraSalida}
                   .form-group
                     label(for='Fecha') Fecha
                     input#Fecha.form-control(type='date' value= `${vueloUpdate.Fecha}` placeholder='Fecha' name='Fecha')
@@ -77,7 +77,7 @@ block content
                     label(for='IDRuta') Ruta
                     select#IDRuta.select.form-control.input-lg(type='number' placeholder='Origen - Destino' name='IDRuta')
                       - for (var i = 0; i < rutas.length; i++)
-                        option(value=`${rutas[i].ID}`) #{rutas[i].CodigoIATAOrigen} - #{rutas[i].CodigoIATADestino}
+                        option(value=`${rutas[i].ID}`) #{rutas[i].CodigoIATAOrigen} - #{rutas[i].CodigoIATADestino}, Salida #{rutas[i].HoraSalida}
                   .form-group
                     label(for='Fecha') Fecha
                     input#Fecha.form-control(type='date' placeholder='Fecha' name='Fecha')

@@ -78,6 +78,7 @@ controller.createRuta = async function (data, callback) {
         let response = await Ruta.create({
             CodigoIATAOrigen: data.CodigoIATAOrigen,
             CodigoIATADestino: data.CodigoIATADestino,
+            IDAvion: data.IDAvion,
             HoraSalida: data.HoraSalida,
             HoraLlegada: data.HoraLlegada
         });

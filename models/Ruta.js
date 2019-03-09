@@ -60,6 +60,7 @@ const Ruta = db.define('Ruta', {
     HoraSalida: {
         type: sequelize.TIME,
         allowNull: false,
+        unique: 'compositeIndex',
 
         validate: {
             notEmpty: true
