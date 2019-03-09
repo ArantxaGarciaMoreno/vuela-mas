@@ -13,27 +13,26 @@ block content
               th(scope='col') Estado
               th(scope='col') Internet
               th(scope='col') Cantidad de TVs
-
           tbody
           - for (var i = 0; i < aviones.length; i++)
             tr
               th(scope='row') #{aviones[i].ID}
-              - for(var j =0; j <modelosAvion.length; j++)
-                - if(modelosAvion[j].ID == aviones[i].IDModeloAvion)
-                  td #{modelosAvion[j].Nombre}
-              td #{aviones[i].Fabricante}
-              td #{aviones[i].Estado}
-              - if(aviones[i].hasInternet == 1) 
-                td Si
-              - else
-                td No
-              td #{aviones[i].CantTV}
-              td
-                form(action=`show/${aviones[i].ID}`,method="GET")
-                  button.btn.btn-outline-danger(type='submit') Modificar
-              td
-                form(action=`delete/${aviones[i].ID}`,method="POST")
-                  button.btn.btn-outline-danger(type='submit') Eliminar
+                - for(var j =0; j <modelosAvion.length; j++)
+                  - if(modelosAvion[j].ID == aviones[i].IDModeloAvion)
+                    td #{modelosAvion[j].Nombre}
+                    td #{aviones[i].Fabricante}
+                    td #{aviones[i].Estado}
+                - if(aviones[i].hasInternet == 1) 
+                  td Si
+                - else
+                  td No
+                td #{aviones[i].CantTV}
+                td
+                  form(action=`show/${aviones[i].ID}`,method="GET")
+                    button.btn.btn-outline-danger(type='submit') Modificar
+                td
+                  form(action=`delete/${aviones[i].ID}`,method="POST")
+                    button.btn.btn-outline-danger(type='submit') Eliminar
         - if(avionUpdate)
           h4.mt-5 Modificar Avion
             div.card.bg-dark

@@ -35,6 +35,21 @@ controller.getProveedorUpdate = async function (ID, callback) {
     }
 }
 
+//Obtiene el proveedor al cual se le dea ver la oferta de aviones
+controller.getProveedorDetalle = async function (ID, callback) {
+    try {
+        let proveedorDetalle = await Proveedor.findOne({
+            where: {
+                ID
+            }
+        });
+        console.log(proveedorDetalle);
+        callback(proveedorDetalle, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Actualiza los atributos del proveedor modificado
 controller.updateProveedor = async function (data, ID, callback) {
     try {
