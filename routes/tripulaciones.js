@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const tripulacionController = require('../controllers/tripulacionController');
+const empleadoController = require('../controllers/empleadoController');
+const vueloController = require('../controllers/vueloController');
 
 router.get("/", (req, res) => {
     tripulacionController.getTripulaciones((tripulaciones, err) => {
@@ -9,8 +11,27 @@ router.get("/", (req, res) => {
                 success: false,
                 msg: 'Failed to show tripulaciones'
             });
-        else
-            res.render("tripulaciones", { tripulaciones });
+        else {
+            empleadoController.getEmpleados((empleados, err) => {
+                if (err) {
+                    res.json({
+                        success: false,
+                        msg: 'Failed to show empleados'
+                    });
+                } else {
+                    vueloController.getVuelos((vuelos, err) => {
+                        if (err) {
+                            res.json({
+                                success: false,
+                                msg: 'Failed to show vuelos'
+                            });
+                        } else {
+                            res.render("tripulaciones", { tripulaciones, empleados, vuelos });
+                        }
+                    });
+                }
+            });
+        }
     });
 });
 
@@ -46,7 +67,25 @@ router.get("/show/:IDEmpleado/:IDVueloTrabajado", (req, res) => {
                             msg: 'Failed to show tripulaciones'
                         });
                     } else {
-                        res.render("tripulaciones", { tripulaciones, tripulacionUpdate });
+                        empleadoController.getEmpleados((empleados, err) => {
+                            if (err) {
+                                res.json({
+                                    success: false,
+                                    msg: 'Failed to show empleados'
+                                });
+                            } else {
+                                vueloController.getVuelos((vuelos, err) => {
+                                    if (err) {
+                                        res.json({
+                                            success: false,
+                                            msg: 'Failed to get vuelos'
+                                        });
+                                    } else {
+                                        res.render("tripulaciones", { tripulaciones, empleados, vuelos, tripulacionUpdate });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             }

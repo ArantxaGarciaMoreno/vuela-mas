@@ -28,10 +28,14 @@ block content
                 form(action=`update/${tripulacionUpdate[0].IDEmpleado}/${tripulacionUpdate[0].IDVueloTrabajado}` method="POST")
                   .form-group
                     label(for="IDEmpleado") ID Empleado
-                    input#IDEmpleado.form-control(type="number" value=`${tripulacionUpdate[0].IDEmpleado}` placeholder='IDEmpleado' name='IDEmpleado')
+                    select#IDEmpleado.select.form-control.input-lg(type="number" name='IDEmpleado')
+                      - for (var i = 0; i < empleados.length; i++)
+                        option(value=`${empleados[i].ID}` selected=(tripulacionUpdate.IDEmpleado==empleados[i].ID)) #{empleados[i].ID}
                   .form-group
                     label(for='IDVueloTrabajado') ID Vuelo Trabajado
-                    input#IDVueloTrabajado.form-control(type='number' value=`${tripulacionUpdate[0].IDVueloTrabajado}` placeholder='IDVueloTrabajado' name='IDVueloTrabajado')
+                    select#IDVueloTrabajado.select.form-control.input-lg(type='number' name='IDVueloTrabajado')
+                      - for (var i = 0; i < vuelos.length; i++)
+                        option(value=`${vuelos[i].ID}` selected=(tripulacionUpdate.IDVueloTrabajado==vuelos[i].ID)) #{vuelos[i].ID}
                   .form-group
                   button.btn.btn-danger(type="submit") Modificar
         h4.mt-5 Agregar un nuevo miembro de tripulación
@@ -40,9 +44,13 @@ block content
               form(action='create/' method="POST")
                 .form-group
                     label(for="IDEmpleado") ID Empleado
-                    input#IDEmpleado.form-control(type="number" placeholder='IDEmpleado' name='IDEmpleado')
+                    select#IDEmpleado.select.form-control.input-lg(type="number" name='IDEmpleado')
+                      - for (var i = 0; i < empleados.length; i++)
+                        option(value=`${empleados[i].ID}`) #{empleados[i].ID}
                 .form-group
                     label(for='IDVueloTrabajado') ID Vuelo Trabajado
-                    input#IDVueloTrabajado.form-control(type='number' placeholder='IDVueloTrabajado' name='IDVueloTrabajado')
+                    select#IDVueloTrabajado.select.form-control.input-lg(type='number' name='IDVueloTrabajado')
+                      - for (var i = 0; i < vuelos.length; i++)
+                        option(value=`${vuelos[i].ID}`) #{vuelos[i].ID}
                 .form-group
                     button.btn.btn-primary(type='submit') Agregar
