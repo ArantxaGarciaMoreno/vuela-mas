@@ -44,7 +44,7 @@ controller.updateCliente = async function (data, ID, callback) {
             Pasaporte: data.Pasaporte,
             Nombre: data.Nombre,
             Apellido: data.Apellido,
-            Nacionalidad: data.Nacionalidad,
+            PaisNacimiento: data.PaisNacimiento,
             FechaNacimiento: data.FechaNacimiento
         }, {
                 where: {
@@ -80,7 +80,7 @@ controller.createCliente = async function (data, callback) {
             Pasaporte: data.Pasaporte,
             Nombre: data.Nombre,
             Apellido: data.Apellido,
-            Nacionalidad: data.Nacionalidad,
+            PaisNacimiento: data.PaisNacimiento,
             FechaNacimiento: data.FechaNacimiento
         });
         callback(null)

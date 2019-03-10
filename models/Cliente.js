@@ -38,7 +38,7 @@ const Cliente = db.define('Cliente', {
             notEmpty: true
         }
     },
-    Nacionalidad: {
+    PaisNacimiento: {
         type: sequelize.STRING,
         allowNull: false,
 

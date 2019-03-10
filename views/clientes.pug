@@ -10,7 +10,7 @@ block content
               th(scope='col') Pasaporte
               th(scope='col') Nombre
               th(scope='col') Apellido
-              th(scope='col') Nacionalidad
+              th(scope='col') Pais de Nacimiento
               th(scope='col') Fecha de Nacimiento
 
           tbody
@@ -19,7 +19,7 @@ block content
               th(scope='row') #{clientes[i].Pasaporte}
               td #{clientes[i].Nombre}
               td #{clientes[i].Apellido}
-              td #{clientes[i].Nacionalidad}
+              td #{clientes[i].PaisNacimiento}
               td #{clientes[i].FechaNacimiento}
               td
                 form(action=`show/${clientes[i].ID}`,method="GET")
@@ -42,8 +42,12 @@ block content
                     label(for='Apellido') Apellido
                     input#Apellido.form-control(type='text' value= `${clienteUpdate[0].Apellido}` placeholder='Apellido' name='Apellido')
                   .form-group
-                    label(for='Nacionalidad') Nacionalidad
-                    input#Nacionalidad.form-control(type='text' value= `${clienteUpdate[0].Nacionalidad}` placeholder='Nacionalidad' name='Nacionalidad')
+                    label(for='PaisNacimiento') Pais de Nacimiento
+                    select#PaisNacimiento.select.form-control.input-lg(type='text' name='PaisNacimiento')
+                      option(value='Emiratos Árabes Unidos' selected=(clienteUpdate[0].PaisNacimiento == 'Emiratos Árabes Unidos')) Emiratos Árabes Unidos
+                      option(value='Estados Unidos de América' selected=(clienteUpdate[0].PaisNacimiento == 'Estados Unidos de América')) Estados Unidos de América
+                      option(value='Francia' selected=(clienteUpdate[0].PaisNacimiento == 'Francia')) Francia
+                      option(value='Venezuela' selected=(clienteUpdate[0].PaisNacimiento=='Venezuela')) Venezuela
                   .form-group
                     label(for='FechaNacimiento') Fecha de Nacimiento
                     input#FechaNacimiento.form-control(type='date' value=`${clienteUpdate[0].FechaNacimiento}` placeholder='FechaNacimiento' name='FechaNacimiento')
@@ -62,8 +66,12 @@ block content
                     label(for='Apellido') Apellido
                     input#Apellido.form-control(type='text' placeholder='Apellido' name='Apellido')
                 .form-group
-                    label(for='Nacionalidad') Nacionalidad
-                    input#Nacionalidad.form-control(type='text' placeholder='Nacionalidad' name='Nacionalidad')
+                    label(for='PaisNacimiento') Pais de Nacimiento
+                    select#PaisNacimiento.select.form-control.input-lg(type='text' name='PaisNacimiento')
+                      option(value='Emiratos Árabes Unidos') Emiratos Árabes Unidos
+                      option(value='Estados Unidos de América') Estados Unidos de América
+                      option(value='Francia') Francia
+                      option(value='Venezuela') Venezuela
                 .form-group
                     label(for='FechaNacimiento') Fecha de Nacimiento
                     input#FechaNacimiento.form-control(type='date' placeholder='FechaNacimiento' name='FechaNacimiento')

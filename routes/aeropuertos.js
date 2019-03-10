@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const aeropuertoController = require("../controllers/aeropuertoController");
+const pistaController = require("../controllers/pistaController");
 
 router.get("/", (req, res) => {
     aeropuertoController.getAeropuertos((aeropuertos, err) => {
@@ -82,6 +83,62 @@ router.post("/create", (req, res) => {
                 res.redirect('/aeropuertos/');
         });
     }
+});
+
+router.get("/pistas/:CodigoIATA", (req, res) => {
+    if (!!req.params.CodigoIATA) {
+        pistaController.getPistas(req.params.CodigoIATA, (pistas, err) => {
+            if (err) {
+                res.json({
+                    success: false,
+                    msg: 'Failed to show pistas'
+                });
+            } else {
+                aeropuertoController.getAeropuerto(req.params.CodigoIATA, (aeropuerto, err) => {
+                    if (err) {
+                        res.json({
+                            success: false,
+                            msg: 'Failed to show aeropuerto'
+                        });
+                    } else {
+                        res.render("aeropuertos", { pistas, aeropuerto });
+                    }
+                });
+            }
+        });
+    }
+});
+
+router.post("/pistas/agregarPista", (req, res) => {
+    console.log('Hello from routes!');
+    console.log(req.body);
+    if (!!req.body) {
+        pistaController.createPista(req.body, (err) => {
+            if (err)
+                res.json({
+                    success: false,
+                    msg: 'Failed to agregar pista'
+                });
+            else
+                res.redirect('/aeropuertos/');
+        });
+    }
+});
+
+router.post("/pistas/deletePista/:CodigoIATA-:Distancia", (req, res) => {
+    if (!!req.params.CodigoIATA && !!req.params.Distancia) {
+        pistaController.deletePista(req.params, (err) => {
+            if (err)
+                res.json({
+                    success: false,
+                    msg: 'Failed to delete pista'
+                });
+            else
+                res.redirect('/aeropuertos/');
+        });
+
+    }
+
 });
 
 router.get("/aeropuertos/:CodigoIATA");

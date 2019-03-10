@@ -1,0 +1,79 @@
+extends base
+block content
+  .container.pt-4
+    h2 Alquileres 
+    .row.mt-5
+      .col-12
+        table.table.bg-white
+          thead
+            tr
+              th(scope='col') ID Proveedor
+              th(scope='col') ID Avión
+              th(scope='col') Fecha de Solicitud
+              th(scope='col') Fecha de Entraga
+              th(scope='col') Fecha de Devolución
+              th(scope='col') Monto Pagado
+
+          tbody
+          - for (var i = 0; i < alquileres.length; i++)
+            tr
+              th(scope='row') #{alquileres[i].IDProveedor}
+              td #{alquileres[i].IDAvion}
+              td #{alquileres[i].FechaSolicitud}
+              td #{alquileres[i].FechaEntrega}
+              td #{alquileres[i].FechaDevolucion}
+              td #{alquileres[i].MontoPagado}
+              td
+                form(action=`show/${alquileres[i].IDProveedor}_${alquileres[i].IDAvion}`,method="GET")
+                  button.btn.btn-outline-danger(type='submit') Modificar
+              td
+                form(action=`delete/${alquileres[i].IDProveedor}_${alquileres[i].IDAvion}`,method="POST")
+                  button.btn.btn-outline-danger(type='submit') Eliminar
+        - if(alquilerUpdate)
+          h4.mt-5 Modificar Datos
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action=`update/${alquilerUpdate[0].IDProveedor}_${alquilerUpdate[0].IDAvion}` method="POST")
+                  .form-group
+                    label(for="IDProveedor") IDProveedor
+                    input#IDProveedor.form-control(type="number" value=`${alquilerUpdate[0].IDProveedor}` aria-describedby='IDProveedor' placeholder='IDProveedor' name='IDProveedor')
+                  .form-group
+                    label(for='IDAvion') IDAvion
+                    input#IDAvion.form-control(type='number' value=`${alquilerUpdate[0].IDAvion}` placeholder='IDAvion' name='IDAvion')
+                  .form-group
+                    label(for='FechaSolicitud') FechaSolicitud
+                    input#FechaSolicitud.form-control(type='date' value= `${alquilerUpdate[0].FechaSolicitud}` placeholder='FechaSolicitud' name='FechaSolicitud')
+                  .form-group
+                    label(for='FechaEntrega') FechaEntrega
+                    input#FechaEntrega.form-control(type='date' value= `${alquilerUpdate[0].FechaEntrega}` placeholder='FechaEntrega' name='FechaEntrega')
+                  .form-group
+                    label(for='FechaDevolucion') Fecha de Nacimiento
+                    input#FechaDevolucion.form-control(type='date' value=`${alquilerUpdate[0].FechaDevolucion}` placeholder='FechaDevolucion' name='FechaDevolucion')
+                  .form-group
+                    label(for='MontoPagado') Monto Pagado
+                    input#MontoPagado.form-control(type='number' placeholder='MontoPagado' name='MontoPagado')
+                  button.btn.btn-danger(type="submit") Modificar
+        h4.mt-5 Agregar un nuevo cliente
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action='create/' method="POST")
+                .form-group
+                    label(for="IDProveedor") ID Proveedor
+                    input#IDProveedor.form-control(type="number" aria-describedby='IDProveedor' placeholder='IDProveedor' name='IDProveedor')
+                .form-group
+                    label(for='IDAvion') ID Avión
+                    input#IDAvion.form-control(type='number' placeholder='IDAvion' name='IDAvion')
+                .form-group
+                    label(for='FechaSolicitud') Fecha de Solicitud
+                    input#FechaSolicitud.form-control(type='date' placeholder='FechaSolicitud' name='FechaSolicitud')
+                .form-group
+                    label(for='FechaEntrega') Fecha de Entrega
+                    input#FechaEntrega.form-control(type='date' placeholder='FechaEntrega' name='FechaEntrega')
+                .form-group
+                    label(for='FechaDevolucion') Fecha de Devolucion
+                    input#FechaDevolucion.form-control(type='date' placeholder='FechaDevolucion' name='FechaDevolucion')
+                .form-group
+                    label(for='MontoPagado') Monto Pagado
+                    input#MontoPagado.form-control(type='number' placeholder='MontoPagado' name='MontoPagado')
+                .form-group
+                    button.btn.btn-primary(type='submit') Agregar

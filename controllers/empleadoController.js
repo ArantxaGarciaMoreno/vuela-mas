@@ -42,7 +42,7 @@ controller.updateEmpleado = async function (data, ID, callback) {
             Pasaporte: data.Pasaporte,
             Nombre: data.Nombre,
             Apellido: data.Apellido,
-            Nacionalidad: data.Nacionalidad,
+            PaisNacimiento: data.PaisNacimiento,
             FechaNacimiento: data.FechaNacimiento,
             Cargo: data.Cargo
         }, {
@@ -79,7 +79,7 @@ controller.createEmpleado = async function (data, callback) {
             Pasaporte: data.Pasaporte,
             Nombre: data.Nombre,
             Apellido: data.Apellido,
-            Nacionalidad: data.Nacionalidad,
+            PaisNacimiento: data.PaisNacimiento,
             FechaNacimiento: data.FechaNacimiento,
             Cargo: data.Cargo
         });

@@ -37,7 +37,7 @@ const Empleado = db.define('Empleado', {
             notEmpty: true
         }
     },
-    Nacionalidad: {
+    PaisNacimiento: {
         type: sequelize.STRING,
         allowNull: false,
 
