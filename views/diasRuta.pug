@@ -1,0 +1,70 @@
+extends base
+block content
+  .container.pt-4
+    h2 Días Ruta
+    .row.mt-5
+      .col-12
+        table.table.bg-white
+          thead
+            tr
+              th(scope='col') ID Ruta
+              th(scope='col') Día Semana
+          tbody
+          - if (!diaRutaUpdate)
+            - for (var i = 0; i < diasRuta.length; i++)
+              tr
+                th(scope='row') #{diasRuta[i].IDRuta}
+                td #{diasRuta[i].DiaSemana}
+                td
+                  form(action=`show/${diasRuta[i].IDRuta}/${diasRuta[i].DiaSemana}/`,method="GET")
+                    button.btn.btn-outline-danger(type='submit') Modificar
+                td
+                  form(action=`delete/${diasRuta[i].IDRuta}/${diasRuta[i].DiaSemana}`,method="POST")
+                    button.btn.btn-outline-danger(type='submit') Eliminar
+          - else
+            tr
+              th(scope='row') #{diaRutaUpdate.IDRuta}
+              td #{diaRutaUpdate.DiaSemana}
+        - if(diaRutaUpdate)
+          h4.mt-5 Modificar Datos
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action=`update/${diaRutaUpdate.IDRuta}/${diaRutaUpdate.DiaSemana}` method="POST")
+                  .form-group
+                    label(for="IDRuta") Ruta
+                    select#IDRuta.select.form-control.input-lg(type="number" name='IDRuta')
+                      - for (var i = 0; i < rutas.length; i++)
+                        option(value=`${rutas[i].ID}` selected=(diaRutaUpdate.IDRuta==rutas[i].ID)) #{rutas[i].CodigoIATAOrigen} - #{rutas[i].CodigoIATADestino}, Salida #{rutas[i].HoraSalida}
+                  .form-group
+                    label(for='DiaSemana') Día de la Semana
+                    select#DiaSemana.select.form-control.input-lg(type='text' name='DiaSemana')
+                        option(value=`Lunes` selected=(diaRutaUpdate.DiaSemana=='Lunes')) LUNES
+                        option(value=`Martes` selected=(diaRutaUpdate.DiaSemana=='Martes')) MARTES
+                        option(value=`Miercoeles` selected=(diaRutaUpdate.DiaSemana=='Miércoles')) MIÉRCOLES
+                        option(value=`Jueves` selected=(diaRutaUpdate.DiaSemana=='Jueves')) JUEVES
+                        option(value=`Viernes` selected=(diaRutaUpdate.DiaSemana=='Viernes')) VIERNES
+                        option(value=`Sabado` selected=(diaRutaUpdate.DiaSemana=='Sabado')) SÁBADO
+                        option(value=`Domingo` selected=(diaRutaUpdate.DiaSemana=='Domingo')) DOMINGO
+                  .form-group
+                  button.btn.btn-danger(type="submit") Modificar
+        h4.mt-5 Agregar un nuevo miembro de tripulación
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action='create/' method="POST")
+                .form-group
+                    label(for="IDRuta") Ruta
+                    select#IDRuta.select.form-control.input-lg(type="number" name='IDRuta')
+                      - for (var i = 0; i < rutas.length; i++)
+                        option(value=`${rutas[i].ID}`) #{rutas[i].CodigoIATAOrigen} - #{rutas[i].CodigoIATADestino}, Salida #{rutas[i].HoraSalida}
+                .form-group
+                    label(for='DiaSemana') Día de la Semana
+                    select#DiaSemana.select.form-control.input-lg(type='text' name='DiaSemana')
+                        option(value=`Lunes`) LUNES
+                        option(value=`Martes`) MARTES
+                        option(value=`Miercoeles`) MIÉRCOLES
+                        option(value=`Jueves`) JUEVES
+                        option(value=`Viernes`) VIERNES
+                        option(value=`Sabado`) SÁBADO
+                        option(value=`Domingo`) DOMINGO
+                .form-group
+                    button.btn.btn-primary(type='submit') Agregar
