@@ -14,20 +14,29 @@ block content
               th(scope='col') Fecha de Nacimiento
               th(scope='col') Cargo
           tbody
-          - for (var i = 0; i < empleados.length; i++)
+          - if(!empleadoUpdate)
+            - for (var i = 0; i < empleados.length; i++)
+              tr
+                th(scope='row') #{empleados[i].Pasaporte}
+                td #{empleados[i].Nombre}
+                td #{empleados[i].Apellido}
+                td #{empleados[i].Nacionalidad}
+                td #{empleados[i].FechaNacimiento}
+                td #{empleados[i].Cargo}
+                td
+                  form(action=`show/${empleados[i].ID}`,method="GET")
+                    button.btn.btn-outline-danger(type='submit') Modificar
+                td
+                  form(action=`delete/${empleados[i].ID}`,method="POST")
+                    button.btn.btn-outline-danger(type='submit') Eliminar
+          - else
             tr
-              th(scope='row') #{empleados[i].Pasaporte}
-              td #{empleados[i].Nombre}
-              td #{empleados[i].Apellido}
-              td #{empleados[i].Nacionalidad}
-              td #{empleados[i].FechaNacimiento}
-              td #{empleados[i].Cargo}
-              td
-                form(action=`show/${empleados[i].ID}`,method="GET")
-                  button.btn.btn-outline-danger(type='submit') Modificar
-              td
-                form(action=`delete/${empleados[i].ID}`,method="POST")
-                  button.btn.btn-outline-danger(type='submit') Eliminar
+              th(scope='row') #{empleadoUpdate.Pasaporte}
+              td #{empleadoUpdate.Nombre}
+              td #{empleadoUpdate.Apellido}
+              td #{empleadoUpdate.Nacionalidad}
+              td #{empleadoUpdate.FechaNacimiento}
+              td #{empleadoUpdate.Cargo}
         - if(empleadoUpdate)
           h4.mt-5 Modificar Datos
             div.card.bg-dark

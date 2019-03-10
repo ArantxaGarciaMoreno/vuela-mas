@@ -24,13 +24,13 @@ controller.getAeropuertos = async function (callback) {
 //Obtiene el aeropuerto cuyos atributos se quieren actualizar
 controller.getAeropuertosUpdate = async function (CodigoIATA, callback) {
     try {
-        let response = await Aeropuerto.findAll({
+        let aeropuertosUpdate = await Aeropuerto.findOne({
             where: {
                 Activo: 1,
                 CodigoIATA
-            }
+            },
+            attributes: ['CodigoIATA', 'Ciudad', 'Pais', [sequelize.fn('concat', 'UTC ', sequelize.col('ZonaHoraria'), ':00'), 'ZonaHoraria']]
         });
-        let aeropuertosUpdate = response.map(result => result.dataValues);
         console.log(aeropuertosUpdate);
         callback(aeropuertosUpdate, null);
     } catch (error) {

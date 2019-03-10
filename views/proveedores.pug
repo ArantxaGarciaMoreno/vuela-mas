@@ -11,17 +11,23 @@ block content
               th(scope='col') Ciudad
               th(scope='col') Pais           
           tbody
-          - for (var i = 0; i < proveedores.length; i++)
+          - if (!proveedorUpdate)
+            - for (var i = 0; i < proveedores.length; i++)
+              tr
+                th(scope='row') #{proveedores[i].Nombre}
+                td #{proveedores[i].Ciudad}
+                td #{proveedores[i].Pais}
+                td
+                  form(action=`show/${proveedores[i].ID}`,method="GET")
+                    button.btn.btn-outline-danger(type='submit') Modificar
+                td
+                  form(action=`delete/${proveedores[i].ID}`,method="POST")
+                    button.btn.btn-outline-danger(type='submit') Eliminar
+          - else
             tr
-              th(scope='row') #{proveedores[i].Nombre}
-              td #{proveedores[i].Ciudad}
-              td #{proveedores[i].Pais}
-              td
-                form(action=`show/${proveedores[i].ID}`,method="GET")
-                  button.btn.btn-outline-danger(type='submit') Modificar
-              td
-                form(action=`delete/${proveedores[i].ID}`,method="POST")
-                  button.btn.btn-outline-danger(type='submit') Eliminar
+              th(scope='row') #{proveedorUpdate.Nombre}
+              td #{proveedorUpdate.Ciudad}
+              td #{proveedorUpdate.Pais}
         - if(proveedorUpdate)
           h4.mt-5 Modificar Datos
             div.card.bg-dark

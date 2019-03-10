@@ -23,13 +23,11 @@ controller.getClientes = async function (callback) {
 //Obtiene el cliente cuyos atributos se quieren actualizar
 controller.getClienteUpdate = async function (ID, callback) {
     try {
-        let response = await Cliente.findAll({
+        let clienteUpdate = await Cliente.findOne({
             where: {
-                Activo: 1,
                 ID
             }
         });
-        let clienteUpdate = response.map(result => result.dataValues);
         console.log(clienteUpdate);
         callback(clienteUpdate, null);
     } catch (error) {
