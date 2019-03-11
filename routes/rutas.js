@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
                         msg: 'Failed to show aeropuertos'
                     });
                 } else {
-                    avionController.getAviones((aviones, err) => {
+                    avionController.getAvionesPropios((aviones, err) => {
                         if (err) {
                             res.json({
                                 success: false,

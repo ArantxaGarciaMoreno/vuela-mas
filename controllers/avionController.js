@@ -20,6 +20,24 @@ controller.getAviones = async function (callback) {
     }
 }
 
+//Obtiene los aviones que no sean alquilados
+controller.getAvionesPropios = async function (callback) {
+    try {
+        let avionesPropios = await db.query(
+            "SELECT * " +
+            "FROM `Avion` " +
+            "LEFT JOIN `Alquiler` ON `Avion`.`ID`=`Alquiler`.`IDAvion` " +
+            "WHERE `Alquiler`.`IDAvion` IS NULL " +
+            "AND `Avion`.`Activo`= 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(1);
+        callback(avionesPropios, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Obtiene el avion cuyos atributos se quieren actualizar
 controller.getAvionUpdate = async function (ID, callback) {
     try {

@@ -10,8 +10,8 @@ block content
               th(scope='col') ID    
               th(scope='col') Ruta
               th(scope='col') Fecha
-              th(scope='col') ID Avion
-              th(scope='col') Código IATA de Destino
+              th(scope='col') Avion
+              th(scope='col') Destino
               th(scope='col') Hora de Salida (Local Origen)
               th(scope='col') Hora de Llegada (Local Destino)
               th(scope='col') Estado
@@ -24,7 +24,9 @@ block content
                   td #{rutas[j].CodigoIATAOrigen}-#{rutas[j].CodigoIATADestino}
               td #{vuelos[i].Fecha}
               td #{vuelos[i].IDAvion}
-              td #{vuelos[i].CodigoIATADestino}
+              - for (var j = 0; j < aeropuertos.length; j++)
+                - if (aeropuertos[j].CodigoIATA == vuelos[i].CodigoIATADestino)
+                  td #{aeropuertos[j].Ciudad}, #{aeropuertos[j].Pais}
               td #{vuelos[i].HoraSalida}
               td #{vuelos[i].HoraLlegada}
               td #{vuelos[i].Estado}
@@ -67,11 +69,11 @@ block content
                     label(for='Estado') Estado
                     select#Estado.form-control(type='text' name='Estado')
                       option(value='A TIEMPO' selected=(vueloUpdate.Estado=='A TIEMPO')) A TIEMPO
-                      option(value='DEMORADO' selected=(vueloUpdate.Estado=='A TIEMPO')) DEMORADO
-                      option(value='CANCELADO' selected=(vueloUpdate.Estado=='A TIEMPO')) CANCELADO
-                      option(value='EN VUELO' selected=(vueloUpdate.Estado=='A TIEMPO')) EN VUELO
-                      option(value='ATERRIZO' selected=(vueloUpdate.Estado=='A TIEMPO')) ATERRIZÓ
-                      option(value='DESVIADO' selected=(vueloUpdate.Estado=='A TIEMPO')) DESVIADO
+                      option(value='DEMORADO' selected=(vueloUpdate.Estado=='DEMORADO')) DEMORADO
+                      option(value='CANCELADO' selected=(vueloUpdate.Estado=='CANCELADO')) CANCELADO
+                      option(value='EN VUELO' selected=(vueloUpdate.Estado=='EN VUELO')) EN VUELO
+                      option(value='ATERRIZO' selected=(vueloUpdate.Estado=='ATERRIZO')) ATERRIZÓ
+                      option(value='DESVIADO' selected=(vueloUpdate.Estado=='DESVIADO')) DESVIADO
                   .form-group
                   button.btn.btn-danger(type="submit") Modificar
         h4.mt-5 Agregar un nuevo vuelo

@@ -7,19 +7,21 @@ block content
         table.table.bg-white
           thead
             tr
-              th(scope='col') ID Proveedor
-              th(scope='col') ID Avión
+              th(scope='col') Proveedor
+              th(scope='col') Avión
               th(scope='col') Fecha de Solicitud
               th(scope='col') Fecha de Entraga
               th(scope='col') Fecha de Devolución
-              th(scope='col') Monto Pagado
+              th(scope='col') Monto Pagado (USD)
 
           tbody
           - for (var i = 0; i < alquileres.length; i++)
             tr
-              th(scope='row') #{alquileres[i].IDProveedor}
-              td #{alquileres[i].IDAvion}
-              td #{alquileres[i].FechaSolicitud}
+              - for (var j = 0; j < proveedores.length; j++)
+                - if (proveedores[j].ID == alquileres[i].IDProveedor)
+                  th(scope='row') #{proveedores[j].Nombre}
+              th #{alquileres[i].IDAvion}
+              th #{alquileres[i].FechaSolicitud}
               td #{alquileres[i].FechaEntrega}
               td #{alquileres[i].FechaDevolucion}
               td #{alquileres[i].MontoPagado}
@@ -54,7 +56,7 @@ block content
                     label(for='FechaDevolucion') Fecha de Devolución
                     input#FechaDevolucion.form-control(type='date' value=`${alquilerUpdate[0].FechaDevolucion}` placeholder='FechaDevolucion' name='FechaDevolucion')
                   .form-group
-                    label(for='MontoPagado') Monto Pagado
+                    label(for='MontoPagado') Monto Pagado (USD)
                     input#MontoPagado.form-control(type='number' value=`${alquilerUpdate[0].MontoPagado}` placeholder=`${alquilerUpdate[0].MontoPagado}` name='MontoPagado')
                   .form-group
                   button.btn.btn-danger(type="submit") Modificar
@@ -82,7 +84,7 @@ block content
                     label(for='FechaDevolucion') Fecha de Devolución
                     input#FechaDevolucion.form-control(type='date' placeholder='FechaDevolucion' name='FechaDevolucion')
                 .form-group
-                    label(for='MontoPagado') Monto Pagado
+                    label(for='MontoPagado') Monto Pagado (USD)
                     input#MontoPagado.form-control(type='number' placeholder='MontoPagado' name='MontoPagado')
                 .form-group
                     button.btn.btn-primary(type='submit') Agregar
