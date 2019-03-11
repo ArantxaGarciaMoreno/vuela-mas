@@ -55,6 +55,21 @@ controller.updateAvion = async function (data, ID, callback) {
     }
 }
 
+controller.updateEstadoAvion = async function (Estado, ID, callback){
+    try {
+        let response = await Avion.update({
+            Estado:Estado
+        }, {
+            where: {
+                ID
+            }
+        });
+        callback(null);
+    }catch (error) {
+        callback(error);
+    }
+}
+
 //Desactiva un avion (Activo = 0)
 controller.deleteAvion = async function (ID, callback) {
     try {

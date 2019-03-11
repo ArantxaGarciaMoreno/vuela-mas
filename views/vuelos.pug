@@ -1,14 +1,14 @@
 extends base
 block content
   .container.pt-4
-    h2 Modelos de Avion 
+    h2 Vuelos
     .row.mt-5
       .col-12
         table.table.bg-white
           thead
             tr
               th(scope='col') ID    
-              th(scope='col') ID Ruta
+              th(scope='col') Ruta
               th(scope='col') Fecha
               th(scope='col') ID Avion
               th(scope='col') Código IATA de Destino
@@ -19,7 +19,9 @@ block content
           - for (var i = 0; i < vuelos.length; i++)
             tr
               th(scope='row') #{vuelos[i].ID}
-              td #{vuelos[i].IDRuta}
+              - for (var j = 0; j < rutas.length; j++)
+                - if(rutas[j].ID == vuelos[i].IDRuta)
+                  td #{rutas[j].CodigoIATAOrigen}-#{rutas[j].CodigoIATADestino}
               td #{vuelos[i].Fecha}
               td #{vuelos[i].IDAvion}
               td #{vuelos[i].CodigoIATADestino}
@@ -33,22 +35,28 @@ block content
                 form(action=`delete/${vuelos[i].ID}`,method="POST")
                   button.btn.btn-outline-danger(type='submit') Eliminar
         - if(vueloUpdate)
-          h4.mt-5 Modificar Datos
+          h4.mt-5 Modificar Datos del Vuelo
             div.card.bg-dark
               div.card-body.text-white
                 form(action=`update/${vueloUpdate.ID}` method="POST")
                   .form-group
-                    label(for='IDRuta') ID Ruta
-                    input#IDRuta.form-control(type='number' value=`${vueloUpdate.IDRuta}` placeholder='IDRuta' name='IDRuta')
+                    label(for='IDRuta') Ruta
+                    select#IDRuta.select.form-control.input-lg(type='number' value=`${vueloUpdate.IDRuta}` name='IDRuta')
+                      - for (var i = 0; i < rutas.length; i++)
+                        option(value=`${rutas[i].ID}` selected=(vueloUpdate.IDRuta==rutas[i].ID)) #{rutas[i].CodigoIATAOrigen} - #{rutas[i].CodigoIATADestino}, Salida #{rutas[i].HoraSalida}
                   .form-group
                     label(for='Fecha') Fecha
                     input#Fecha.form-control(type='date' value= `${vueloUpdate.Fecha}` placeholder='Fecha' name='Fecha')
                   .form-group
                     label(for='IDAvion') ID Avión
-                    input#IDAvion.form-control(type='number' value=`${vueloUpdate.IDAvion}` placeholder='IDAvion' name='IDAvion')
+                    select#IDAvion.select.form-control.input-lg(type='number' value=`${vueloUpdate.IDAvion}` name='IDAvion')
+                      - for (var i = 0; i < aviones.length; i++)
+                        option(value=`${aviones[i].ID}` selected=(vueloUpdate.IDAvion==aviones[i].ID)) #{aviones[i].ID}
                   .form-group
-                    label(for='CodigoIATADestino') Código IATA de Origen
-                    input#CodigoIATADestino.form-control(type='text' value=`${vueloUpdate.CodigoIATADestino}` placeholder='CodigoIATADestino' name='CodigoIATADestino')
+                    label(for='CodigoIATADestino') Código IATA de Destino
+                    select#CodigoIATADestino.select.form-control.input-lg(type='text' value=`${vueloUpdate.CodigoIATADestino}` name='CodigoIATADestino')
+                      - for (var i = 0; i< aeropuertos.length; i++)
+                        option(value=`${aeropuertos[i].CodigoIATA}` selected=(vueloUpdate.CodigoIATADestino==aeropuertos[i].CodigoIATA)) #{aeropuertos[i].CodigoIATA}
                   .form-group
                     label(for='HoraSalida') Hora de Salida (Local Origen)
                     input#HoraSalida.form-control(type='time' value=`${vueloUpdate.HoraSalida}` placeholder='HoraSalida' name='HoraSalida')
@@ -58,27 +66,36 @@ block content
                   .form-group
                     label(for='Estado') Estado
                     select#Estado.form-control(type='text' name='Estado')
-                        option(value='A Tiempo') A Tiempo
-                        option(value='Retrasado') Retrasado
-                        option(value='Cancelado') Candelado
+                      option(value='A TIEMPO' selected=(vueloUpdate.Estado=='A TIEMPO')) A TIEMPO
+                      option(value='DEMORADO' selected=(vueloUpdate.Estado=='A TIEMPO')) DEMORADO
+                      option(value='CANCELADO' selected=(vueloUpdate.Estado=='A TIEMPO')) CANCELADO
+                      option(value='EN VUELO' selected=(vueloUpdate.Estado=='A TIEMPO')) EN VUELO
+                      option(value='ATERRIZO' selected=(vueloUpdate.Estado=='A TIEMPO')) ATERRIZÓ
+                      option(value='DESVIADO' selected=(vueloUpdate.Estado=='A TIEMPO')) DESVIADO
                   .form-group
                   button.btn.btn-danger(type="submit") Modificar
-        h4.mt-5 Agregar una nueva ruta
+        h4.mt-5 Agregar un nuevo vuelo
           div.card.bg-dark
             div.card-body.text-white
               form(action='create/' method="POST")
                   .form-group
-                    label(for='IDRuta') ID Ruta
-                    input#IDRuta.form-control(type='number' placeholder='IDRuta' name='IDRuta')
+                    label(for='IDRuta') Ruta
+                    select#IDRuta.select.form-control.input-lg(type='number' placeholder='Origen - Destino' name='IDRuta')
+                      - for (var i = 0; i < rutas.length; i++)
+                        option(value=`${rutas[i].ID}`) #{rutas[i].CodigoIATAOrigen} - #{rutas[i].CodigoIATADestino}, Salida #{rutas[i].HoraSalida}
                   .form-group
                     label(for='Fecha') Fecha
                     input#Fecha.form-control(type='date' placeholder='Fecha' name='Fecha')
                   .form-group
                     label(for='IDAvion') Avión
-                    input#IDAvion.form-control(type='number' placeholder='IDAvion' name='IDAvion')
+                    select#IDAvion.select.form-control.input-lg(type='number' placeholder='Avión' name='IDAvion')
+                      - for (var i = 0; i < aviones.length; i++)
+                        option(value=`${aviones[i].ID}`) #{aviones[i].ID}
                   .form-group
-                    label(for='CodigoIATADestino') Codigo IATA de Origen
-                    input#CodigoIATADestino.form-control(type='text' placeholder='CodigoIATADestino' name='CodigoIATADestino')
+                    label(for='CodigoIATADestino') Codigo IATA de Destino
+                    select#CodigoIATADestino.select.form-control.input-lg(type='text' placeholder='CodigoIATADestino' name='CodigoIATADestino')
+                      - for (var i = 0; i< aeropuertos.length; i++)
+                        option(value=`${aeropuertos[i].CodigoIATA}`) #{aeropuertos[i].CodigoIATA}
                   .form-group
                     label(for='HoraSalida') Hora de Salida (Local Origen)
                     input#HoraSalida.form-control(type='time' placeholder='HoraSalida' name='HoraSalida')
@@ -88,8 +105,11 @@ block content
                   .form-group
                     label(for='Estado') Estado
                     select#Estado.form-control(type='text' name='Estado')
-                        option(value='A Tiempo' selected='true') A Tiempo
-                        option(value='Retrasado') Retrasado
-                        option(value='Cancelado') Candelado
+                        option(value='A TIEMPO' selected='true') A TIEMPO
+                        option(value='DEMORADO') DEMORADO
+                        option(value='CANCELADO') CANCELADO
+                        option(value='EN VUELO') EN VUELO
+                        option(value='ATERRIZO') ATERRIZÓ
+                        option(value='DESVIADO') DESVIADO
                   .form-group
                     button.btn.btn-primary(type='submit') Agregar

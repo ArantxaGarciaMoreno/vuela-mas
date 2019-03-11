@@ -24,34 +24,39 @@ block content
               td #{alquileres[i].FechaDevolucion}
               td #{alquileres[i].MontoPagado}
               td
-                form(action=`show/${alquileres[i].IDProveedor}_${alquileres[i].IDAvion}`,method="GET")
+                form(action=`show/${alquileres[i].IDProveedor}/${alquileres[i].IDAvion}/${alquileres[i].FechaSolicitud}/`,method="GET")
                   button.btn.btn-outline-danger(type='submit') Modificar
               td
-                form(action=`delete/${alquileres[i].IDProveedor}_${alquileres[i].IDAvion}`,method="POST")
+                form(action=`delete/${alquileres[i].IDProveedor}/${alquileres[i].IDAvion}/${alquileres[i].FechaSolicitud}`,method="POST")
                   button.btn.btn-outline-danger(type='submit') Eliminar
         - if(alquilerUpdate)
           h4.mt-5 Modificar Datos
             div.card.bg-dark
               div.card-body.text-white
-                form(action=`update/${alquilerUpdate[0].IDProveedor}_${alquilerUpdate[0].IDAvion}` method="POST")
+                form(action=`update/${alquilerUpdate[0].IDProveedor}/${alquilerUpdate[0].IDAvion}/${alquilerUpdate[0].FechaSolicitud}` method="POST")
                   .form-group
-                    label(for="IDProveedor") IDProveedor
-                    input#IDProveedor.form-control(type="number" value=`${alquilerUpdate[0].IDProveedor}` aria-describedby='IDProveedor' placeholder='IDProveedor' name='IDProveedor')
+                    label(for="IDProveedor") ID Proveedor
+                    select#IDProveedor.select.form-control.input-lg(type="number" name='IDProveedor')
+                      - for (var i = 0; i < proveedores.length; i++)
+                        option(value=`${proveedores[i].ID}` selected=(alquilerUpdate.IDProveedor==proveedores[i].ID)) #{proveedores[i].Nombre}
                   .form-group
-                    label(for='IDAvion') IDAvion
-                    input#IDAvion.form-control(type='number' value=`${alquilerUpdate[0].IDAvion}` placeholder='IDAvion' name='IDAvion')
+                    label(for='IDAvion') ID Avión
+                    select#IDAvion.select.form-control.input-lg(type='number' name='IDAvion')
+                      - for (var i = 0; i < aviones.length; i++)
+                        option(value=`${aviones[i].ID}` selected=(alquilerUpdate.IDAvion==aviones[i].ID)) #{aviones[i].ID}
                   .form-group
-                    label(for='FechaSolicitud') FechaSolicitud
+                    label(for='FechaSolicitud') Fecha de Solicitud
                     input#FechaSolicitud.form-control(type='date' value= `${alquilerUpdate[0].FechaSolicitud}` placeholder='FechaSolicitud' name='FechaSolicitud')
                   .form-group
-                    label(for='FechaEntrega') FechaEntrega
+                    label(for='FechaEntrega') Fecha de Entrega
                     input#FechaEntrega.form-control(type='date' value= `${alquilerUpdate[0].FechaEntrega}` placeholder='FechaEntrega' name='FechaEntrega')
                   .form-group
-                    label(for='FechaDevolucion') Fecha de Nacimiento
+                    label(for='FechaDevolucion') Fecha de Devolución
                     input#FechaDevolucion.form-control(type='date' value=`${alquilerUpdate[0].FechaDevolucion}` placeholder='FechaDevolucion' name='FechaDevolucion')
                   .form-group
                     label(for='MontoPagado') Monto Pagado
-                    input#MontoPagado.form-control(type='number' placeholder='MontoPagado' name='MontoPagado')
+                    input#MontoPagado.form-control(type='number' value=`${alquilerUpdate[0].MontoPagado}` placeholder=`${alquilerUpdate[0].MontoPagado}` name='MontoPagado')
+                  .form-group
                   button.btn.btn-danger(type="submit") Modificar
         h4.mt-5 Agregar un nuevo cliente
           div.card.bg-dark
@@ -59,10 +64,14 @@ block content
               form(action='create/' method="POST")
                 .form-group
                     label(for="IDProveedor") ID Proveedor
-                    input#IDProveedor.form-control(type="number" aria-describedby='IDProveedor' placeholder='IDProveedor' name='IDProveedor')
+                    select#IDProveedor.select.form-control.input-lg(type="number" name='IDProveedor')
+                      - for (var i = 0; i < proveedores.length; i++)
+                        option(value=`${proveedores[i].ID}`) #{proveedores[i].Nombre}
                 .form-group
                     label(for='IDAvion') ID Avión
-                    input#IDAvion.form-control(type='number' placeholder='IDAvion' name='IDAvion')
+                    select#IDAvion.select.form-control.input-lg(type='number' name='IDAvion')
+                      - for (var i = 0; i < aviones.length; i++)
+                        option(value=`${aviones[i].ID}`) #{aviones[i].ID}
                 .form-group
                     label(for='FechaSolicitud') Fecha de Solicitud
                     input#FechaSolicitud.form-control(type='date' placeholder='FechaSolicitud' name='FechaSolicitud')
@@ -70,7 +79,7 @@ block content
                     label(for='FechaEntrega') Fecha de Entrega
                     input#FechaEntrega.form-control(type='date' placeholder='FechaEntrega' name='FechaEntrega')
                 .form-group
-                    label(for='FechaDevolucion') Fecha de Devolucion
+                    label(for='FechaDevolucion') Fecha de Devolución
                     input#FechaDevolucion.form-control(type='date' placeholder='FechaDevolucion' name='FechaDevolucion')
                 .form-group
                     label(for='MontoPagado') Monto Pagado

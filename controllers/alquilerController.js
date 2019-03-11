@@ -21,13 +21,14 @@ controller.getAlquileres = async function (callback) {
 }
 
 //Obtiene el Alquiler cuyos atributos se quieren actualizar
-controller.getAlquilerUpdate = async function (IDProveedor, IDAvion, callback) {
+controller.getAlquilerUpdate = async function (IDProveedor, IDAvion, FechaSolicitud, callback) {
     try {
         let response = await Alquiler.findAll({
             where: {
                 Activo: 1,
                 IDProveedor,
-                IDAvion
+                IDAvion,
+                FechaSolicitud
             }
         });
         let alquilerUpdate = response.map(result => result.dataValues);
@@ -39,7 +40,7 @@ controller.getAlquilerUpdate = async function (IDProveedor, IDAvion, callback) {
 }
 
 //Actualiza los atributos del Alquiler modificado
-controller.updateAlquiler = async function (data, IDProveedor, IDAvion, callback) {
+controller.updateAlquiler = async function (data, IDProveedor, IDAvion, FechaSolicitud, callback) {
     try {
         let response = await Alquiler.update({
             IDProveedor: data.IDProveedor,
@@ -51,7 +52,8 @@ controller.updateAlquiler = async function (data, IDProveedor, IDAvion, callback
         }, {
                 where: {
                     IDProveedor,
-                    IDAvion
+                    IDAvion,
+                    FechaSolicitud
                 }
             });
         callback(null);
@@ -61,14 +63,15 @@ controller.updateAlquiler = async function (data, IDProveedor, IDAvion, callback
 }
 
 //Desactiva un Alquiler (Activo = 0)
-controller.deleteAlquiler = async function (IDProveedor, IDAvion, callback) {
+controller.deleteAlquiler = async function (IDProveedor, IDAvion, FechaSolicitud, callback) {
     try {
         let response = await Alquiler.update({
             Activo: 0
         }, {
                 where: {
                     IDProveedor,
-                    IDAvion
+                    IDAvion,
+                    FechaSolicitud
                 }
             });
         callback(null);

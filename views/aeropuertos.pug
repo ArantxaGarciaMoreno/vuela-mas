@@ -8,17 +8,20 @@ block content
             table.table.bg-white
               thead
                 tr
-                  th(scope='col') Codigo IATA
-                  th(scope='col') Ciudad
-                  th(scope='col') Pais
-                  th(scope='col') Zona Horaria
+                th(scope='col') Código IATA
+                th(scope='col') Ciudad
+                th(scope='col') Pais
+                th(scope='col') Zona Horaria
               tbody
                 - for (var i = 0; i < aeropuertos.length; i++)
                   tr
                     th(scope='row') #{aeropuertos[i].CodigoIATA}
                     td #{aeropuertos[i].Ciudad}
                     td #{aeropuertos[i].Pais}
-                    td #{aeropuertos[i].ZonaHoraria}
+                    - if(aeropuertos[i].ZonaHoraria > 0)
+                      td UTC +#{aeropuertos[i].ZonaHoraria}:00
+                    - else 
+                      td UTC #{aeropuertos[i].ZonaHoraria}:00
                     td
                       form(action=`show/${aeropuertos[i].CodigoIATA}`,method="GET")
                         button.btn.btn-outline-danger(type='submit') Modificar
@@ -28,49 +31,50 @@ block content
                     td
                       form(action=`pistas/${aeropuertos[i].CodigoIATA}`,method="GET")
                         button.btn.btn-outline-danger(type='submit') Pistas
-      h4.mt-5 Agregar un nuevo aeropuerto
-        div.card.bg-dark
-          div.card-body.text-white
-            form(action='create/' method="POST")
-              .form-group
-                label(for='CodigoIATA') Codigo IATA
-                input#CodigoIATA.form-control(type='text' aria-describedby='CodigoIATA' placeholder='CodigoIATA' name='CodigoIATA' required onkeyup = "javascript:this.value=this.value.toUpperCase();")
-              .form-group
-                label(for='Ciudad') Ciudad
-                input#Ciudad.form-control(type='text' placeholder='Ciudad' name='Ciudad')
-              .form-group
-                label(for='Pais') Pais
-                input#Pais.form-control(type='text' placeholder='Pais' name='Pais')
-              .form-group
-                label(for='ZonaHoraria') Zona Horaria
-                select#Pais.select.form-control.input-lg(type='number' name='ZonaHoraria')
-                  option(value='-12') UTC -12:00
-                  option(value='-11') UTC -11:00
-                  option(value='-10') UTC -10:00
-                  option(value='-9') UTC -9:00
-                  option(value='-8') UTC -8:00
-                  option(value='-7') UTC -7:00
-                  option(value='-6') UTC -6:00
-                  option(value='-5') UTC -5:00
-                  option(value='-4') UTC -4:00
-                  option(value='-3') UTC -3:00
-                  option(value='-2') UTC -2:00
-                  option(value='-1') UTC -1:00
-                  option(value='0' selected=true) UTC ±0:00
-                  option(value='1') UTC +1:00
-                  option(value='2') UTC +2:00
-                  option(value='3') UTC +3:00
-                  option(value='4') UTC +4:00
-                  option(value='5') UTC +5:00
-                  option(value='6') UTC +6:00
-                  option(value='7') UTC +7:00
-                  option(value='8') UTC +8:00
-                  option(value='9') UTC +9:00
-                  option(value='10') UTC +10:00
-                  option(value='11') UTC +11:00
-                  option(value='12') UTC +12:00
-              .form-group
-                button.btn.btn-primary(type='submit') Agregar
+      - if(!aeropuertosUpdate)
+        h4.mt-5 Agregar un nuevo aeropuerto
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action='create/' method="POST")
+                .form-group
+                  label(for='CodigoIATA') Codigo IATA
+                  input#CodigoIATA.form-control(type='text' aria-describedby='CodigoIATA' placeholder='CodigoIATA' name='CodigoIATA' required onkeyup = "javascript:this.value=this.value.toUpperCase();")
+                .form-group
+                  label(for='Ciudad') Ciudad
+                  input#Ciudad.form-control(type='text' placeholder='Ciudad' name='Ciudad')
+                .form-group
+                  label(for='Pais') Pais
+                  input#Pais.form-control(type='text' placeholder='Pais' name='Pais')
+                .form-group
+                  label(for='ZonaHoraria') Zona Horaria
+                  select#Pais.select.form-control.input-lg(type='number' name='ZonaHoraria')
+                    option(value='-12') UTC -12:00
+                    option(value='-11') UTC -11:00
+                    option(value='-10') UTC -10:00
+                    option(value='-9') UTC -9:00
+                    option(value='-8') UTC -8:00
+                    option(value='-7') UTC -7:00
+                    option(value='-6') UTC -6:00
+                    option(value='-5') UTC -5:00
+                    option(value='-4') UTC -4:00
+                    option(value='-3') UTC -3:00
+                    option(value='-2') UTC -2:00
+                    option(value='-1') UTC -1:00
+                    option(value='0' selected=true) UTC ±0:00
+                    option(value='1') UTC +1:00
+                    option(value='2') UTC +2:00
+                    option(value='3') UTC +3:00
+                    option(value='4') UTC +4:00
+                    option(value='5') UTC +5:00
+                    option(value='6') UTC +6:00
+                    option(value='7') UTC +7:00
+                    option(value='8') UTC +8:00
+                    option(value='9') UTC +9:00
+                    option(value='10') UTC +10:00
+                    option(value='11') UTC +11:00
+                    option(value='12') UTC +12:00
+                .form-group
+                  button.btn.btn-primary(type='submit') Agregar
     - if(aeropuertosUpdate)
       h4.mt-5 Modificar Aeropuerto
         div.card.bg-dark

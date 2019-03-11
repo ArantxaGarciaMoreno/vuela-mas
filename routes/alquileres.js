@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const alquilerController = require("../controllers/alquilerController");
+const proveedorController = require("../controllers/proveedorController");
+const avionController = require("../controllers/avionController");
 
 router.get("/", (req, res) => {
     alquilerController.getAlquileres((alquileres, err) => {
@@ -9,14 +11,34 @@ router.get("/", (req, res) => {
                 success: false,
                 msg: 'Failed to show alquileres'
             });
-        else
-            res.render("alquileres", { alquileres });
+        else {
+            proveedorController.getProveedores((proveedores, err) => {
+                if (err) {
+                    res.json({
+                        success: false,
+                        msg: 'Failed to show proveedores'
+                    });
+                } else {
+                    avionController.getAviones((aviones, err) => {
+                        if (err) {
+                            res.json({
+                                success: false,
+                                msg: 'Failed to show aviones'
+                            });
+                        } else {
+                            res.render("alquileres", { alquileres, proveedores, aviones });
+                        }
+                    });
+                }
+            });
+        }
+            
     });
 });
 
-router.post("/delete/:IDProveedor_:IDAvion", (req, res) => {
-    if (!!req.params.CodigoIATA) {
-        alquilerController.deleteAlquiler(req.params.IDProveedor, (err) => {
+router.post("/delete/:IDProveedor/:IDAvion/:FechaSolicitud", (req, res) => {
+    if ((!!req.params.IDProveedor)&&(!!req.params.IDAvion)&&(!!req.params.FechaSolicitud)) {
+        alquilerController.deleteAlquiler(req.params.IDProveedor, req.params.IDAvion, req.params.FechaSolicitud, (err) => {
             if (err)
                 res.json({
                     success: false,
@@ -30,9 +52,9 @@ router.post("/delete/:IDProveedor_:IDAvion", (req, res) => {
 
 });
 
-router.get("/show/:IDProveedor_:IDAvion", (req, res) => {
-    if (!!req.params.IDProveedor) {
-        alquilerController.getAlquilerUpdate(req.params.IDProveedor, (alquilerUpdate, err) => {
+router.get("/show/:IDProveedor/:IDAvion/:FechaSolicitud", (req, res) => {
+    if ((!!req.params.IDProveedor)&&(!!req.params.IDAvion)&&(!!req.params.FechaSolicitud)) {
+        alquilerController.getAlquilerUpdate(req.params.IDProveedor, req.params.IDAvion, req.params.FechaSolicitud, (alquilerUpdate, err) => {
             if (err) {
                 res.json({
                     success: false,
@@ -46,7 +68,25 @@ router.get("/show/:IDProveedor_:IDAvion", (req, res) => {
                             msg: 'Failed to show alquileres'
                         });
                     } else {
-                        res.render("alquileres", { alquileres, alquilerUpdate });
+                        proveedorController.getProveedores((proveedores, err) => {
+                            if (err) {
+                                res.json({
+                                    success: false,
+                                    msg: 'Failed to show proveedores'
+                                });
+                            } else {
+                                avionController.getAviones((aviones, err) => {
+                                    if (err) {
+                                        res.json({
+                                            success: false,
+                                            msg: 'Failed to show aviones'
+                                        });
+                                    } else {
+                                        res.render("alquileres", { alquileres, proveedores, aviones, alquilerUpdate });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             }
@@ -54,9 +94,9 @@ router.get("/show/:IDProveedor_:IDAvion", (req, res) => {
     }
 });
 
-router.post("/show/update/:IDProveedor_:IDAvion", (req, res) => {
+router.post("/show/:IDProveedor/:IDAvion/:FechaSolicitud/update/:IDProveedor/:IDAvion/:FechaSolicitud", (req, res) => {
     if (!!req.body) {
-        alquilerController.updateAeropuerto(req.body, req.params.IDProveedor, (err) => {
+        alquilerController.updateAlquiler(req.body, req.params.IDProveedor, req.params.IDAvion, req.params.FechaSolicitud, (err) => {
             if (err)
                 res.json({
                     success: false,
@@ -84,6 +124,6 @@ router.post("/create", (req, res) => {
     }
 });
 
-router.get("/alquileres/:IDProveedor_:IDAvion");
+router.get("/alquileres/:IDProveedor/:IDAvion/:FechaSolicitud");
 
 module.exports = router;

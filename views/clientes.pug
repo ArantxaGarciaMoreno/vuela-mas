@@ -52,28 +52,29 @@ block content
                     label(for='FechaNacimiento') Fecha de Nacimiento
                     input#FechaNacimiento.form-control(type='date' value=`${clienteUpdate[0].FechaNacimiento}` placeholder='FechaNacimiento' name='FechaNacimiento')
                   button.btn.btn-danger(type="submit") Modificar
-        h4.mt-5 Agregar un nuevo cliente
-          div.card.bg-dark
-            div.card-body.text-white
-              form(action='create/' method="POST")
-                .form-group
+        - else 
+          h4.mt-5 Agregar un nuevo cliente
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action='create/' method="POST")
+                  .form-group
                     label(for="Pasaporte") Pasaporte
                     input#Pasaporte.form-control(type="text" aria-describedby='Pasaporte' placeholder='Pasaporte' name='Pasaporte')
-                .form-group
+                  .form-group
                     label(for='Nombre') Nombre
                     input#Nombre.form-control(type='text' placeholder='Nombre' name='Nombre')
-                .form-group
+                  .form-group
                     label(for='Apellido') Apellido
                     input#Apellido.form-control(type='text' placeholder='Apellido' name='Apellido')
-                .form-group
+                  .form-group
                     label(for='PaisNacimiento') Pais de Nacimiento
                     select#PaisNacimiento.select.form-control.input-lg(type='text' name='PaisNacimiento')
                       option(value='Emiratos Árabes Unidos') Emiratos Árabes Unidos
                       option(value='Estados Unidos de América') Estados Unidos de América
                       option(value='Francia') Francia
                       option(value='Venezuela') Venezuela
-                .form-group
+                  .form-group
                     label(for='FechaNacimiento') Fecha de Nacimiento
                     input#FechaNacimiento.form-control(type='date' placeholder='FechaNacimiento' name='FechaNacimiento')
-                .form-group
+                  .form-group
                     button.btn.btn-primary(type='submit') Agregar

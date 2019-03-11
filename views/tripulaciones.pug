@@ -1,0 +1,56 @@
+extends base
+block content
+  .container.pt-4
+    h2 Tripulaciones
+    .row.mt-5
+      .col-12
+        table.table.bg-white
+          thead
+            tr
+              th(scope='col') ID Empleado
+              th(scope='col') ID Vuelo Trabajado
+
+          tbody
+          - for (var i = 0; i < tripulaciones.length; i++)
+            tr
+              th(scope='row') #{tripulaciones[i].IDEmpleado}
+              td #{tripulaciones[i].IDVueloTrabajado}
+              td
+                form(action=`show/${tripulaciones[i].IDEmpleado}/${tripulaciones[i].IDVueloTrabajado}/`,method="GET")
+                  button.btn.btn-outline-danger(type='submit') Modificar
+              td
+                form(action=`delete/${tripulaciones[i].IDEmpleado}/${tripulaciones[i].IDVueloTrabajado}`,method="POST")
+                  button.btn.btn-outline-danger(type='submit') Eliminar
+        - if(tripulacionUpdate)
+          h4.mt-5 Modificar Datos
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action=`update/${tripulacionUpdate[0].IDEmpleado}/${tripulacionUpdate[0].IDVueloTrabajado}` method="POST")
+                  .form-group
+                    label(for="IDEmpleado") ID Empleado
+                    select#IDEmpleado.select.form-control.input-lg(type="number" name='IDEmpleado')
+                      - for (var i = 0; i < empleados.length; i++)
+                        option(value=`${empleados[i].ID}` selected=(tripulacionUpdate.IDEmpleado==empleados[i].ID)) #{empleados[i].ID}
+                  .form-group
+                    label(for='IDVueloTrabajado') ID Vuelo Trabajado
+                    select#IDVueloTrabajado.select.form-control.input-lg(type='number' name='IDVueloTrabajado')
+                      - for (var i = 0; i < vuelos.length; i++)
+                        option(value=`${vuelos[i].ID}` selected=(tripulacionUpdate.IDVueloTrabajado==vuelos[i].ID)) #{vuelos[i].ID}
+                  .form-group
+                  button.btn.btn-danger(type="submit") Modificar
+        h4.mt-5 Agregar un nuevo miembro de tripulación
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action='create/' method="POST")
+                .form-group
+                    label(for="IDEmpleado") ID Empleado
+                    select#IDEmpleado.select.form-control.input-lg(type="number" name='IDEmpleado')
+                      - for (var i = 0; i < empleados.length; i++)
+                        option(value=`${empleados[i].ID}`) #{empleados[i].ID}
+                .form-group
+                    label(for='IDVueloTrabajado') ID Vuelo Trabajado
+                    select#IDVueloTrabajado.select.form-control.input-lg(type='number' name='IDVueloTrabajado')
+                      - for (var i = 0; i < vuelos.length; i++)
+                        option(value=`${vuelos[i].ID}`) #{vuelos[i].ID}
+                .form-group
+                    button.btn.btn-primary(type='submit') Agregar

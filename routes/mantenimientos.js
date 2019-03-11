@@ -97,6 +97,14 @@ router.post("/create", (req, res) => {
     if (!!req.body) {
         if(req.body.FechaSalida == ''){
             req.body.FechaSalida = '0001-01-01'
+            avionController.updateEstadoAvion('EN REPARACIÓN', req.body.IDAvion, (err) => {
+                if(err)
+                    res.json({
+                        success: false,
+                        msg: 'Failed to update Estado Avion'
+                    });
+                
+            });
         }
         mantenimientoController.createMantenimiento(req.body, (err) => {
             console.log(err)

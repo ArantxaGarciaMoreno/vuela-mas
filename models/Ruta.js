@@ -33,7 +33,7 @@ const Ruta = db.define('Ruta', {
     CodigoIATADestino: {
         type: sequelize.STRING,
         allowNull: false,
-        anique: 'compositeIndex',
+        unique: 'compositeIndex',
 
         references: {
             model: AeropuertoD,
@@ -60,6 +60,7 @@ const Ruta = db.define('Ruta', {
     HoraSalida: {
         type: sequelize.TIME,
         allowNull: false,
+        unique: 'compositeIndex',
 
         validate: {
             notEmpty: true

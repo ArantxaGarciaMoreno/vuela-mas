@@ -1,0 +1,48 @@
+extends base
+block content
+  .container.pt-4
+    h2 Teléfonos
+    .row.mt-5
+      .col-12
+        table.table.bg-white
+          thead
+            tr
+              th(scope='col') Pasaporte
+              th(scope='col') Teléfono
+
+          tbody
+          - for (var i = 0; i < telefonos.length; i++)
+            tr
+              th(scope='row') #{telefonos[i].IDPersona}
+              td #{telefonos[i].Telefono}
+              td
+                form(action=`show/${telefonos[i].IDPersona}`,method="GET")
+                  button.btn.btn-outline-danger(type='submit') Modificar
+              td
+                form(action=`delete/${telefonos[i].IDPersona}`,method="POST")
+                  button.btn.btn-outline-danger(type='submit') Eliminar
+        - if(telefonoUpdate)
+          h4.mt-5 Modificar Datos
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action=`update/${telefonoUpdate[0].IDPersona}` method="POST")
+                  .form-group
+                    label(for="IDPersona") ID Empleado
+                    input#IDPersona.form-control(type="text" value=`${telefonoUpdate[0].IDPersona}` placeholder='IDPersona' name='IDPersona')
+                  .form-group
+                    label(for='Telefono') ID Vuelo Trabajado
+                    input#Telefono.form-control(type='text' value=`${telefonoUpdate[0].Telefono}` placeholder='Telefono' name='Telefono')
+                  .form-group
+                  button.btn.btn-danger(type="submit") Modificar
+        h4.mt-5 Agregar un nuevo miembro de tripulación
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action='create/' method="POST")
+                .form-group
+                    label(for="IDPersona") ID Empleado
+                    input#IDPersona.form-control(type="text" placeholder='IDPersona' name='IDPersona')
+                .form-group
+                    label(for='Telefono') ID Vuelo Trabajado
+                    input#Telefono.form-control(type='text' placeholder='Telefono' name='Telefono')
+                .form-group
+                    button.btn.btn-primary(type='submit') Agregar
