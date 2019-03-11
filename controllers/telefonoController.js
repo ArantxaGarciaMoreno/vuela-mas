@@ -5,10 +5,11 @@ const Telefono = require('../models/Telefonos');
 const controller = {};
 
 //Obtiene todos los telefonos
-controller.getTelefonos = async function (callback) {
+controller.getTelefonos = async function (ID, callback) {
     try {
         let response = await Telefono.findAll({
             where: {
+                
                 Activo: 1
             },
         });

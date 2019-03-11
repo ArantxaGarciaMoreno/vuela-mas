@@ -9,23 +9,27 @@ block content
             tr
               th(scope='col') ID Empleado
               th(scope='col') ID Vuelo Trabajado
-
           tbody
-          - for (var i = 0; i < tripulaciones.length; i++)
+          - if (!tripulacionUpdate)
+            - for (var i = 0; i < tripulaciones.length; i++)
+              tr
+                th(scope='row') #{tripulaciones[i].IDEmpleado}
+                td #{tripulaciones[i].IDVueloTrabajado}
+                td
+                  form(action=`show/${tripulaciones[i].IDEmpleado}/${tripulaciones[i].IDVueloTrabajado}/`,method="GET")
+                    button.btn.btn-outline-danger(type='submit') Modificar
+                td
+                  form(action=`delete/${tripulaciones[i].IDEmpleado}/${tripulaciones[i].IDVueloTrabajado}`,method="POST")
+                    button.btn.btn-outline-danger(type='submit') Eliminar
+          - else
             tr
-              th(scope='row') #{tripulaciones[i].IDEmpleado}
-              td #{tripulaciones[i].IDVueloTrabajado}
-              td
-                form(action=`show/${tripulaciones[i].IDEmpleado}/${tripulaciones[i].IDVueloTrabajado}/`,method="GET")
-                  button.btn.btn-outline-danger(type='submit') Modificar
-              td
-                form(action=`delete/${tripulaciones[i].IDEmpleado}/${tripulaciones[i].IDVueloTrabajado}`,method="POST")
-                  button.btn.btn-outline-danger(type='submit') Eliminar
+              th(scope='row') #{tripulacionUpdate.IDEmpleado}
+              td #{tripulacionUpdate.IDVueloTrabajado}
         - if(tripulacionUpdate)
           h4.mt-5 Modificar Datos
             div.card.bg-dark
               div.card-body.text-white
-                form(action=`update/${tripulacionUpdate[0].IDEmpleado}/${tripulacionUpdate[0].IDVueloTrabajado}` method="POST")
+                form(action=`update/${tripulacionUpdate.IDEmpleado}/${tripulacionUpdate.IDVueloTrabajado}` method="POST")
                   .form-group
                     label(for="IDEmpleado") ID Empleado
                     select#IDEmpleado.select.form-control.input-lg(type="number" name='IDEmpleado')

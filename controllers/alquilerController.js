@@ -23,7 +23,7 @@ controller.getAlquileres = async function (callback) {
 //Obtiene el Alquiler cuyos atributos se quieren actualizar
 controller.getAlquilerUpdate = async function (IDProveedor, IDAvion, FechaSolicitud, callback) {
     try {
-        let response = await Alquiler.findAll({
+        let alquilerUpdate = await Alquiler.findOne({
             where: {
                 Activo: 1,
                 IDProveedor,
@@ -31,7 +31,6 @@ controller.getAlquilerUpdate = async function (IDProveedor, IDAvion, FechaSolici
                 FechaSolicitud
             }
         });
-        let alquilerUpdate = response.map(result => result.dataValues);
         console.log(alquilerUpdate);
         callback(alquilerUpdate, null);
     } catch (error) {

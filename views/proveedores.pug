@@ -3,30 +3,30 @@ block content
   .container.pt-4
     - if (proveedores)
       h2 Proveedores 
-        .row.mt-5
-          .col-12
-            table.table.bg-white
-              thead
+      .row.mt-5
+        .col-12
+          table.table.bg-white
+            thead
+              tr
+                th(scope='col') Nombre
+                th(scope='col') Ciudad
+                th(scope='col') Pais           
+            tbody
+              - for (var i = 0; i < proveedores.length; i++)
                 tr
-                  th(scope='col') Nombre
-                  th(scope='col') Ciudad
-                  th(scope='col') Pais           
-              tbody
-                - for (var i = 0; i < proveedores.length; i++)
-                  tr
-                    th(scope='row') #{proveedores[i].Nombre}
-                    td #{proveedores[i].Ciudad}
-                    td #{proveedores[i].Pais}
-                    - if(!modelosProveedor)
-                      td
-                        form(action=`show/${proveedores[i].ID}`,method="GET")
-                          button.btn.btn-outline-danger(type='submit') Modificar
-                      td
-                        form(action=`delete/${proveedores[i].ID}`,method="POST")
-                          button.btn.btn-outline-danger(type='submit') Eliminar
-                      td
-                        form(action=`detalles/${proveedores[i].ID}`,method="GET")
-                          button.btn.btn-outline-danger(type='submit') Oferta
+                  th(scope='row') #{proveedores[i].Nombre}
+                  td #{proveedores[i].Ciudad}
+                  td #{proveedores[i].Pais}
+                  - if(!modelosProveedor)
+                    td
+                      form(action=`show/${proveedores[i].ID}`,method="GET")
+                        button.btn.btn-outline-danger(type='submit') Modificar
+                    td
+                      form(action=`delete/${proveedores[i].ID}`,method="POST")
+                        button.btn.btn-outline-danger(type='submit') Eliminar
+                    td
+                      form(action=`detalles/${proveedores[i].ID}`,method="GET")
+                        button.btn.btn-outline-danger(type='submit') Oferta
     - if (proveedorDetalle)
       h2 Proveedor 
         .row.mt-5

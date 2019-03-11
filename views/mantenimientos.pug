@@ -14,22 +14,33 @@ block content
               th(scope='col') Descripción
 
           tbody
-          - for (var i = 0; i < mantenimientos.length; i++)
+          - if (!mantenimientoUpdate)
+            - for (var i = 0; i < mantenimientos.length; i++)
+              tr
+                th(scope='row') #{mantenimientos[i].IDAvion}
+                th #{mantenimientos[i].FechaEntrada}
+                - if(mantenimientos[i].FechaSalida == '0001-01-01')
+                  td.text-danger Todavia en mantenimiento
+                - else
+                  td #{mantenimientos[i].FechaSalida}
+                td #{mantenimientos[i].Tipo}
+                td #{mantenimientos[i].Descripcion}
+                td
+                  form(action=`show/${mantenimientos[i].IDAvion}-${mantenimientos[i].FechaEntrada}`,method="GET")
+                    button.btn.btn-outline-danger(type='submit') Modificar
+                td
+                  form(action=`delete/${mantenimientos[i].IDAvion}-${mantenimientos[i].FechaEntrada}`,method="POST")
+                    button.btn.btn-outline-danger(type='submit') Eliminar
+          - else
             tr
-              th(scope='row') #{mantenimientos[i].IDAvion}
-              th #{mantenimientos[i].FechaEntrada}
-              - if(mantenimientos[i].FechaSalida == '0001-01-01')
-                td.text-danger Todavia en mantenimiento
-              - else
-                td #{mantenimientos[i].FechaSalida}
-              td #{mantenimientos[i].Tipo}
-              td #{mantenimientos[i].Descripcion}
-              td
-                form(action=`show/${mantenimientos[i].IDAvion}-${mantenimientos[i].FechaEntrada}`,method="GET")
-                  button.btn.btn-outline-danger(type='submit') Modificar
-              td
-                form(action=`delete/${mantenimientos[i].IDAvion}-${mantenimientos[i].FechaEntrada}`,method="POST")
-                  button.btn.btn-outline-danger(type='submit') Eliminar
+                th(scope='row') #{mantenimientoUpdate.IDAvion}
+                th #{mantenimientoUpdate.FechaEntrada}
+                - if(mantenimientoUpdate.FechaSalida == '0001-01-01')
+                  td.text-danger Todavia en mantenimiento
+                - else
+                  td #{mantenimientoUpdate.FechaSalida}
+                td #{mantenimientoUpdate.Tipo}
+                td #{mantenimientoUpdate.Descripcion}
         - if(mantenimientoUpdate)
           h4.mt-5 Modificar Datos del Mantenimiento
             div.card.bg-dark

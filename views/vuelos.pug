@@ -16,26 +16,26 @@ block content
               th(scope='col') Hora de Llegada (Local Destino)
               th(scope='col') Estado
           tbody
-          - for (var i = 0; i < vuelos.length; i++)
-            tr
-              th(scope='row') #{vuelos[i].ID}
-              - for (var j = 0; j < rutas.length; j++)
-                - if(rutas[j].ID == vuelos[i].IDRuta)
-                  td #{rutas[j].CodigoIATAOrigen}-#{rutas[j].CodigoIATADestino}
-              td #{vuelos[i].Fecha}
-              td #{vuelos[i].IDAvion}
-              - for (var j = 0; j < aeropuertos.length; j++)
-                - if (aeropuertos[j].CodigoIATA == vuelos[i].CodigoIATADestino)
-                  td #{aeropuertos[j].Ciudad}, #{aeropuertos[j].Pais}
-              td #{vuelos[i].HoraSalida}
-              td #{vuelos[i].HoraLlegada}
-              td #{vuelos[i].Estado}
-              td
-                form(action=`show/${vuelos[i].ID}`,method="GET")
-                  button.btn.btn-outline-danger(type='submit') Modificar
-              td
-                form(action=`delete/${vuelos[i].ID}`,method="POST")
-                  button.btn.btn-outline-danger(type='submit') Eliminar
+            - for (var i = 0; i < vuelos.length; i++)
+              tr
+                th(scope='row') #{vuelos[i].ID}
+                - for (var j = 0; j < rutas.length; j++)
+                  - if(rutas[j].ID == vuelos[i].IDRuta)
+                    td #{rutas[j].CodigoIATAOrigen}-#{rutas[j].CodigoIATADestino}
+                td #{vuelos[i].Fecha}
+                td #{vuelos[i].IDAvion}
+                - for (var j = 0; j < aeropuertos.length; j++)
+                  - if (aeropuertos[j].CodigoIATA == vuelos[i].CodigoIATADestino)
+                    td #{aeropuertos[j].Ciudad}, #{aeropuertos[j].Pais}
+                td #{vuelos[i].HoraSalida}
+                td #{vuelos[i].HoraLlegada}
+                td #{vuelos[i].Estado}
+                td
+                  form(action=`show/${vuelos[i].ID}`,method="GET")
+                    button.btn.btn-outline-danger(type='submit') Modificar
+                td
+                  form(action=`delete/${vuelos[i].ID}`,method="POST")
+                    button.btn.btn-outline-danger(type='submit') Eliminar
         - if(vueloUpdate)
           h4.mt-5 Modificar Datos del Vuelo
             div.card.bg-dark

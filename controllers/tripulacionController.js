@@ -23,14 +23,13 @@ controller.getTripulaciones = async function (callback) {
 //Obtiene la Tripulacion cuyos atributos se quieren actualizar
 controller.getTripulacionUpdate = async function (IDEmpleado, IDVueloTrabajado, callback) {
     try {
-        let response = await Tripulacion.findAll({
+        let tripulacionUpdate = await Tripulacion.findOne({
             where: {
                 Activo: 1,
                 IDEmpleado,
                 IDVueloTrabajado
             }
         });
-        let tripulacionUpdate = response.map(result => result.dataValues);
         console.log(tripulacionUpdate);
         callback(tripulacionUpdate, null);
     } catch (error) {
