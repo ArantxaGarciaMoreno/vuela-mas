@@ -13,6 +13,7 @@ block content
                 th(scope='col') Pais
                 th(scope='col') Zona Horaria
             tbody
+            -if (!aeropuertosUpdate)
               - for (var i = 0; i < aeropuertos.length; i++)
                 tr
                   th(scope='row') #{aeropuertos[i].CodigoIATA}
@@ -20,8 +21,11 @@ block content
                   td #{aeropuertos[i].Pais}
                   - if(aeropuertos[i].ZonaHoraria > 0)
                     td UTC +#{aeropuertos[i].ZonaHoraria}:00
-                  - else 
-                    td UTC #{aeropuertos[i].ZonaHoraria}:00
+                  - else
+                    - if(aeropuertos[i].ZonaHoraria < 0)
+                      td UTC #{aeropuertos[i].ZonaHoraria}:00
+                    - else
+                      td UTC ±#{aeropuertos[i].ZonaHoraria}:00
                   td
                     form(action=`show/${aeropuertos[i].CodigoIATA}`,method="GET")
                       button.btn.btn-outline-danger(type='submit') Modificar
@@ -31,6 +35,18 @@ block content
                   td
                     form(action=`pistas/${aeropuertos[i].CodigoIATA}`,method="GET")
                       button.btn.btn-outline-danger(type='submit') Pistas
+            - else
+              tr
+                th(scope='row') #{aeropuertosUpdate.CodigoIATA}
+                td #{aeropuertosUpdate.Ciudad}
+                td #{aeropuertosUpdate.Pais}
+                - if(aeropuertosUpdate.ZonaHoraria > 0)
+                  td UTC +#{aeropuertosUpdate.ZonaHoraria}:00
+                - else
+                  - if(aeropuertosUpdate.ZonaHoraria < 0)
+                    td UTC #{aeropuertosUpdate.ZonaHoraria}:00
+                  - else
+                    td UTC ±#{aeropuertosUpdate.ZonaHoraria}:00
       - if(!aeropuertosUpdate)
         h4.mt-5 Agregue un nuevo aeropuerto
           div.card.bg-dark
@@ -41,13 +57,23 @@ block content
                   input#CodigoIATA.form-control(type='text' aria-describedby='CodigoIATA' placeholder='CodigoIATA' name='CodigoIATA' required onkeyup = "javascript:this.value=this.value.toUpperCase();")
                 .form-group
                   label(for='Ciudad') Ciudad
-                  input#Ciudad.form-control(type='text' placeholder='Ciudad' name='Ciudad')
+                  select#Ciudad.select.form-control.input-lg(type='text' placeholder='Ciudad' name='Ciudad')
+                    option(value='Atlanta') Atlanta
+                    option(value='Caracas') Caracas
+                    option(value='Dubai') Dubai
+                    option(value='Miami') Miami
+                    option(value='New York') New York
+                    option(value='París') París
                 .form-group
-                  label(for='Pais') Pais
-                  input#Pais.form-control(type='text' placeholder='Pais' name='Pais')
+                  label(for='Pais') País
+                  select#Pais.select.form-control.input-lg(type='text' placeholder='Pais' name='Pais')
+                    option(value='Emiratos Árabes Unidos') Emiratos Árabes Unidos
+                    option(value='Estados Unidos de América') Estados Unidos de América
+                    option(value='Francia') Francia
+                    option(value='Venezuela') Venezuela
                 .form-group
                   label(for='ZonaHoraria') Zona Horaria
-                  select#Pais.select.form-control.input-lg(type='number' name='ZonaHoraria')
+                  select#ZonaHoraria.select.form-control.input-lg(type='number' name='ZonaHoraria')
                     option(value='-12') UTC -12:00
                     option(value='-11') UTC -11:00
                     option(value='-10') UTC -10:00
@@ -82,10 +108,20 @@ block content
             form(action=`update/${aeropuertosUpdate.CodigoIATA}` method="POST")
               .form-group
                 label(for='Ciudad') Ciudad
-                input#Ciudad.form-control(type='text' value=`${aeropuertosUpdate.Ciudad}` placeholder='Ciudad' name='Ciudad')
+                select#Ciudad.select.form-control.input-lg(type='text' value=`${aeropuertosUpdate.Ciudad}` placeholder='Ciudad' name='Ciudad')
+                  option(value='Atlanta' selected=(aeropuertosUpdate.Ciudad=='Atlanta')) Atlanta
+                  option(value='Caracas' selected=(aeropuertosUpdate.Ciudad=='Caracas')) Caracas
+                  option(value='Dubai' selected=(aeropuertosUpdate.Ciudad=='Dubai')) Dubai
+                  option(value='Miami' selected=(aeropuertosUpdate.Ciudad=='Miami')) Miami
+                  option(value='New York' selected=(aeropuertosUpdate.Ciudad=='New York')) New York
+                  option(value='París' selected=(aeropuertosUpdate.Ciudad=='París')) París
               .form-group
                 label(for='Pais') Pais
-                input#Pais.form-control(type='text' value= `${aeropuertosUpdate.Pais}` placeholder='Pais' name='Pais')
+                select#Pais.select.form-control.input-lg(type='text' value= `${aeropuertosUpdate.Pais}` placeholder='Pais' name='Pais')
+                  option(value='Emiratos Árabes Unidos' selected=(aeropuertosUpdate.Pais=='Emiratos Árabes Unidos')) Emiratos Árabes Unidos
+                  option(value='Estados Unidos de América' selected=(aeropuertosUpdate.Pais=='Estados Unidos de América')) Estados Unidos de América
+                  option(value='Francia' selected=(aeropuertosUpdate.Pais=='Francia')) Francia
+                  option(value='Venezuela' selected=(aeropuertosUpdate.Pais=='Venezuela')) Venezuela
               .form-group
                 label(for='ZonaHoraria') Zona Horaria
                 select#ZonaHoraria.select.form-control.input-lg(type='number' name='ZonaHoraria')
