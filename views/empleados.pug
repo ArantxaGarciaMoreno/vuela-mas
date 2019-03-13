@@ -1,105 +1,157 @@
 extends base
 block content
   .container.pt-4
-    h2 Empleados 
-    .row.mt-5
-      .col-12
-        table.table.bg-white
-          thead
-            tr
-              th(scope='col') Pasaporte
-              th(scope='col') Nombre
-              th(scope='col') Apellido
-              th(scope='col') Pais de Nacimiento
-              th(scope='col') Fecha de Nacimiento
-              th(scope='col') Cargo
-          tbody
-            - for (var i = 0; i < empleados.length; i++)
+    - if(empleados)
+      h2 Empleados 
+      .row.mt-5
+        .col-12
+          table.table.bg-white
+            thead
               tr
-                th(scope='row') #{empleados[i].Pasaporte}
-                td #{empleados[i].Nombre}
-                td #{empleados[i].Apellido}
-                td #{empleados[i].PaisNacimiento}
-                td #{empleados[i].FechaNacimiento}
-                td #{empleados[i].Cargo}
-                td
-                  form(action=`show/${empleados[i].ID}`,method="GET")
-                    button.btn.btn-outline-danger(type='submit') Modificar
-                td
-                  form(action=`delete/${empleados[i].ID}`,method="POST")
-                    button.btn.btn-outline-danger(type='submit') Eliminar
-        - if(empleadoUpdate)
-          h4.mt-5 Modificar Datos del Empleado
-            div.card.bg-dark
-              div.card-body.text-white
-                form(action=`update/${empleadoUpdate.ID}` method="POST")
-                  .form-group
-                    label(for="Pasaporte") Pasaporte
-                    input#Pasaporte.form-control(type="text" value=`${empleadoUpdate.Pasaporte}` aria-describedby='Pasaporte' placeholder='Pasaporte' name='Pasaporte')
-                  .form-group
-                    label(for='Nombre') Nombre
-                    input#Nombre.form-control(type='text' value=`${empleadoUpdate.Nombre}` placeholder='Nombre' name='Nombre')
-                  .form-group
-                    label(for='Apellido') Apellido
-                    input#Apellido.form-control(type='text' value= `${empleadoUpdate.Apellido}` placeholder='Apellido' name='Apellido')
-                  .form-group
-                    label(for='PaisNacimiento') Pais de Nacimiento
-                    select#PaisNacimiento.select.form-control.input-lg(type='text' name='PaisNacimiento')
-                      option(value='Emiratos Árabes Unidos' selected=(empleadoUpdate.PaisNacimiento == 'Emiratos Árabes Unidos')) Emiratos Árabes Unidos
-                      option(value='Estados Unidos de América' selected=(empleadoUpdate.PaisNacimiento == 'Estados Unidos de América')) Estados Unidos de América
-                      option(value='Francia' selected=(empleadoUpdate.PaisNacimiento == 'Francia')) Francia
-                      option(value='Venezuela' selected=(empleadoUpdate.PaisNacimiento=='Venezuela')) Venezuela
-                  .form-group
-                    label(for='FechaNacimiento') Fecha de Nacimiento
-                    input#FechaNacimiento.form-control(type='date' value=`${empleadoUpdate.FechaNacimiento}` placeholder='FechaNacimiento' name='FechaNacimiento')
-                  .form-group
-                    label(for='Cargo') Cargo
-                    select#Cargo.select.form-control.input-lg(type='text' name='Cargo')
-                      option(value='Comandante' selected=(empleadoUpdate.Cargo=='Comandante')) Comandante
-                      option(value='Copiloto' selected=(empleadoUpdate.Cargo=='Copiloto')) Copiloto
-                      option(value='Ingeniero de Vuelo' selected=(empleadoUpdate.Cargo=='Ingeniero de Vuelo')) Ingeniero de Vuelo
-                      option(value='Sobrecargo' selected=(empleadoUpdate.Cargo=='Sobrecargo')) Sobrecargo
-                      option(value='Auxiliar de Vuelo' selected=(empleadoUpdate.Cargo=='Auxiliar de Vuelo')) Auxiliar de Vuelo
-                      option(value='Empleado de Mostrador' selected=(empleadoUpdate.Cargo=='Empleado de Mostrador')) Empleado de Mostrador
-                      option(value='Empleado de puertas de salida' selected=(empleadoUpdate.Cargo=='Empleado de puertas de salida')) Empleado de puertas de salida
-                      option(value='Administrativo' selected=(empleadoUpdate.Cargo=='Administrativo')) Administrativo
-                      option(value='Atencion al Cliente' selected=(empleadoUpdate.Cargo=='Atencion al Cliente')) Atención al Cliente
-                  button.btn.btn-danger(type="submit") Modificar
-        - else
-          h4.mt-5 Agregar un nuevo empleado
-            div.card.bg-dark
-              div.card-body.text-white
-                form(action='create/' method="POST")
-                  .form-group
-                    label(for="Pasaporte") Pasaporte
-                    input#Pasaporte.form-control(type="text" aria-describedby='Pasaporte' placeholder='Pasaporte' name='Pasaporte')
-                  .form-group
-                    label(for='Nombre') Nombre
-                    input#Nombre.form-control(type='text' placeholder='Nombre' name='Nombre')
-                  .form-group
-                    label(for='Apellido') Apellido
-                    input#Apellido.form-control(type='text' placeholder='Apellido' name='Apellido')
-                  .form-group
-                    label(for='PaisNacimiento') Pais de Nacimiento
-                    select#PaisNacimiento.select.form-control.input-lg(type='text' name='PaisNacimiento')
-                      option(value='Emiratos Árabes Unidos') Emiratos Árabes Unidos
-                      option(value='Estados Unidos de América') Estados Unidos de América
-                      option(value='Francia') Francia
-                      option(value='Venezuela') Venezuela
-                  .form-group
-                    label(for='FechaNacimiento') Fecha de Nacimiento
-                    input#FechaNacimiento.form-control(type='date' placeholder='FechaNacimiento' name='FechaNacimiento')
-                  .form-group
-                    label(for='Cargo') Cargo
-                    select#Cargo.select.form-control.input-lg(type='text' name='Cargo')
-                      option(value='Comandante') Comandante
-                      option(value='Copiloto') Copiloto
-                      option(value='Ingeniero de Vuelo') Ingeniero de Vuelo
-                      option(value='Sobrecargo') Sobrecargo
-                      option(value='Auxiliar de Vuelo') Auxiliar de Vuelo
-                      option(value='Empleado de Mostrador') Empleado de Mostrador
-                      option(value='Empleado de puertas de salida') Empleado de puertas de salida
-                      option(value='Administrativo') Administrativo
-                      option(value='Atencion al Cliente') Atención al Cliente
-                  .form-group
-                    button.btn.btn-primary(type='submit') Agregar
+                th(scope='col') Pasaporte
+                th(scope='col') Nombre
+                th(scope='col') Apellido
+                th(scope='col') Pais de Nacimiento
+                th(scope='col') Fecha de Nacimiento
+                th(scope='col') Cargo
+            tbody
+              - for (var i = 0; i < empleados.length; i++)
+                tr
+                  th(scope='row') #{empleados[i].Pasaporte}
+                  td #{empleados[i].Nombre}
+                  td #{empleados[i].Apellido}
+                  td #{empleados[i].PaisNacimiento}
+                  td #{empleados[i].FechaNacimiento}
+                  td #{empleados[i].Cargo}
+                  td
+                    form(action=`show/${empleados[i].ID}`,method="GET")
+                      button.btn.btn-outline-danger(type='submit') Modificar
+                  td
+                    form(action=`delete/${empleados[i].ID}`,method="POST")
+                      button.btn.btn-outline-danger(type='submit') Eliminar
+                  td
+                    form(action=`telefonos/${empleados[i].ID}`,method="GET")
+                      button.btn.btn-outline-danger(type='submit') Teléfonos
+      - if(empleadoUpdate)
+        h4.mt-5 Modificar Datos del Empleado
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action=`update/${empleadoUpdate.ID}` method="POST")
+                .form-group
+                  label(for="Pasaporte") Pasaporte
+                  input#Pasaporte.form-control(type="text" value=`${empleadoUpdate.Pasaporte}` aria-describedby='Pasaporte' placeholder='Pasaporte' name='Pasaporte')
+                .form-group
+                  label(for='Nombre') Nombre
+                  input#Nombre.form-control(type='text' value=`${empleadoUpdate.Nombre}` placeholder='Nombre' name='Nombre')
+                .form-group
+                  label(for='Apellido') Apellido
+                  input#Apellido.form-control(type='text' value= `${empleadoUpdate.Apellido}` placeholder='Apellido' name='Apellido')
+                .form-group
+                  label(for='PaisNacimiento') Pais de Nacimiento
+                  select#PaisNacimiento.select.form-control.input-lg(type='text' name='PaisNacimiento')
+                    option(value='Emiratos Árabes Unidos' selected=(empleadoUpdate.PaisNacimiento == 'Emiratos Árabes Unidos')) Emiratos Árabes Unidos
+                    option(value='Estados Unidos de América' selected=(empleadoUpdate.PaisNacimiento == 'Estados Unidos de América')) Estados Unidos de América
+                    option(value='Francia' selected=(empleadoUpdate.PaisNacimiento == 'Francia')) Francia
+                    option(value='Venezuela' selected=(empleadoUpdate.PaisNacimiento=='Venezuela')) Venezuela
+                .form-group
+                  label(for='FechaNacimiento') Fecha de Nacimiento
+                  input#FechaNacimiento.form-control(type='date' value=`${empleadoUpdate.FechaNacimiento}` placeholder='FechaNacimiento' name='FechaNacimiento')
+                .form-group
+                  label(for='Cargo') Cargo
+                  select#Cargo.select.form-control.input-lg(type='text' name='Cargo')
+                    option(value='Comandante' selected=(empleadoUpdate.Cargo=='Comandante')) Comandante
+                    option(value='Copiloto' selected=(empleadoUpdate.Cargo=='Copiloto')) Copiloto
+                    option(value='Ingeniero de Vuelo' selected=(empleadoUpdate.Cargo=='Ingeniero de Vuelo')) Ingeniero de Vuelo
+                    option(value='Sobrecargo' selected=(empleadoUpdate.Cargo=='Sobrecargo')) Sobrecargo
+                    option(value='Auxiliar de Vuelo' selected=(empleadoUpdate.Cargo=='Auxiliar de Vuelo')) Auxiliar de Vuelo
+                    option(value='Empleado de Mostrador' selected=(empleadoUpdate.Cargo=='Empleado de Mostrador')) Empleado de Mostrador
+                    option(value='Empleado de puertas de salida' selected=(empleadoUpdate.Cargo=='Empleado de puertas de salida')) Empleado de puertas de salida
+                    option(value='Administrativo' selected=(empleadoUpdate.Cargo=='Administrativo')) Administrativo
+                    option(value='Atencion al Cliente' selected=(empleadoUpdate.Cargo=='Atencion al Cliente')) Atención al Cliente
+                button.btn.btn-danger(type="submit") Modificar
+      - else
+        h4.mt-5 Agregar un nuevo empleado
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action='create/' method="POST")
+                .form-group
+                  label(for="Pasaporte") Pasaporte
+                  input#Pasaporte.form-control(type="text" aria-describedby='Pasaporte' placeholder='Pasaporte' name='Pasaporte')
+                .form-group
+                  label(for='Nombre') Nombre
+                  input#Nombre.form-control(type='text' placeholder='Nombre' name='Nombre')
+                .form-group
+                  label(for='Apellido') Apellido
+                  input#Apellido.form-control(type='text' placeholder='Apellido' name='Apellido')
+                .form-group
+                  label(for='PaisNacimiento') Pais de Nacimiento
+                  select#PaisNacimiento.select.form-control.input-lg(type='text' name='PaisNacimiento')
+                    option(value='Emiratos Árabes Unidos') Emiratos Árabes Unidos
+                    option(value='Estados Unidos de América') Estados Unidos de América
+                    option(value='Francia') Francia
+                    option(value='Venezuela') Venezuela
+                .form-group
+                  label(for='FechaNacimiento') Fecha de Nacimiento
+                  input#FechaNacimiento.form-control(type='date' placeholder='FechaNacimiento' name='FechaNacimiento')
+                .form-group
+                  label(for='Cargo') Cargo
+                  select#Cargo.select.form-control.input-lg(type='text' name='Cargo')
+                    option(value='Comandante') Comandante
+                    option(value='Copiloto') Copiloto
+                    option(value='Ingeniero de Vuelo') Ingeniero de Vuelo
+                    option(value='Sobrecargo') Sobrecargo
+                    option(value='Auxiliar de Vuelo') Auxiliar de Vuelo
+                    option(value='Empleado de Mostrador') Empleado de Mostrador
+                    option(value='Empleado de puertas de salida') Empleado de puertas de salida
+                    option(value='Administrativo') Administrativo
+                    option(value='Atencion al Cliente') Atención al Cliente
+                .form-group
+                  button.btn.btn-primary(type='submit') Agregar
+    - if(telefonos && empleado)
+      h2 Empleado 
+      .row.mt-5
+        .col-12
+          table.table.bg-white
+            thead
+              tr
+                th(scope='col') Pasaporte
+                th(scope='col') Nombre
+                th(scope='col') Apellido
+                th(scope='col') Pais de Nacimiento
+                th(scope='col') Fecha de Nacimiento
+                th(scope='col') Cargo
+            tbody
+              tr
+                th(scope='row') #{empleado.Pasaporte}
+                td #{empleado.Nombre}
+                td #{empleado.Apellido}
+                td #{empleado.PaisNacimiento}
+                td #{empleado.FechaNacimiento}
+                td #{empleado.Cargo}
+      h2 Teléfonos 
+      .row.mt-5
+        .col-12
+          table.table.bg-white
+            thead
+              tr
+                th(scope='col') Teléfono 
+            tbody
+              - for (var i = 0; i < telefonos.length; i++)
+                tr
+                  th(scope='row') #{telefonos[i].Telefono}
+                  td
+                    form(action=`deleteTelefono/${telefonos[i].IDEmpleado}-${telefonos[i].Telefono}`,method="POST")
+                      button.btn.btn-outline-danger(type='submit') Eliminar            
+      h4.mt-5 Agregar un nuevo telefono al empleado
+        div.card.bg-dark
+          div.card-body.text-white
+            form(action='agregarTelefono/' method="POST")
+              .form-group
+                label(for='IDEmpleado') Empleado
+                select#IDEmpleado.select.form-control.input-lg(type='number' name='IDEmpleado')
+                  option(value=`${empleado.ID}`) #{empleado.Apellido}, #{empleado.Nombre} 
+              .form-group
+                label(for='Telefono') Teléfono
+                input#Telefono.form-control(type='number' placeholder='Telefono' name='Telefono')
+              .form-group
+                button.btn.btn-primary(type='submit') Agregar                  
