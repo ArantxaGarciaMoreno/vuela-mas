@@ -35,6 +35,21 @@ controller.getEmpleadoUpdate = async function (ID, callback) {
     }
 }
 
+//Obtiene un empleado en especifico
+controller.getEmpleado = async function (ID, callback) {
+    try {
+        let empleado = await Empleado.findOne({
+            where: {
+                ID
+            }
+        });
+        console.log(empleado);
+        callback(empleado, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Actualiza los atributos del empleado modificado
 controller.updateEmpleado = async function (data, ID, callback) {
     try {

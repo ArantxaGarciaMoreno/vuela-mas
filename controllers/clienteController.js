@@ -35,6 +35,20 @@ controller.getClienteUpdate = async function (ID, callback) {
     }
 }
 
+controller.getCliente = async function (ID, callback) {
+    try {
+        let cliente = await Cliente.findOne({
+            where: {
+                ID
+            }
+        });
+        console.log(cliente);
+        callback(cliente, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Actualiza los atributos del cliente modificado
 controller.updateCliente = async function (data, ID, callback) {
     try {

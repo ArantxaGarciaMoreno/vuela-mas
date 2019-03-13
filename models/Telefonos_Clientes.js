@@ -1,28 +1,24 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
 const Cliente = require('./Cliente');
-const Empleado = require('./Empleado');
 
-const Telefonos = db.define('Telefonos', {
-    IDPersona: {
-        type: sequelize.STRING,
+const Telefonos_Clientes = db.define('Telefonos_Clientes', {
+    IDCliente: {
+        type: sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
 
         references: {
             model: Cliente,
-            key: 'Pasaporte'
+            key: 'ID'
         },
 
         validate: {
             notEmpty: true
-        },
-
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        }
     },
     Telefono: {
-        type: sequelize.INTEGER,
+        type: sequelize.BIGINT,
         allowNull: false,
         primaryKey: true,
 
@@ -46,4 +42,4 @@ const Telefonos = db.define('Telefonos', {
         freezeTableName: true
     });
 
-module.exports = Telefonos;
+module.exports = Telefonos_Clientes;
