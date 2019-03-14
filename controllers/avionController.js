@@ -20,6 +20,22 @@ controller.getAviones = async function (callback) {
     }
 }
 
+controller.getAvionesModelo = async function (IDModeloAvion, callback) {
+    try {
+        let response = await Avion.findAll({
+            where: {
+                Activo: 1,
+                IDModeloAvion
+            }
+        });
+        let aviones = response.map(result => result.dataValues);
+        console.log(aviones);
+        callback(aviones, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Obtiene los aviones que no sean alquilados
 controller.getAvionesPropios = async function (callback) {
     try {

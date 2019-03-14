@@ -10,7 +10,6 @@ block content
               th(scope='col') ID Ruta
               th(scope='col') Día Semana
           tbody
-          - if (!diaRutaUpdate)
             - for (var i = 0; i < diasRuta.length; i++)
               tr
                 th(scope='row') #{diasRuta[i].IDRuta}
@@ -21,10 +20,6 @@ block content
                 td
                   form(action=`delete/${diasRuta[i].IDRuta}/${diasRuta[i].DiaSemana}`,method="POST")
                     button.btn.btn-outline-danger(type='submit') Eliminar
-          - else
-            tr
-              th(scope='row') #{diaRutaUpdate.IDRuta}
-              td #{diaRutaUpdate.DiaSemana}
         - if(diaRutaUpdate)
           h4.mt-5 Modificar Datos
             div.card.bg-dark
@@ -47,7 +42,7 @@ block content
                         option(value=`Domingo` selected=(diaRutaUpdate.DiaSemana=='Domingo')) DOMINGO
                   .form-group
                   button.btn.btn-danger(type="submit") Modificar
-        h4.mt-5 Agregar un nuevo miembro de tripulación
+        h4.mt-5 Agregar nueva disponibilidad de rutas
           div.card.bg-dark
             div.card-body.text-white
               form(action='create/' method="POST")

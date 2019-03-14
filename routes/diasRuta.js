@@ -27,7 +27,7 @@ router.get("/", (req, res) => {
 
 router.post("/delete/:IDRuta/:DiaSemana", (req, res) => {
     if ((!!req.params.IDRuta)&&(!!req.params.DiaSemana)) {
-        diasRutaController.deleteCliente(req.params.IDRuta, req.params.DiaSemana, (err) => {
+        diasRutaController.deleteDiasRuta(req.params.IDRuta, req.params.DiaSemana, (err) => {
             if (err)
                 res.json({
                     success: false,
@@ -43,7 +43,7 @@ router.post("/delete/:IDRuta/:DiaSemana", (req, res) => {
 
 router.get("/show/:IDRuta/:DiaSemana", (req, res) => {
     if ((!!req.params.IDRuta)&&(!!req.params.DiaSemana)) {
-        diasRutaController.getDiasRutateUpdate(req.params.IDRuta, req.params.DiaSemana, (diaRutaUpdate, err) => {
+        diasRutaController.getDiasRutaUpdate(req.params.IDRuta, req.params.DiaSemana, (diaRutaUpdate, err) => {
             if (err) {
                 res.json({
                     success: false,

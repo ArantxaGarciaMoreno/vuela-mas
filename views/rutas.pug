@@ -31,22 +31,16 @@ block content
                     button.btn.btn-outline-danger(type='submit') Eliminar
           - else
             tr
-              th(scope='row') #{rutas[i].ID}
+              th(scope='row') #{rutaUpdate.ID}
               - for(var j = 0; j< aeropuertos.length; j++)
-                - if(aeropuertos[j].CodigoIATA==rutas[i].CodigoIATAOrigen)
+                - if(aeropuertos[j].CodigoIATA==rutaUpdate.CodigoIATAOrigen)
                   td #{aeropuertos[j].Ciudad}, #{aeropuertos[j].Pais}
               - for(var j = 0; j<aeropuertos.length; j++ )
-                - if(aeropuertos[j].CodigoIATA==rutas[i].CodigoIATADestino)
+                - if(aeropuertos[j].CodigoIATA==rutaUpdate.CodigoIATADestino)
                   td #{aeropuertos[j].Ciudad}, #{aeropuertos[j].Pais}
-              td #{rutas[i].IDAvion}
-              td #{rutas[i].HoraSalida}
-              td #{rutas[i].HoraLlegada}
-              td
-                form(action=`show/${rutas[i].ID}`,method="GET")
-                  button.btn.btn-outline-danger(type='submit') Modificar
-              td
-                form(action=`delete/${rutas[i].ID}`,method="POST")
-                  button.btn.btn-outline-danger(type='submit') Eliminar
+              td #{rutaUpdate.IDAvion}
+              td #{rutaUpdate.HoraSalida}
+              td #{rutaUpdate.HoraLlegada}
         - if(rutaUpdate)
           h4.mt-5 Modificar Datos
             div.card.bg-dark

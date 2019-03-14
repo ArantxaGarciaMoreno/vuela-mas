@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const modeloAvionController = require("../controllers/modeloAvionController");
+const avionController = require("../controllers/avionController");
 
 router.get("/", (req, res) => {
     modeloAvionController.getModelosAvion((modelosAvion, err) => {
@@ -16,18 +17,34 @@ router.get("/", (req, res) => {
 
 router.post("/delete/:ID", (req, res) => {
     if (!!req.params.ID) {
-        modeloAvionController.deleteModeloAvion(req.params.ID, (err) => {
+        avionController.getAvionesModelo(req.params.ID, (aviones, err) => {
             if (err)
                 res.json({
                     success: false,
-                    msg: 'Failed to delete modelo de avion'
+                    msg: 'Failed to get aviones modelo'
                 });
-            else
-                res.redirect('/modelosAvion/');
+            else {
+                if (aviones.length > 0) {
+                    console.log(aviones.length);
+                    res.write("<script>");
+                    res.write("alert('Existe un avion de este modelo');");
+                    res.write("window.location.href='javascript:history.back(1)';");
+                    res.write("</script>");
+                    res.end();
+                } else {
+                    modeloAvionController.deleteModeloAvion(req.params.ID, (err) => {
+                        if (err)
+                            res.json({
+                                success: false,
+                                msg: 'Failed to delete modelo de avion'
+                            });
+                        else
+                            res.redirect('/modelosAvion/');
+                    });
+                }
+            }
         });
-
     }
-
 });
 
 router.get("/show/:ID", (req, res) => {
