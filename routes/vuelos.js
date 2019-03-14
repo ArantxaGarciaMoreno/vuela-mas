@@ -4,6 +4,8 @@ const vueloController = require("../controllers/vueloController");
 const aeropuertoController = require("../controllers/aeropuertoController");
 const avionController = require("../controllers/avionController");
 const rutaController = require("../controllers/rutaController");
+const empleadoController = require("../controllers/empleadoController");
+const tripulacionController = require("../controllers/tripulacionController");
 
 router.get("/", (req, res) => {
     vueloController.getVuelos((vuelos, err) => {
@@ -28,7 +30,7 @@ router.get("/", (req, res) => {
                             });
                         } else {
                             rutaController.getRutas((rutas, err) => {
-                                if(err) {
+                                if (err) {
                                     res.json({
                                         success: false,
                                         msg: 'Failed to show rutas'
@@ -42,7 +44,7 @@ router.get("/", (req, res) => {
                 }
             });
         }
-            
+
     });
 });
 
@@ -141,6 +143,94 @@ router.post("/create", (req, res) => {
                 res.redirect('/vuelos/');
         });
     }
+});
+
+router.get("/tripulacion/:IDVueloTrabajado", (req, res) => {
+    if (!!req.params.IDVueloTrabajado) {
+        tripulacionController.getTripulacion(req.params.IDVueloTrabajado, (tripulacion, err) => {
+            if (err) {
+                res.json({
+                    success: false,
+                    msg: 'Failed to show tripulacion'
+                });
+            } else {
+                vueloController.getVuelo(req.params.IDVueloTrabajado, (vuelo, err) => {
+                    if (err) {
+                        res.json({
+                            success: false,
+                            msg: 'Failed to show vuelo'
+                        });
+                    } else {
+                        rutaController.getRuta(vuelo.IDRuta, (ruta, err) => {
+                            if (err) {
+                                res.json({
+                                    success: false,
+                                    msg: 'Failes to show ruta'
+                                });
+                            } else {
+                                aeropuertoController.getAeropuerto(vuelo.CodigoIATADestino, (aeropuerto,err)=>{
+                                    if(err) {
+                                        res.json({
+                                            success: false,
+                                            msg: 'Failes to show aeropuerto'
+                                        });
+                                    }else{
+                                        empleadoController.getEmpleadosTripulacion((empleados,err)=>{
+                                            if(err){
+                                                console.log(err)
+                                                res.json({
+                                                    success: false,
+                                                    msg: 'Failed to show empleados'
+                                                });
+                                            }else{
+                                                res.render("vuelos", { tripulacion, vuelo, ruta, aeropuerto, empleados });
+                                            }
+                                        })
+                                        
+                                    }
+                                })
+                                
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+});
+
+router.post("/tripulacion/agregarTripulacion", (req, res) => {
+    console.log('Hello from routes!');
+    console.log(req.body);
+    if (!!req.body) {
+        tripulacionController.createTripulacion(req.body, (err) => {
+            if (err) {
+                console.log(err)
+                res.json({
+                    success: false,
+                    msg: 'Failed to agregar tripulacion'
+                });
+            }
+            else
+                res.redirect(`/vuelos/tripulacion/${req.body.IDVueloTrabajado}`);
+        });
+    }
+});
+
+router.post("/tripulacion/deleteTripulacion/:IDEmpleado-:IDVueloTrabajado", (req, res) => {
+    if (!!req.params.IDEmpleado && !!req.params.IDVueloTrabajado) {
+        tripulacionController.deleteTripulacion(req.params.IDEmpleado, req.params.IDVueloTrabajado, (err) => {
+            if (err)
+                res.json({
+                    success: false,
+                    msg: 'Failed to delete tripulacion'
+                });
+            else
+                res.redirect(`/vuelos/tripulacion/${req.params.IDVueloTrabajado}`);
+        });
+
+    }
+
 });
 
 router.get("/vuelos/:ID");

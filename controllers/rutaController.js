@@ -35,6 +35,20 @@ controller.getRutaUpdate = async function (ID, callback) {
     }
 }
 
+controller.getRuta = async function (ID, callback) {
+    try {
+        let ruta = await Ruta.findOne({
+            where: {
+                ID
+            }
+        });
+        console.log(ruta);
+        callback(ruta, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Actualiza los atributos de la ruta modificada
 controller.updateRuta = async function (data, ID, callback) {
     try {

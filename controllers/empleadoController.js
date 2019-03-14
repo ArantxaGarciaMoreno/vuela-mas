@@ -1,6 +1,7 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
 const Empleado = require('../models/Empleado');
+const Op = sequelize.Op;
 
 const controller = {};
 
@@ -10,6 +11,22 @@ controller.getEmpleados = async function (callback) {
         let response = await Empleado.findAll({
             where: {
                 Activo: 1
+            }
+        });
+        let empleados = response.map(result => result.dataValues);
+        console.log(empleados);
+        callback(empleados, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
+controller.getEmpleadosTripulacion = async function (callback) {
+    try {
+        let response = await Empleado.findAll({
+            where: {
+                Activo: 1,
+                [Op.or]: [{Cargo: 'Piloto'}, {Cargo: 'Copiloto'}, {Cargo: 'Ingeniero de Vuelo'}, {Cargo: 'Sobrecargo'}, {Cargo: 'Auxiliar de Vuelo'}]
             }
         });
         let empleados = response.map(result => result.dataValues);

@@ -35,6 +35,20 @@ controller.getVueloUpdate = async function (ID, callback) {
     }
 }
 
+controller.getVuelo = async function (ID, callback) {
+    try {
+        let vuelo = await Vuelo.findOne({
+            where: {
+                ID
+            }
+        });
+        console.log(vuelo);
+        callback(vuelo, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Actualiza los atributos del vuelo modificado
 controller.updateVuelo = async function (data, ID, callback) {
     try {
