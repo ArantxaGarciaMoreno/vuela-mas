@@ -147,7 +147,7 @@ router.post("/create", (req, res) => {
     }
 });
 
-router.post("/agregarModelo", (req, res) => {
+router.post("/detalles/agregarModelo", (req, res) => {
     console.log('Hello from routes!');
     console.log(req.body);
     if (!!req.body) {
@@ -158,7 +158,7 @@ router.post("/agregarModelo", (req, res) => {
                     msg: 'Failed to agregar modelo'
                 });
             else
-                res.redirect('/proveedores/');
+                res.redirect(`/proveedores/detalles/${req.body.IDProveedor}`);
         });
     }
 });
