@@ -122,7 +122,7 @@ router.post("/telefonos/agregarTelefono", (req, res) => {
                 });
             }
             else
-                res.redirect('/empleados/');
+                res.redirect(`/empleados/telefonos/${req.body.IDEmpleado}`);
         });
     }
 });
@@ -136,7 +136,7 @@ router.post("/telefonos/deleteTelefono/:IDEmpleado-:Telefono", (req, res) => {
                     msg: 'Failed to delete telefono'
                 });
             else
-                res.redirect('/empleados/');
+                res.redirect(`/empleados/telefonos/${req.params.IDEmpleado}`);
         });
 
     }

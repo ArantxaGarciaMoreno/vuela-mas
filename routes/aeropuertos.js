@@ -120,7 +120,7 @@ router.post("/pistas/agregarPista", (req, res) => {
                     msg: 'Failed to agregar pista'
                 });
             else
-                res.redirect('/aeropuertos/');
+                res.redirect(`/aeropuertos/pistas/${req.body.CodigoIATA}`);
         });
     }
 });
@@ -134,7 +134,7 @@ router.post("/pistas/deletePista/:CodigoIATA-:Distancia", (req, res) => {
                     msg: 'Failed to delete pista'
                 });
             else
-                res.redirect('/aeropuertos/');
+                res.redirect(`/aeropuertos/pistas/${req.params.CodigoIATA}`);
         });
 
     }

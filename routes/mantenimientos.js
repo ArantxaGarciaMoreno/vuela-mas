@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
                 msg: 'Failed to show mantenimientos'
             });
         else {
-            avionController.getAviones((aviones, err) => {
+            avionController.getAvionesPropios((aviones, err) => {
                 if (err) {
                     res.json({
                         success: false,
@@ -57,7 +57,7 @@ router.get("/show/:IDAvion-:FechaEntrada", (req, res) => {
                             msg: 'Failed to show mantenimientos'
                         });
                     } else {
-                        avionController.getAviones((aviones, err) => {
+                        avionController.getAvionesPropios((aviones, err) => {
                             if (err) {
                                 res.json({
                                     success: false,

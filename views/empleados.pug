@@ -11,7 +11,7 @@ block content
                 th(scope='col') Pasaporte
                 th(scope='col') Nombre
                 th(scope='col') Apellido
-                th(scope='col') Pais de Nacimiento
+                th(scope='col') País de Nacimiento
                 th(scope='col') Fecha de Nacimiento
                 th(scope='col') Cargo
             tbody
@@ -59,15 +59,15 @@ block content
                 .form-group
                   label(for='Cargo') Cargo
                   select#Cargo.select.form-control.input-lg(type='text' name='Cargo')
-                    option(value='Comandante' selected=(empleadoUpdate.Cargo=='Comandante')) Comandante
+                    option(value='Piloto' selected=(empleadoUpdate.Cargo=='Piloto')) Piloto
                     option(value='Copiloto' selected=(empleadoUpdate.Cargo=='Copiloto')) Copiloto
                     option(value='Ingeniero de Vuelo' selected=(empleadoUpdate.Cargo=='Ingeniero de Vuelo')) Ingeniero de Vuelo
                     option(value='Sobrecargo' selected=(empleadoUpdate.Cargo=='Sobrecargo')) Sobrecargo
                     option(value='Auxiliar de Vuelo' selected=(empleadoUpdate.Cargo=='Auxiliar de Vuelo')) Auxiliar de Vuelo
                     option(value='Empleado de Mostrador' selected=(empleadoUpdate.Cargo=='Empleado de Mostrador')) Empleado de Mostrador
-                    option(value='Empleado de puertas de salida' selected=(empleadoUpdate.Cargo=='Empleado de puertas de salida')) Empleado de puertas de salida
+                    option(value='Empleado de Puertas de Embarque' selected=(empleadoUpdate.Cargo=='Empleado de Puertas de Embarque')) Empleado de Puertas de Embarque
                     option(value='Administrativo' selected=(empleadoUpdate.Cargo=='Administrativo')) Administrativo
-                    option(value='Atencion al Cliente' selected=(empleadoUpdate.Cargo=='Atencion al Cliente')) Atención al Cliente
+                    option(value='Atención al Cliente' selected=(empleadoUpdate.Cargo=='Atención al Cliente')) Atención al Cliente
                 button.btn.btn-danger(type="submit") Modificar
       - else
         h4.mt-5 Agregar un nuevo empleado
@@ -96,15 +96,15 @@ block content
                 .form-group
                   label(for='Cargo') Cargo
                   select#Cargo.select.form-control.input-lg(type='text' name='Cargo')
-                    option(value='Comandante') Comandante
+                    option(value='Piloto') Piloto
                     option(value='Copiloto') Copiloto
                     option(value='Ingeniero de Vuelo') Ingeniero de Vuelo
                     option(value='Sobrecargo') Sobrecargo
                     option(value='Auxiliar de Vuelo') Auxiliar de Vuelo
                     option(value='Empleado de Mostrador') Empleado de Mostrador
-                    option(value='Empleado de puertas de salida') Empleado de puertas de salida
+                    option(value='Empleado de Puertas de Embarque') Empleado de Puertas de Embarque
                     option(value='Administrativo') Administrativo
-                    option(value='Atencion al Cliente') Atención al Cliente
+                    option(value='Atención al Cliente') Atención al Cliente
                 .form-group
                   button.btn.btn-primary(type='submit') Agregar
     - if(telefonos && empleado)

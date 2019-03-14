@@ -10,7 +10,7 @@ block content
               tr
                 th(scope='col') Código IATA
                 th(scope='col') Ciudad
-                th(scope='col') Pais
+                th(scope='col') País
                 th(scope='col') Zona Horaria
             tbody
             -if (!aeropuertosUpdate)
@@ -53,7 +53,7 @@ block content
             div.card-body.text-white
               form(action='create/' method="POST")
                 .form-group
-                  label(for='CodigoIATA') Codigo IATA
+                  label(for='CodigoIATA') Código IATA
                   input#CodigoIATA.form-control(type='text' aria-describedby='CodigoIATA' placeholder='CodigoIATA' name='CodigoIATA' required onkeyup = "javascript:this.value=this.value.toUpperCase();")
                 .form-group
                   label(for='Ciudad') Ciudad
@@ -102,7 +102,7 @@ block content
                 .form-group
                   button.btn.btn-primary(type='submit') Agregar
     - if(aeropuertosUpdate)
-      h4.mt-5 Modificar Aeropuerto
+      h4.mt-5 Modificar Datos del Aeropuerto
         div.card.bg-dark
           div.card-body.text-white
             form(action=`update/${aeropuertosUpdate.CodigoIATA}` method="POST")
@@ -154,35 +154,35 @@ block content
                 button.btn.btn-danger(type="submit") Modificar
     - if(pistas && aeropuerto)
       h2 Aeropuerto 
-        .row.mt-5
-          .col-12
-            table.table.bg-white
-              thead
-                tr
-                  th(scope='col') Codigo IATA
-                  th(scope='col') Ciudad
-                  th(scope='col') Pais
-                  th(scope='col') Zona Horaria
-              tbody
-                tr
-                  th(scope='row') #{aeropuerto.CodigoIATA}
-                  td #{aeropuerto.Ciudad}
-                  td #{aeropuerto.Pais}
-                  td UTC #{aeropuerto.ZonaHoraria}:00
+      .row.mt-5
+        .col-12
+          table.table.bg-white
+            thead
+              tr
+                th(scope='col') Codigo IATA
+                th(scope='col') Ciudad
+                th(scope='col') Pais
+                th(scope='col') Zona Horaria
+            tbody
+              tr
+                th(scope='row') #{aeropuerto.CodigoIATA}
+                td #{aeropuerto.Ciudad}
+                td #{aeropuerto.Pais}
+                td UTC #{aeropuerto.ZonaHoraria}:00
       h2 Pistas 
-        .row.mt-5
-          .col-12
-            table.table.bg-white
-              thead
+      .row.mt-5
+        .col-12
+          table.table.bg-white
+            thead
+              tr
+                th(scope='col') Distancia (metros)
+            tbody
+              - for (var i = 0; i < pistas.length; i++)
                 tr
-                  th(scope='col') Distancia (metros)
-              tbody
-                - for (var i = 0; i < pistas.length; i++)
-                  tr
-                    th(scope='row') #{pistas[i].Distancia}
-                    td
-                      form(action=`deletePista/${pistas[i].CodigoIATA}-${pistas[i].Distancia}`,method="POST")
-                        button.btn.btn-outline-danger(type='submit') Eliminar            
+                  th(scope='row') #{pistas[i].Distancia}
+                  td
+                    form(action=`deletePista/${pistas[i].CodigoIATA}-${pistas[i].Distancia}`,method="POST")
+                      button.btn.btn-outline-danger(type='submit') Eliminar            
       h4.mt-5 Agregar una nueva pista al aeropuerto
         div.card.bg-dark
           div.card-body.text-white

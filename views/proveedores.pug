@@ -10,7 +10,7 @@ block content
               tr
                 th(scope='col') Nombre
                 th(scope='col') Ciudad
-                th(scope='col') Pais           
+                th(scope='col') País           
             tbody
               - for (var i = 0; i < proveedores.length; i++)
                 tr
@@ -27,93 +27,91 @@ block content
                     td
                       form(action=`detalles/${proveedores[i].ID}`,method="GET")
                         button.btn.btn-outline-danger(type='submit') Oferta
-    - if (proveedorDetalle)
+      - if(proveedorUpdate)
+        h4.mt-5 Modificar Datos
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action=`update/${proveedorUpdate.ID}` method="POST")
+                .form-group
+                  label(for="Nombre") Nombre
+                  input#Nombre.form-control(type="text" value=`${proveedorUpdate.Nombre}` aria-describedby='Nombre' placeholder='Nombre' name='Nombre')
+                .form-group
+                  label(for='Ciudad') Ciudad
+                  input#Ciudad.form-control(type='text' value=`${proveedorUpdate.Ciudad}` placeholder='Ciudad' name='Ciudad')
+                .form-group
+                  label(for='Pais') Pais
+                  input#Pais.form-control(type='text' value= `${proveedorUpdate.Pais}` placeholder='Pais' name='Pais')
+                button.btn.btn-danger(type="submit") Modificar
+      - else
+        h4.mt-5 Agregar un nuevo proveedor
+          div.card.bg-dark
+            div.card-body.text-white
+              form(action='create/' method="POST")
+                .form-group
+                  label(for="Nombre") Nombre
+                  input#Nombre.form-control(type="text" aria-describedby='Nombre' placeholder='Nombre' name='Nombre')
+                .form-group
+                  label(for='Ciudad') Ciudad
+                  input#Ciudad.form-control(type='text' placeholder='Ciudad' name='Ciudad')
+                .form-group
+                  label(for='Pais') Pais
+                  input#Pais.form-control(type='text' placeholder='Pais' name='Pais')
+                .form-group
+                  button.btn.btn-primary(type='submit') Agregar
+    - if (proveedorDetalle && modelosProveedor)
       h2 Proveedor 
-        .row.mt-5
-          .col-12
+      .row.mt-5
+        .col-12
             table.table.bg-white
               thead
                 tr
                   th(scope='col') Nombre
                   th(scope='col') Ciudad
-                  th(scope='col') Pais           
+                  th(scope='col') País           
               tbody
                 tr
                   th(scope='row') #{proveedorDetalle.Nombre}
-                    td #{proveedorDetalle.Ciudad}
-                    td #{proveedorDetalle.Pais}
-    - if (modelosProveedor)
-      h2 Modelos de avion disponibles del proveedor seleccionado 
-        .row.mt-5
-          .col-12
-            table.table.bg-white
-              thead
+                  td #{proveedorDetalle.Ciudad}
+                  td #{proveedorDetalle.Pais}
+      h2 Modelos de avión disponibles 
+      .row.mt-5
+        .col-12
+          table.table.bg-white
+            thead
+              tr
+                th(scope='col') Nombre
+                th(scope='col') Peso Vacío (en Kg)
+                th(scope='col') Carga máxima de Equipaje (piezas)
+                th(scope='col') Salidas de Emergencia
+                th(scope='col') Baños
+                th(scope='col') Velocidad máxima (km/h)
+                th(scope='col') Velocidad de crucero (km/h)
+                th(scope='col') Asientos Económicos
+                th(scope='col') Asientos Primera Clase
+                th(scope='col') Peso máximo (en Kg)
+                th(scope='col') Distancia de despegue con carga máxima (en metros)
+                th(scope='col') Tipo de combustible
+                th(scope='col') Cantidad de combustible (en litros)             
+            tbody
+              - for (var i = 0; i < modelosProveedor.length; i++)
                 tr
-                  th(scope='col') Nombre
-                  th(scope='col') Peso Vacío (en Kg)
-                  th(scope='col') Carga máxima de Equipaje (piezas)
-                  th(scope='col') Salidas de Emergencia
-                  th(scope='col') Baños
-                  th(scope='col') Velocidad máxima (km/h)
-                  th(scope='col') Velocidad de crucero (km/h)
-                  th(scope='col') Asientos Económicos
-                  th(scope='col') Asientos Primera Clase
-                  th(scope='col') Peso máximo (en Kg)
-                  th(scope='col') Distancia de despegue con carga máxima (en metros)
-                  th(scope='col') Tipo de combustible
-                  th(scope='col') Cantidad de combustible (en litros)             
-              tbody
-                - for (var i = 0; i < modelosProveedor.length; i++)
-                  tr
-                    th(scope='row') #{modelosProveedor[i].Nombre}
-                    td #{modelosProveedor[i].PesoVacio}
-                    td #{modelosProveedor[i].MaxCargaEquipaje}
-                    td #{modelosProveedor[i].CantSalidasE}
-                    td #{modelosProveedor[i].CantBanios}
-                    td #{modelosProveedor[i].VelocidadMax}
-                    td #{modelosProveedor[i].VelocidadCrucero}
-                    td #{modelosProveedor[i].CantAsientosECO}
-                    td #{modelosProveedor[i].CantAsientosPC}
-                    td #{modelosProveedor[i].PesoMax}
-                    td #{modelosProveedor[i].DistDespegueCargaMax}
-                    td #{modelosProveedor[i].TipoCombustible}
-                    td #{modelosProveedor[i].CantCombustible}
-                    td
-                      form(action=`deleteOfertaProveedor/${modelosProveedor[i].IDProveedor}-${modelosProveedor[i].IDModeloAvion}`,method="POST")
-                        button.btn.btn-outline-danger(type='submit') Eliminar
-    - if(proveedorUpdate)
-      h4.mt-5 Modificar Datos
-        div.card.bg-dark
-          div.card-body.text-white
-            form(action=`update/${proveedorUpdate.ID}` method="POST")
-              .form-group
-                label(for="Nombre") Nombre
-                input#Nombre.form-control(type="text" value=`${proveedorUpdate.Nombre}` aria-describedby='Nombre' placeholder='Nombre' name='Nombre')
-              .form-group
-                label(for='Ciudad') Ciudad
-                input#Ciudad.form-control(type='text' value=`${proveedorUpdate.Ciudad}` placeholder='Ciudad' name='Ciudad')
-              .form-group
-                label(for='Pais') Pais
-                input#Pais.form-control(type='text' value= `${proveedorUpdate.Pais}` placeholder='Pais' name='Pais')
-              button.btn.btn-danger(type="submit") Modificar
-    - if (!modelosProveedor)
-      h4.mt-5 Agregar un nuevo proveedor
-        div.card.bg-dark
-          div.card-body.text-white
-            form(action='create/' method="POST")
-              .form-group
-                label(for="Nombre") Nombre
-                input#Nombre.form-control(type="text" aria-describedby='Nombre' placeholder='Nombre' name='Nombre')
-              .form-group
-                label(for='Ciudad') Ciudad
-                input#Ciudad.form-control(type='text' placeholder='Ciudad' name='Ciudad')
-              .form-group
-                label(for='Pais') Pais
-                input#Pais.form-control(type='text' placeholder='Pais' name='Pais')
-              .form-group
-                button.btn.btn-primary(type='submit') Agregar
-    - if(!proveedorUpdate && proveedores)
-      h4.mt-5 Agregar un nuevo modelo a la oferta de un proveedor
+                  th(scope='row') #{modelosProveedor[i].Nombre}
+                  td #{modelosProveedor[i].PesoVacio}
+                  td #{modelosProveedor[i].MaxCargaEquipaje}
+                  td #{modelosProveedor[i].CantSalidasE}
+                  td #{modelosProveedor[i].CantBanios}
+                  td #{modelosProveedor[i].VelocidadMax}
+                  td #{modelosProveedor[i].VelocidadCrucero}
+                  td #{modelosProveedor[i].CantAsientosECO}
+                  td #{modelosProveedor[i].CantAsientosPC}
+                  td #{modelosProveedor[i].PesoMax}
+                  td #{modelosProveedor[i].DistDespegueCargaMax}
+                  td #{modelosProveedor[i].TipoCombustible}
+                  td #{modelosProveedor[i].CantCombustible}
+                  td
+                    form(action=`deleteOfertaProveedor/${modelosProveedor[i].IDProveedor}-${modelosProveedor[i].IDModeloAvion}`,method="POST")
+                      button.btn.btn-outline-danger(type='submit') Eliminar
+      h4.mt-5 Agregar un nuevo modelo a la oferta del proveedor
         div.card.bg-dark
           div.card-body.text-white
             form(action='agregarModelo/' method="POST")
@@ -125,8 +123,7 @@ block content
               .form-group
                 label(for='IDProveedor') Proveedor
                 select#IDProveedor.select.form-control.input-lg(type='number' name='IDProveedor')
-                  - for(var i = 0; i < proveedores.length; i++)
-                    option(value=`${proveedores[i].ID}`) #{proveedores[i].Nombre} 
+                  option(value=`${proveedorDetalle.ID}`) #{proveedorDetalle.Nombre} 
               .form-group
                 button.btn.btn-primary(type='submit') Agregar
         

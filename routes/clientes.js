@@ -123,7 +123,7 @@ router.post("/telefonos/agregarTelefono", (req, res) => {
                 });
             }
             else
-                res.redirect('/clientes/');
+                res.redirect(`/clientes/telefonos/${req.body.IDCliente}`);
         });
     }
 });
@@ -137,7 +137,7 @@ router.post("/telefonos/deleteTelefono/:IDCliente-:Telefono", (req, res) => {
                     msg: 'Failed to delete telefono'
                 });
             else
-                res.redirect('/clientes/');
+                res.redirect(`/clientes/telefonos/${req.params.IDCliente}`);
         });
 
     }
