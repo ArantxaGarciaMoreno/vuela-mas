@@ -15,7 +15,6 @@ const mantenimientoRoute = require("./routes/mantenimientos");
 const rutasRoute = require("./routes/rutas");
 const vuelosRoute = require("./routes/vuelos");
 const alquileresRoutes = require("./routes/alquileres");
-const diasRutaRoutes = require("./routes/diasRuta");
 const sequelize = require("./config/db");
 const app = express();
 
@@ -36,7 +35,6 @@ app.use("/rutas", rutasRoute);
 app.use("/vuelos", vuelosRoute);
 app.use("/alquileres", alquileresRoutes);
 app.use("/mantenimientos", mantenimientoRoute);
-app.use("/diasRuta", diasRutaRoutes)
 
 sequelize
   .authenticate()
