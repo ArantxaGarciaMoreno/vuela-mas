@@ -4,6 +4,8 @@ block content
     h2 Rutas 
     .row.mt-5
       .col-12
+        - if (messages)
+          div#note #{messages}
         table.table.bg-white
           thead
             tr
@@ -18,8 +20,12 @@ block content
             - for (var i = 0; i < rutas.length; i++)
               tr
                 th(scope='row') #{rutas[i].ID}
-                td #{rutas[i].CodigoIATAOrigen}
-                td #{rutas[i].CodigoIATADestino}
+                - for(var j = 0; j< aeropuertos.length; j++)
+                  - if(aeropuertos[j].CodigoIATA==rutas[i].CodigoIATAOrigen)
+                    td #{aeropuertos[j].Ciudad}, #{aeropuertos[j].Pais}
+                - for(var j = 0; j<aeropuertos.length; j++ )
+                  - if(aeropuertos[j].CodigoIATA==rutas[i].CodigoIATADestino)
+                    td #{aeropuertos[j].Ciudad}, #{aeropuertos[j].Pais}
                 td #{rutas[i].IDAvion}
                 td #{rutas[i].HoraSalida}
                 td #{rutas[i].HoraLlegada}
@@ -65,7 +71,7 @@ block content
                     label(for='HoraSalida') Hora Salida (Local Origen)
                     input#HoraSalida.form-control(type='time' value=`${rutaUpdate.HoraSalida}` placeholder='HoraSalida' name='HoraSalida')
                   .form-group
-                    label(for='HoraLlegada') Hora de Llegada (Local Destino)
+                    label(for='HoraLlegada') Hora de Llegada (Local Origen)
                     input#HoraLlegada.form-control(type='time' value=`${rutaUpdate.HoraLlegada}` placeholder='HoraLlegada' name='HoraLlegada')
                   .form-group
                   button.btn.btn-danger(type="submit") Modificar
@@ -92,7 +98,7 @@ block content
                     label(for='HoraSalida') Hora de Salida (Local Origen)
                     input#HoraSalida.form-control(type='time' placeholder='HoraSalida' name='HoraSalida')
                   .form-group
-                    label(for='HoraLlegada') Hora de Llegada (Local Destino)
+                    label(for='HoraLlegada') Hora de Llegada (Local Origen)
                     input#HoraLlegada.form-control(type='time' placeholder='HoraLlegada' name='HoraLlegada')
                   .form-group
                     button.btn.btn-primary(type='submit') Agregar

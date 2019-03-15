@@ -5,7 +5,7 @@ const aeropuertoController = require("../controllers/aeropuertoController");
 const avionController = require("../controllers/avionController");
 
 router.get("/", (req, res) => {
-    rutaController.getRutas((rutas, err) => {
+    rutaController.getRutaZA((rutas, err) => {
         if (err)
             res.json({
                 success: false,
@@ -95,15 +95,22 @@ router.get("/show/:ID", (req, res) => {
 
 router.post("/show/update/:ID", (req, res) => {
     if (!!req.body) {
-        rutaController.updateRuta(req.body, req.params.ID, (err) => {
-            if (err)
-                res.json({
-                    success: false,
-                    msg: "Failed to update ruta"
-                });
-            else
-                res.redirect("/rutas/");
-        });
+        if (req.body.CodigoIATAOrigen != req.body.CodigoIATADestino) {
+            rutaController.updateRuta(req.body, req.params.ID, (err) => {
+                if (err)
+                    res.json({
+                        success: false,
+                        msg: "Failed to update ruta"
+                    });
+                else
+                    res.redirect("/rutas/");
+            });
+        } else {
+            res.json({
+                success: false,
+                msg: 'CodigoIATAOrigen and CodigoIATADestino must be different'
+            });
+        }
     }
 });
 
@@ -111,24 +118,31 @@ router.post("/create", (req, res) => {
     console.log('Hello from routes!');
     console.log(req.body);
     if (!!req.body) {
-        rutaController.createRuta(req.body, (err) => {
-            if (err)
-                res.json({
-                    success: false,
-                    msg: 'Failed to create ruta'
-                });
-            else
-                avionController.updateEstadoAvion('EN RUTA', req.body.IDAvion, (err) => {
-                    if (err)
-                        res.json({
-                            success: false,
-                            msg: 'Failed to update estado avion'
-                        });
-                    else
-                    res.redirect('/rutas/');
-                });
-                
-        });
+        if (req.body.CodigoIATAOrigen != req.body.CodigoIATADestino) {
+            rutaController.createRuta(req.body, (err) => {
+                if (err)
+                    res.json({
+                        success: false,
+                        msg: 'Failed to create ruta'
+                    });
+                else
+                    avionController.updateEstadoAvion('EN RUTA', req.body.IDAvion, (err) => {
+                        if (err)
+                            res.json({
+                                success: false,
+                                msg: 'Failed to update estado avion'
+                            });
+                        else
+                        res.redirect('/rutas/');
+                    });
+                    
+            });
+        } else {
+            res.json({
+                success: false,
+                msg: 'CodigoIATAOrigen and CodigoIATADestino must be different'
+            });
+        }
     }
 });
 

@@ -56,21 +56,14 @@ block content
                   label(for='CodigoIATA') Código IATA
                   input#CodigoIATA.form-control(type='text' aria-describedby='CodigoIATA' placeholder='CodigoIATA' name='CodigoIATA' required onkeyup = "javascript:this.value=this.value.toUpperCase();")
                 .form-group
-                  label(for='Ciudad') Ciudad
+                  label(for='Ciudad') Localidad
                   select#Ciudad.select.form-control.input-lg(type='text' placeholder='Ciudad' name='Ciudad')
-                    option(value='Atlanta') Atlanta
-                    option(value='Caracas') Caracas
-                    option(value='Dubai') Dubai
-                    option(value='Miami') Miami
-                    option(value='New York') New York
-                    option(value='París') París
-                .form-group
-                  label(for='Pais') País
-                  select#Pais.select.form-control.input-lg(type='text' placeholder='Pais' name='Pais')
-                    option(value='Emiratos Árabes Unidos') Emiratos Árabes Unidos
-                    option(value='Estados Unidos de América') Estados Unidos de América
-                    option(value='Francia') Francia
-                    option(value='Venezuela') Venezuela
+                    option(value='Atlanta') Atlanta, Estados Unidos de América
+                    option(value='Miami') Miami, Estados Unidos de América
+                    option(value='New York') New York, Estados Unidos de América                    
+                    option(value='Caracas') Caracas, Venezuela
+                    option(value='Dubai') Dubai, Emiratos Árabes Unidos
+                    option(value='París') París, Francia
                 .form-group
                   label(for='ZonaHoraria') Zona Horaria
                   select#ZonaHoraria.select.form-control.input-lg(type='number' name='ZonaHoraria')
@@ -107,21 +100,14 @@ block content
           div.card-body.text-white
             form(action=`update/${aeropuertosUpdate.CodigoIATA}` method="POST")
               .form-group
-                label(for='Ciudad') Ciudad
+                label(for='Ciudad') Localidad
                 select#Ciudad.select.form-control.input-lg(type='text' value=`${aeropuertosUpdate.Ciudad}` placeholder='Ciudad' name='Ciudad')
-                  option(value='Atlanta' selected=(aeropuertosUpdate.Ciudad=='Atlanta')) Atlanta
-                  option(value='Caracas' selected=(aeropuertosUpdate.Ciudad=='Caracas')) Caracas
-                  option(value='Dubai' selected=(aeropuertosUpdate.Ciudad=='Dubai')) Dubai
-                  option(value='Miami' selected=(aeropuertosUpdate.Ciudad=='Miami')) Miami
-                  option(value='New York' selected=(aeropuertosUpdate.Ciudad=='New York')) New York
-                  option(value='París' selected=(aeropuertosUpdate.Ciudad=='París')) París
-              .form-group
-                label(for='Pais') Pais
-                select#Pais.select.form-control.input-lg(type='text' value= `${aeropuertosUpdate.Pais}` placeholder='Pais' name='Pais')
-                  option(value='Emiratos Árabes Unidos' selected=(aeropuertosUpdate.Pais=='Emiratos Árabes Unidos')) Emiratos Árabes Unidos
-                  option(value='Estados Unidos de América' selected=(aeropuertosUpdate.Pais=='Estados Unidos de América')) Estados Unidos de América
-                  option(value='Francia' selected=(aeropuertosUpdate.Pais=='Francia')) Francia
-                  option(value='Venezuela' selected=(aeropuertosUpdate.Pais=='Venezuela')) Venezuela
+                  option(value='Atlanta' selected=(aeropuertosUpdate.Ciudad=='Atlanta')) Atlanta, Estados Unidos de América
+                  option(value='Miami' selected=(aeropuertosUpdate.Ciudad=='Miami')) Miami, Estados Unidos de América
+                  option(value='New York' selected=(aeropuertosUpdate.Ciudad=='New York')) New York, Estados Unidos de América
+                  option(value='Caracas' selected=(aeropuertosUpdate.Ciudad=='Caracas')) Caracas, Venezuela
+                  option(value='Dubai' selected=(aeropuertosUpdate.Ciudad=='Dubai')) Dubai, Emiratos Árabes Unidos
+                  option(value='París' selected=(aeropuertosUpdate.Ciudad=='París')) París, Francia
               .form-group
                 label(for='ZonaHoraria') Zona Horaria
                 select#ZonaHoraria.select.form-control.input-lg(type='number' name='ZonaHoraria')

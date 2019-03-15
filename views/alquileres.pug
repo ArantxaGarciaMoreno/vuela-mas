@@ -18,7 +18,9 @@ block content
           - if(!alquilerUpdate)
             - for (var i = 0; i < alquileres.length; i++)
               tr
-                th(scope='row') #{alquileres[i].IDProveedor}
+                - for (var j = 0; j < proveedores.length; j++)
+                  - if (proveedores[j].ID == alquileres[i].IDProveedor)
+                    th(scope='row') #{proveedores[j].Nombre}
                 td #{alquileres[i].IDAvion}
                 td #{alquileres[i].FechaSolicitud}
                 td #{alquileres[i].FechaEntrega}
@@ -33,18 +35,18 @@ block content
           - else
             tr
               - for (var j = 0; j < proveedores.length; j++)
-                - if (proveedores[j].ID == alquileres[i].IDProveedor)
+                - if (proveedores[j].ID == alquilerUpdate.IDProveedor)
                   th(scope='row') #{proveedores[j].Nombre}
-              th #{alquileres[i].IDAvion}
-              th #{alquileres[i].FechaSolicitud}
-              td #{alquileres[i].FechaEntrega}
-              td #{alquileres[i].FechaDevolucion}
-              td #{alquileres[i].MontoPagado}
+              th #{alquilerUpdate.IDAvion}
+              th #{alquilerUpdate.FechaSolicitud}
+              td #{alquilerUpdate.FechaEntrega}
+              td #{alquilerUpdate.FechaDevolucion}
+              td #{alquilerUpdate.MontoPagado}
               td
-                form(action=`show/${alquileres[i].IDProveedor}/${alquileres[i].IDAvion}/${alquileres[i].FechaSolicitud}/`,method="GET")
+                form(action=`show/${alquilerUpdate.IDProveedor}/${alquilerUpdate.IDAvion}/${alquilerUpdate.FechaSolicitud}/`,method="GET")
                   button.btn.btn-outline-danger(type='submit') Modificar
               td
-                form(action=`delete/${alquileres[i].IDProveedor}/${alquileres[i].IDAvion}/${alquileres[i].FechaSolicitud}`,method="POST")
+                form(action=`delete/${alquilerUpdate.IDProveedor}/${alquilerUpdate.IDAvion}/${alquilerUpdate.FechaSolicitud}`,method="POST")
                   button.btn.btn-outline-danger(type='submit') Eliminar
         - if(alquilerUpdate)
           h4.mt-5 Modificar Datos
@@ -52,7 +54,7 @@ block content
               div.card-body.text-white
                 form(action=`update/${alquilerUpdate.IDProveedor}/${alquilerUpdate.IDAvion}/${alquilerUpdate.FechaSolicitud}` method="POST")
                   .form-group
-                    label(for="IDProveedor") ID Proveedor
+                    label(for="IDProveedor") Proveedor
                     select#IDProveedor.select.form-control.input-lg(type="number" name='IDProveedor')
                       - for (var i = 0; i < proveedores.length; i++)
                         option(value=`${proveedores[i].ID}` selected=(alquilerUpdate.IDProveedor==proveedores[i].ID)) #{proveedores[i].Nombre}
@@ -72,15 +74,15 @@ block content
                     input#FechaDevolucion.form-control(type='date' value=`${alquilerUpdate.FechaDevolucion}` placeholder='FechaDevolucion' name='FechaDevolucion')
                   .form-group
                     label(for='MontoPagado') Monto Pagado (USD)
-                    input#MontoPagado.form-control(type='number' value=`${alquilerUpdate[0].MontoPagado}` placeholder=`${alquilerUpdate[0].MontoPagado}` name='MontoPagado')
+                    input#MontoPagado.form-control(type='number' value=`${alquilerUpdate.MontoPagado}` placeholder=`${alquilerUpdate.MontoPagado}` name='MontoPagado')
                   .form-group
                   button.btn.btn-danger(type="submit") Modificar
-        h4.mt-5 Agregar un nuevo cliente
+        h4.mt-5 Solicitar un nuevo alquiler
           div.card.bg-dark
             div.card-body.text-white
               form(action='create/' method="POST")
                 .form-group
-                    label(for="IDProveedor") ID Proveedor
+                    label(for="IDProveedor") Proveedor
                     select#IDProveedor.select.form-control.input-lg(type="number" name='IDProveedor')
                       - for (var i = 0; i < proveedores.length; i++)
                         option(value=`${proveedores[i].ID}`) #{proveedores[i].Nombre}
