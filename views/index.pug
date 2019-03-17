@@ -4,4 +4,70 @@ block content
     h1 Bienvenido a VuelaMAS
     .row.mt-5
       .col-12
-        h2 Proximamente...
+        - if (!ofertasVuelos && !escalasOfertadas)
+          h4.mt-5 Busca ofertas de vuelos
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action='buscarOfertas/' method="POST")
+                  .form-group
+                    label(for='Origen') Origen
+                    select#Origen.select.form-control.input-lg(type='text' name='Origen')
+                      - for (var i = 0; i < aeropuertos.length; i++)
+                        option(value=`${aeropuertos[i].CodigoIATA}`) #{aeropuertos[i].Ciudad} (#{aeropuertos[i].CodigoIATA})
+                  .form-group
+                    label(for='Destino') Destino
+                    select#Destino.select.form-control.input-lg(type='text' name='Destino')
+                      - for (var i = 0; i < aeropuertos.length; i++)
+                        option(value=`${aeropuertos[i].CodigoIATA}`) #{aeropuertos[i].Ciudad} (#{aeropuertos[i].CodigoIATA})
+                  .form-group
+                    label(for='FechaSalida') Fecha de Viaje
+                    input#FechaSalida.form-control(type='date' name='FechaSalida')
+                  .form-group
+                    button.btn.btn-primary(type='submit') Buscar
+        - if (ofertasVuelos)
+          h2 Ofertas
+          .row.mt-5
+            .col-12
+              table.table.bg-white
+                thead
+                  tr
+                    th(scope='col') ID    
+                    th(scope='col') Ruta
+                    th(scope='col') Fecha
+                    th(scope='col') Avión
+                    th(scope='col') Hora de Salida (Local Origen)
+                    th(scope='col') Hora de Llegada (Local Destino)
+                    th(scope='col') Estado
+                tbody
+                  - for (var i = 0; i < ofertasVuelos.length; i++)
+                    tr
+                      th(scope='row') #{ofertasVuelos[i].ID}
+                      td #{ofertasVuelos[i].CodigoIATAOrigen}-#{ofertasVuelos[i].CodigoIATADestino}
+                      td #{ofertasVuelos[i].FechaSalida}
+                      td #{ofertasVuelos[i].IDAvion}
+                      td #{ofertasVuelos[i].HoraSalida}
+                      td #{ofertasVuelos[i].HoraLlegada}
+                      td #{ofertasVuelos[i].Estado}
+        - if (escalasOfertadas)
+          h3.text-center Ofertas
+          .row.mt-5
+            - for (let i =0; i< escalasOfertadas.length; i++)
+              .col-6
+                table.table.btn-outline-dark
+                  thead.card-header
+                    tr.bg-none
+                      - if ((escalasOfertadas[i].length - 1) > 1)
+                        th(scope='col') #{escalasOfertadas[i].length - 1} Escalas
+                      - else
+                        th(scope='col') #{escalasOfertadas[i].length - 1} Escala
+                      th(scope='col') Viaje
+                      th(scope='col')
+                  tbody.card-body
+                    tr
+                      td
+                        - for (let j = 1; j < escalasOfertadas[i].length; j++)
+                          p #{escalasOfertadas[i][j].CodigoIATAOrigen}
+                      td #{escalasOfertadas[i][0].CodigoIATAOrigen} - #{escalasOfertadas[i][(escalasOfertadas[i].length - 1)].Destino}
+                      td
+                        form(action=`#`, method="POST")
+                          button.btn.btn-outline-warning(type='submit') Ver oferta

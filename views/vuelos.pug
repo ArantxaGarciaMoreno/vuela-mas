@@ -10,8 +10,8 @@ block content
               tr
                 th(scope='col') ID    
                 th(scope='col') Ruta
-                th(scope='col') Fecha de Salida
-                th(scope='col') Fecha de Llegada
+                th(scope='col') Fecha Salida
+                th(scope='col') Fecha Llegada
                 th(scope='col') Avion
                 th(scope='col') Destino
                 th(scope='col') Hora de Salida (Local Origen)
@@ -115,10 +115,10 @@ block content
                     - for (var i = 0; i < rutas.length; i++)
                       option(value=`${rutas[i].ID}`) #{rutas[i].CodigoIATAOrigen} - #{rutas[i].CodigoIATADestino}, Salida #{rutas[i].HoraSalida}
                 .form-group
-                  label(for='FechaSalida') Fecha de Salida
+                  label(for='FechaSalida') Fecha Salida
                   input#FechaSalida.form-control(type='date' placeholder='FechaSalida' name='FechaSalida')
                 .form-group
-                  label(for='Fecha') Fecha de Llegada
+                  label(for='FechaLlegada') Fecha Llegada
                   input#FechaLlegada.form-control(type='date' placeholder='FechaLlegada' name='FechaLlegada')
                 .form-group
                   label(for='IDAvion') Avión
@@ -156,7 +156,8 @@ block content
                 tr
                   th(scope='col') ID    
                   th(scope='col') Ruta
-                  th(scope='col') Fecha
+                  th(scope='col') Fecha de Salida
+                  th(scope='col') Fecha de Llegada
                   th(scope='col') Avion
                   th(scope='col') Destino
                   th(scope='col') Hora de Salida (Local Origen)
@@ -166,7 +167,8 @@ block content
                 tr
                   th(scope='row') #{vuelo.ID}
                   td #{ruta.CodigoIATAOrigen}-#{ruta.CodigoIATADestino}
-                  td #{vuelo.Fecha}
+                  td #{vuelo.FechaSalida}
+                  td #{vuelo.FechaLlegada}
                   td #{vuelo.IDAvion}
                   td #{aeropuerto.Ciudad}, #{aeropuerto.Pais}
                   td #{vuelo.HoraSalida}

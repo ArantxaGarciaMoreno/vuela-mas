@@ -68,7 +68,7 @@ router.get("/show/:ID", (req, res) => {
                             msg: 'Failed to show rutas'
                         });
                     } else {
-                        avionController.getAviones((aviones, err) => {
+                        avionController.getAvionesPropios((aviones, err) => {
                             if (err) {
                                 res.json({
                                     success: false,
