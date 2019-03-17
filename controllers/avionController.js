@@ -7,12 +7,14 @@ const controller = {};
 //Obtiene todos los aviones en la base de datos
 controller.getAviones = async function (callback) {
     try {
-        let response = await Avion.findAll({
-            where: {
-                Activo: 1
-            }
-        });
-        let aviones = response.map(result => result.dataValues);
+        let aviones = await db.query(
+            "SELECT Avion.ID AS ID, Avion.IDModeloAvion AS IDModeloAvion, Avion.Fabricante AS Fabricante, Avion.Estado AS Estado, Avion.hasInternet AS hasInternet, Avion.CantTV AS CantTV, Alquiler.IDAvion AS IDAvion " +
+            "FROM `Avion` " +
+            "LEFT JOIN `Alquiler` ON `Avion`.`ID`=`Alquiler`.`IDAvion` " +
+            "WHERE `Avion`.`Activo`= 1 " +
+            "GROUP BY Avion.ID;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
         console.log(aviones);
         callback(aviones, null);
     } catch (error) {

@@ -20,6 +20,20 @@ controller.getAeropuertos = async function (callback) {
     }
 }
 
+controller.getAeropuertosDistintos = async function (CodigoIATA, callback) {
+    try {
+        let diferentes = await db.query(
+            "SELECT CodigoIATA FROM Aeropuerto " +
+            `WHERE CodigoIATA != '${CodigoIATA}';`,
+            { type: sequelize.QueryTypes.SELECT }
+        ); 
+        console.log(diferentes);
+        callback(diferentes, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Obtiene el aeropuerto cuyos atributos se quieren actualizar
 controller.getAeropuertosUpdate = async function (CodigoIATA, callback) {
     try {

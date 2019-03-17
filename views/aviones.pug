@@ -1,94 +1,151 @@
 extends base
 block content
   .container.pt-4
-    h2 Aviones 
-    .row.mt-5
-      .col-12
-        table.table.bg-white
-          thead
-            tr
-              th(scope='col') ID
-              th(scope='col') Modelo
-              th(scope='col') Fabricante
-              th(scope='col') Estado
-              th(scope='col') Internet
-              th(scope='col') Cantidad de TVs
-          tbody
-          - for (var i = 0; i < aviones.length; i++)
-            tr
-              th(scope='row') #{aviones[i].ID}
-              - for(var j =0; j <modelosAvion.length; j++)
-                - if(modelosAvion[j].ID == aviones[i].IDModeloAvion)
-                  td #{modelosAvion[j].Nombre}
-              td #{aviones[i].Fabricante}
-              td #{aviones[i].Estado}
-              - if(aviones[i].hasInternet == 1)
-                td Si
-              - else
-                td No
-              td #{aviones[i].CantTV}
-              td
-                form(action=`show/${aviones[i].ID}`,method="GET")
-                  button.btn.btn-outline-danger(type='submit') Modificar
-              td
-                form(action=`delete/${aviones[i].ID}`,method="POST")
-                  button.btn.btn-outline-danger(type='submit') Eliminar
-        - if(avionUpdate)
-          h4.mt-5 Modificar Avion
-            div.card.bg-dark
+    - if(aviones)
+      h2 Aviones
+      .row.mt-5
+        .col-12
+          table.table.bg-white
+            thead
+              tr
+                th(scope='col') ID
+                th(scope='col') Modelo
+                th(scope='col') Fabricante
+                th(scope='col') Estado
+                th(scope='col') Internet
+                th(scope='col') Cantidad de TVs
+                th(scope='col') Alquilado
+            tbody
+            - for (var i = 0; i < aviones.length; i++)
+              tr
+                th(scope='row') #{aviones[i].ID}
+                - for(var j =0; j <modelosAvion.length; j++)
+                  - if(modelosAvion[j].ID == aviones[i].IDModeloAvion)
+                    td #{modelosAvion[j].Nombre}
+                td #{aviones[i].Fabricante}
+                td #{aviones[i].Estado}
+                - if(aviones[i].hasInternet == 1)
+                  td Si
+                - else
+                  td No
+                td #{aviones[i].CantTV}
+                - if(!!aviones[i].IDAvion)
+                  td Si
+                - else
+                  td No
+                td
+                  form(action=`show/${aviones[i].ID}`,method="GET")
+                    button.btn.btn-outline-danger(type='submit') Modificar
+                td
+                  form(action=`delete/${aviones[i].ID}`,method="POST")
+                    button.btn.btn-outline-danger(type='submit') Eliminar
+                - if(!!aviones[i].IDAvion)
+                  td
+                    form(action=`detalle/${aviones[i].ID}`,method="GET")
+                      button.btn.btn-outline-danger(type='submit') Detalle
+          - if(avionUpdate)
+            h4.mt-5 Modificar Avion
+              div.card.bg-dark
+                div.card-body.text-white
+                  form(action=`update/${avionUpdate.ID}` method="POST")
+                    .form-group
+                      label(for='IDModeloAvion') Modelo
+                      select#IDModeloAvion.select.form-control.input-lg(type='number' name='IDModeloAvion')
+                        - for(var i = 0; i < modelosAvion.length; i++)
+                          option(value=`${modelosAvion[i].ID}` selected=(avionUpdate.IDModeloAvion==modelosAvion[i].ID)) #{modelosAvion[i].Nombre}
+                    .form-group
+                      label(for='Fabricante') Fabricante
+                      input#Fabricante.form-control(type='text' value=`${avionUpdate.Fabricante}` placeholder='Fabricante' name='Fabricante')
+                    .form-group
+                      label(for='Estado') Estado
+                      select#Estado.select.form-control.input-lg(type='text' name='Estado')
+                        option(value='EN REPARACIÓN' selected=(avionUpdate.Estado=='EN REPARACIÓN')) EN REPARACIÓN
+                        option(value='EN RUTA' selected=(avionUpdate.Estado=='EN RUTA')) EN RUTA
+                        option(value='DAÑADO' selected=(avionUpdate.Estado=='DAÑADO')) DAÑADO
+                        option(value='EN ESPERA' selected=(avionUpdate.Estado=='EN ESPERA')) EN ESPERA
+                    .form-group
+                      label(for='hasInternet') Internet
+                      select#hasInternet.select.form-control.input-lg(type='number' name='hasInternet')
+                        option(value='1' selected=(avionUpdate.hasInternet==1)) Si
+                        option(value='0' selected=(avionUpdate.hasInternet==0)) No
+                    .form-group
+                      label(for='CantTV') Cantidad de TVs
+                      input#CantTV.form-control(type='number' value=`${avionUpdate.CantTV}` placeholder='CantTV' name='CantTV')
+                    .form-group
+                      button.btn.btn-danger(type="submit") Modificar
+          h4.mt-5 Agregar un nuevo avión
+            div(style="margin: 5px").card.bg-dark
               div.card-body.text-white
-                form(action=`update/${avionUpdate.ID}` method="POST")
-                  .form-group
-                    label(for='IDModeloAvion') Modelo
-                    select#IDModeloAvion.select.form-control.input-lg(type='number' name='IDModeloAvion')
-                      - for(var i = 0; i < modelosAvion.length; i++)
-                        option(value=`${modelosAvion[i].ID}` selected=(avionUpdate.IDModeloAvion==modelosAvion[i].ID)) #{modelosAvion[i].Nombre}
-                  .form-group
-                    label(for='Fabricante') Fabricante
-                    input#Fabricante.form-control(type='text' value=`${avionUpdate.Fabricante}` placeholder='Fabricante' name='Fabricante')
-                  .form-group
-                    label(for='Estado') Estado
-                    select#Estado.select.form-control.input-lg(type='text' name='Estado')
-                      option(value='EN REPARACIÓN' selected=(avionUpdate.Estado=='EN REPARACIÓN')) EN REPARACIÓN
-                      option(value='EN RUTA' selected=(avionUpdate.Estado=='EN RUTA')) EN RUTA
-                      option(value='DAÑADO' selected=(avionUpdate.Estado=='DAÑADO')) DAÑADO
-                      option(value='EN ESPERA' selected=(avionUpdate.Estado=='EN ESPERA')) EN ESPERA
-                  .form-group
-                    label(for='hasInternet') Internet
-                    select#hasInternet.select.form-control.input-lg(type='number' name='hasInternet')
-                      option(value='1' selected=(avionUpdate.hasInternet==1)) Si
-                      option(value='0' selected=(avionUpdate.hasInternet==0)) No
-                  .form-group
-                    label(for='CantTV') Cantidad de TVs
-                    input#CantTV.form-control(type='number' value=`${avionUpdate.CantTV}` placeholder='CantTV' name='CantTV')
-                  .form-group
-                    button.btn.btn-danger(type="submit") Modificar
-        h4.mt-5 Agregar un nuevo avion
-          div.card.bg-dark
-            div.card-body.text-white
-              form(action='create/' method="POST")
-                  .form-group
-                    label(for='IDModeloAvion') Modelo
-                    select#IDModeloAvion.select.form-control.input-lg(type='number' name='IDModeloAvion')
-                      - for(var i = 0; i < modelosAvion.length; i++)
-                        option(value=`${modelosAvion[i].ID}`) #{modelosAvion[i].Nombre}
-                  .form-group
-                    label(for='Fabricante') Fabricante
-                    input#Fabricante.form-control(type='text' placeholder='Fabricante' name='Fabricante')
-                  .form-group
-                    label(for='Estado') Estado
-                    select#Estado.select.form-control.input-lg(type='text' name='Estado')
-                      option(value='EN REPARACIÓN') EN REPARACIÓN
-                      option(value='EN RUTA') EN RUTA
-                      option(value='DAÑADO') DAÑADO
-                      option(value='EN ESPERA') EN ESPERA
-                  .form-group
-                    label(for='hasInternet') Internet
-                    select#hasInternet.select.form-control.input-lg(type='number' name='hasInternet')
-                      option(value='1') Si
-                      option(value='0') No
-                  .form-group
-                    label(for='CantTV') Cantidad de TVs
-                    input#CantTV.form-control(type='number' placeholder='CantTV' name='CantTV')
-                  .form-group
-                    button.btn.btn-primary(type='submit') Agregar
+                form(action='create/' method="POST")
+                    .form-group
+                      label(for='IDModeloAvion') Modelo
+                      select#IDModeloAvion.select.form-control.input-lg(type='number' name='IDModeloAvion')
+                        - for(var i = 0; i < modelosAvion.length; i++)
+                          option(value=`${modelosAvion[i].ID}`) #{modelosAvion[i].Nombre}
+                    .form-group
+                      label(for='Fabricante') Fabricante
+                      input#Fabricante.form-control(type='text' placeholder='Fabricante' name='Fabricante')
+                    .form-group
+                      label(for='Estado') Estado
+                      select#Estado.select.form-control.input-lg(type='text' name='Estado')
+                        option(value='EN REPARACIÓN') EN REPARACIÓN
+                        option(value='EN RUTA') EN RUTA
+                        option(value='DAÑADO') DAÑADO
+                        option(value='EN ESPERA') EN ESPERA
+                    .form-group
+                      label(for='hasInternet') Internet
+                      select#hasInternet.select.form-control.input-lg(type='number' name='hasInternet')
+                        option(value='1') Si
+                        option(value='0') No
+                    .form-group
+                      label(for='CantTV') Cantidad de TVs
+                      input#CantTV.form-control(type='number' placeholder='CantTV' name='CantTV')
+                    .form-group
+                      button.btn.btn-primary(type='submit') Agregar
+    - if (alquileres && avion)
+      h2 Detalle de Alquileres
+      .row.mt-5
+        .col-12
+          p(style='font-size: 160%') #[strong Avión]
+            table.table.bg-white
+              thead
+                tr
+                  th(scope='col') ID
+                  th(scope='col') Modelo
+                  th(scope='col') Fabricante
+                  th(scope='col') Estado
+                  th(scope='col') Internet
+                  th(scope='col') Cantidad de TVs
+              tbody
+                tr
+                  th(scope='row') #{avion.ID}
+                  - for(var j =0; j < modelosAvion.length; j++)
+                    - if(modelosAvion[j].ID == avion.IDModeloAvion)
+                      td #{modelosAvion[j].Nombre}
+                  td #{avion.Fabricante}
+                  td #{avion.Estado}
+                  - if(avion.hasInternet == 1)
+                    td Si
+                  - else
+                    td No
+                  td #{avion.CantTV}
+          p(style='font-size: 160%') #[strong Alquileres]
+            table.table.bg-white
+              thead
+                tr
+                  th(scope='Col') Proveedor
+                  th(scope='Col') Fecha de Solicitud
+                  th(scope='Col') Fecha de Entrega
+                  th(scope='Col') Fecha de Devolución
+                  th(scope='Col') Monto Pagado (USD)
+              tbody
+              - for (var i = 0; i < alquileres.length; i++)
+                tr
+                  - for(var j = 0; j < proveedores.length; j++)
+                    - if(proveedores[j].ID == alquileres[i].IDProveedor)
+                      td(scope='row') #{proveedores[j].Nombre}
+                  td #{alquileres[i].FechaSolicitud}
+                  td #{alquileres[i].FechaEntrega}
+                  td #{alquileres[i].FechaDevolucion}
+                  td #{alquileres[i].MontoPagado}
+            a.btn.btn-primary(href='/aviones/') Regresar

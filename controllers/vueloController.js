@@ -20,6 +20,22 @@ controller.getVuelos = async function (callback) {
     }
 }
 
+controller.getVuelosEnRuta = async function (callback) {
+    try {
+        let vuelosEnRuta = await db.query(
+            "SELECT ID, CodigoIATADestino, HoraLlegada FROM Vuelo " +
+            "LEFT JOIN Desvio ON Vuelo.ID = Desvio.IDVuelo " +
+            "WHERE Desvio.IDVuelo IS NULL " +
+            "AND Vuelo.Activo = 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(vuelosEnRuta);
+        callback(vuelosEnRuta, null);
+    } catch (error) {
+        callback(null, error)
+    }
+}
+
 //Obtiene el vuelo cuyos atributos se quieren actualizar
 controller.getVueloUpdate = async function (ID, callback) {
     try {
@@ -35,12 +51,27 @@ controller.getVueloUpdate = async function (ID, callback) {
     }
 }
 
+controller.getVuelo = async function (ID, callback) {
+    try {
+        let vuelo = await Vuelo.findOne({
+            where: {
+                ID
+            }
+        });
+        console.log(vuelo);
+        callback(vuelo, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Actualiza los atributos del vuelo modificado
 controller.updateVuelo = async function (data, ID, callback) {
     try {
         let response = await Vuelo.update({
             IDRuta: data.IDRuta,
-            Fecha: data.Fecha,
+            FechaSalida: data.FechaSalida,
+            FechaLlegada: data.FechaLlegada,
             IDAvion: data.IDAvion,
             CodigoIATADestino: data.CodigoIATADestino,
             HoraSalida: data.HoraSalida,
@@ -51,6 +82,23 @@ controller.updateVuelo = async function (data, ID, callback) {
                     ID
                 }
             });
+        callback(null);
+    } catch (error) {
+        callback(error);
+    }
+}
+
+controller.desviarVuelo = async function (IDVuelo, Destino, Llegada, callback) {
+    try {
+        let response = await Vuelo.update({
+            CodigoIATADestino: Destino,
+            HoraLlegada: Llegada,
+            Estado: 'DESVIADO'
+        }, {
+            where: {
+                ID: IDVuelo
+            }
+        });
         callback(null);
     } catch (error) {
         callback(error);
@@ -79,7 +127,8 @@ controller.createVuelo = async function (data, callback) {
     try {
         let response = await Vuelo.create({
             IDRuta: data.IDRuta,
-            Fecha: data.Fecha,
+            FechaSalida: data.FechaSalida,
+            FechaLlegada: data.FechaLlegada,
             IDAvion: data.IDAvion,
             CodigoIATADestino: data.CodigoIATADestino,
             HoraSalida: data.HoraSalida,

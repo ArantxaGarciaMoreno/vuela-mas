@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const avionController = require("../controllers/avionController");
+const alquilerController = require("../controllers/alquilerController");
 const modeloAvionController = require("../controllers/modeloAvionController");
+const proveedorController = require("../controllers/proveedorController");
 
 router.get("/", (req, res) => {
     avionController.getAviones((aviones, err) => {
@@ -23,6 +25,48 @@ router.get("/", (req, res) => {
             });
         }
     });
+});
+
+router.get("/detalle/:ID", (req, res) => {
+    if(!!req.params.ID) {
+        alquilerController.getAvionAlquiler(req.params.ID, (alquileres, err) => {
+            if (err) {
+                res.json({
+                    success: false,
+                    msg: 'Failed to get detalle de alquiler'
+                });
+            } else {
+                avionController.getAvionUpdate(req.params.ID, (avion, err) => {
+                    if (err) {
+                        res.json({
+                            success: false,
+                            msg: 'Failed to get avion'
+                        });
+                    } else {
+                        modeloAvionController.getModelosAvion((modelosAvion, err) => {
+                            if (err) {
+                                res.json({
+                                    success: false,
+                                    msg: 'Failed to get modelos avion'
+                                });
+                            } else {
+                                proveedorController.getProveedores((proveedores, err) => {
+                                    if (err) {
+                                        res.json({
+                                            success: false,
+                                            msg: 'Failed to get proveedores'
+                                        });
+                                    } else {
+                                        res.render("aviones", {alquileres, avion, modelosAvion, proveedores});
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
 });
 
 router.post("/delete/:ID", (req, res) => {

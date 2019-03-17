@@ -4,58 +4,26 @@ const Tripulacion = require('../models/Tripulacion');
 
 const controller = {};
 
-//Obtiene todos los tripulaciones
-controller.getTripulaciones = async function (callback) {
+//Obtiene todos los miembros de la tripulacion de un vuelo
+controller.getTripulacion = async function (IDVueloTrabajado, callback) {
     try {
-        let response = await Tripulacion.findAll({
-            where: {
-                Activo: 1
-            }
-        });
-        let tripulaciones = response.map(result => result.dataValues);
-        console.log(tripulaciones);
-        callback(tripulaciones, null);
+        let tripulacion = await db.query(
+            "SELECT `Empleado`.`ID`,`Empleado`.`Pasaporte`, `Empleado`.`Nombre`, `Empleado`.`Apellido`, `Empleado`.`Cargo`, `Tripulacion`.`IDVueloTrabajado` " +
+            "FROM `Tripulacion` " +
+            "INNER JOIN `Empleado` ON `Tripulacion`.`IDEmpleado`=`Empleado`.`ID` " +
+            "WHERE `Tripulacion`.`IDVueloTrabajado`=" + IDVueloTrabajado + " " +
+            "AND `Tripulacion`.`Activo`= 1 " +
+            "AND `Empleado`.`Activo`= 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(1);
+        callback(tripulacion, null);
     } catch (error) {
         callback(null, error);
     }
 }
 
-//Obtiene la Tripulacion cuyos atributos se quieren actualizar
-controller.getTripulacionUpdate = async function (IDEmpleado, IDVueloTrabajado, callback) {
-    try {
-        let tripulacionUpdate = await Tripulacion.findOne({
-            where: {
-                Activo: 1,
-                IDEmpleado,
-                IDVueloTrabajado
-            }
-        });
-        console.log(tripulacionUpdate);
-        callback(tripulacionUpdate, null);
-    } catch (error) {
-        callback(null, error);
-    }
-}
-
-//Actualiza los atributos del Tripulacion modificado
-controller.updateTripulacion = async function (data, IDEmpleado, IDVueloTrabajado, callback) {
-    try {
-        let response = await Tripulacion.update({
-            IDEmpleado: data.IDEmpleado,
-            IDVueloTrabajado: data.IDVueloTrabajado
-        }, {
-                where: {
-                    IDEmpleado,
-                    IDVueloTrabajado
-                }
-            });
-        callback(null);
-    } catch (error) {
-        callback(error);
-    }
-}
-
-//Desactiva un Tripulacion (Activo = 0)
+//Desactiva un miembro de la tripulacion de un vuelo (Activo = 0)
 controller.deleteTripulacion = async function (IDEmpleado, IDVueloTrabajado, callback) {
     try {
         let response = await Tripulacion.update({
@@ -87,7 +55,7 @@ controller.destroyTripulacion = async function (IDEmpleado, IDVueloTrabajado, ca
     }
 }
 
-//Crea un Tripulacion nuevo
+//Crea un miembro de tripulacion nuevo
 controller.createTripulacion = async function (data, callback) {
     try {
         let response = await Tripulacion.create({

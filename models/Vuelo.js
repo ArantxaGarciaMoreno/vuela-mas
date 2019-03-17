@@ -29,7 +29,16 @@ const Vuelo = db.define('Vuelo', {
             notEmpty: true
         }
     },
-    Fecha: {
+    FechaSalida: {
+        type: sequelize.DATEONLY,
+        allowNull: false,
+        unique: 'compositeIndex',
+
+        validate: {
+            notEmpty: true
+        }
+    },
+    FechaLlegada: {
         type: sequelize.DATEONLY,
         allowNull: false,
         unique: 'compositeIndex',

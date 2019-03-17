@@ -61,6 +61,22 @@ controller.updateAlquiler = async function (data, IDProveedor, IDAvion, FechaSol
     }
 }
 
+//Obtiene los alquileres activos asociados a un avión específico
+controller.getAvionAlquiler = async function (IDAvion, callback) {
+    try {
+        let response = await Alquiler.findAll({
+            where: {
+                IDAvion
+            }
+        });
+        let alquileresAvion = response.map(result => result.dataValues);
+        console.log(alquileresAvion);
+        callback(alquileresAvion, null);
+    } catch (error) {
+        callback(null, error)
+    }
+}
+
 //Desactiva un Alquiler (Activo = 0)
 controller.deleteAlquiler = async function (IDProveedor, IDAvion, FechaSolicitud, callback) {
     try {
