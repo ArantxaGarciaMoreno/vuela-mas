@@ -1,0 +1,128 @@
+extends base
+block content
+  .container.pt-4
+    h2 Pasajes 
+    .row.mt-5
+      .col-12
+        table.table.bg-white
+          thead
+            tr
+              th(scope='col') ID
+              th(scope='col') Pasajero
+              th(scope='col') Vuelo Reservado
+              th(scope='col') Tarifa Aplicada
+              th(scope='col') Comprador
+              th(scope='col') Estado del Pasaje
+              th(scope='col') Fecha de Reservación
+              th(scope='col') Método de Pago
+              th(scope='col') Vuelo Abordado
+              th(scope='col') Número de Asiento            
+          tbody
+            - for (var i = 0; i < pasajes.length; i++)
+              tr
+                th(scope='row') #{pasajes[i].PasajeID}
+                td #{pasajes[i].PasaporteP} (#{pasajes[i].ApellidoP}, #{pasajes[i].NombreP}) 
+                td #{pasajes[i].CodigoIATAOrigenR} - #{pasajes[i].CodigoIATADestinoR} (#{pasajes[i].FechaSalidaR})
+                td #{pasajes[i].Clase} - #{pasajes[i].TarifaID}
+                td #{pasajes[i].PasaporteC} (#{pasajes[i].ApellidoC}, #{pasajes[i].NombreC})
+                td #{pasajes[i].Estado}
+                td #{pasajes[i].FechaReserva}
+                td #{pasajes[i].MetodoPago}
+                - if (pasajes[i].CodigoIATAOrigenA != null)
+                    td #{pasajes[i].CodigoIATAOrigenA} - #{pasajes[i].CodigoIATADestinoA} (#{pasajes[i].FechaSalidaA})
+
+                - else 
+                    td No ha usado el pasaje
+                - if (pasajes[i].Asiento != null)
+                    td #{pasajes[i].Asiento}
+                - else
+                    td No asignado
+                td
+                  form(action=`show/${pasajes[i].PasajeID}`,method="GET")
+                    button.btn.btn-outline-danger(type='submit') Modificar
+                td
+                  form(action=`delete/${pasajes[i].PasajeID}`,method="POST")
+                    button.btn.btn-outline-danger(type='submit') Eliminar
+    - if(pasajeUpdate)
+      h4.mt-5 Modificar Datos del Pasaje
+        div.card.bg-dark
+          div.card-body.text-white
+            form(action=`update/${pasajeUpdate.ID}` method="POST")
+              .form-group
+                label(for="IDPasajero") Pasajero
+                select#IDPasajero.select.form-control.input-lg(type='number' name='IDPasajero')
+                    - for (var i = 0; i < clientes.length; i++)
+                        option(value=`${clientes[i].ID}` selected=(pasajeUpdate.IDPasajero==clientes[i].ID)) #{clientes[i].Pasaporte} (#{clientes[i].Apellido}, #{clientes[i].Nombre}) 
+              .form-group
+                label(for="IDVueloReservado") Vuelo Reservado
+                select#IDVueloReservado.select.form-control.input-lg(type='number' name='IDVueloReservado')
+                    - for (var i = 0; i < vuelosAtiempo.length; i++)
+                        option(value=`${vuelosAtiempo[i].ID}` selected=(pasajeUpdate.IDVueloReservado==vuelosAtiempo[i].ID)) #{vuelosAtiempo[i].CodigoIATAOrigen} - #{vuelosAtiempo[i].CodigoIATADestino} (#{vuelosAtiempo[i].FechaSalida}) 
+              .form-group
+                label(for="IDTarifa") Tarifa Aplicada
+                select#IDTarifa.select.form-control.input-lg(type='number' name='IDTarifa')
+                    - for (var i = 0; i < tarifas.length; i++)
+                        option(value=`${tarifas[i].ID}` selected=(pasajeUpdate.IDTarifa==tarifas[i].ID)) #{tarifas[i].Clase} - #{tarifas[i].ID}
+              .form-group
+                label(for="IDComprador") Comprador
+                select#IDComprador.select.form-control.input-lg(type='number' name='IDComprador')
+                    - for (var i = 0; i < clientes.length; i++)
+                        option(value=`${clientes[i].ID}` selected=(pasajeUpdate.IDComprador==clientes[i].ID)) #{clientes[i].Pasaporte} (#{clientes[i].Apellido}, #{clientes[i].Nombre}) 
+              .form-group
+                label(for='Estado') Estado del Pasaje
+                select#Estado.select.form-control.input-lg(type='text' name='Estado')
+                    option(value='RESERVADO' selected=(pasajeUpdate.Estado=='RESERVADO')) RESERVADO
+                    option(value='PAGADO' selected =(pasajeUpdate.Estado=='PAGADO')) PAGADO
+              .form-group
+                label(for='FechaReserva') Fecha de Reservación
+                input#FechaReserva.form-control(type='date' value=`${pasajeUpdate.FechaReserva}` placeholder='FechaReserva' name='FechaReserva')
+              .form-group
+                label(for='MetodoPago') Método de Pago
+                select#MetodoPago.select.form-control.input-lg(type='text' name='MetodoPago')
+                    option(value='DÉBITO' selected=(pasajeUpdate.MetodoPago=='DÉBITO')) DÉBITO
+                    option(value='CRÉDITO' selected=(pasajeUpdate.MetodoPago=='CRÉDITO')) CRÉDITO
+                    option(value='EFECTIVO' selected=(pasajeUpdate.MetodoPago=='EFECTIVO')) EFECTIVO
+                    option(value='TRANSFERENCIA' selected=(pasajeUpdate.MetodoPago=='TRANSFERENCIA')) TRANSFERENCIA           
+              button.btn.btn-danger(type="submit") Modificar
+    - else
+      h4.mt-5 Generar un nuevo pasaje
+        div.card.bg-dark
+          div.card-body.text-white
+            form(action='create/' method="POST")
+              .form-group
+                label(for="IDPasajero") Pasajero
+                select#IDPasajero.select.form-control.input-lg(type='number' name='IDPasajero')
+                    - for (var i = 0; i < clientes.length; i++)
+                        option(value=`${clientes[i].ID}`) #{clientes[i].Pasaporte} (#{clientes[i].Apellido}, #{clientes[i].Nombre}) 
+              .form-group
+                label(for="IDVueloReservado") Vuelo Reservado
+                select#IDVueloReservado.select.form-control.input-lg(type='number' name='IDVueloReservado')
+                    - for (var i = 0; i < vuelosAtiempo.length; i++)
+                        option(value=`${vuelosAtiempo[i].ID}`) #{vuelosAtiempo[i].CodigoIATAOrigen} - #{vuelosAtiempo[i].CodigoIATADestino} (#{vuelosAtiempo[i].FechaSalida}) 
+              .form-group
+                label(for="IDTarifa") Tarifa Aplicada
+                select#IDTarifa.select.form-control.input-lg(type='number' name='IDTarifa')
+                    - for (var i = 0; i < tarifas.length; i++)
+                        option(value=`${tarifas[i].ID}`) #{tarifas[i].Clase} - #{tarifas[i].ID}
+              .form-group
+                label(for="IDComprador") Comprador
+                select#IDComprador.select.form-control.input-lg(type='number' name='IDComprador')
+                    - for (var i = 0; i < clientes.length; i++)
+                        option(value=`${clientes[i].ID}`) #{clientes[i].Pasaporte} (#{clientes[i].Apellido}, #{clientes[i].Nombre}) 
+              .form-group
+                label(for='Estado') Estado del Pasaje
+                select#Estado.select.form-control.input-lg(type='text' name='Estado')
+                    option(value='RESERVADO') RESERVADO
+                    option(value='PAGADO') PAGADO
+              .form-group
+                label(for='FechaReserva') Fecha de Reservación
+                input#FechaReserva.form-control(type='date' placeholder='FechaReserva' name='FechaReserva')
+              .form-group
+                label(for='MetodoPago') Método de Pago
+                select#MetodoPago.select.form-control.input-lg(type='text' name='MetodoPago')
+                    option(value='DÉBITO') DÉBITO
+                    option(value='CRÉDITO') CRÉDITO
+                    option(value='EFECTIVO') EFECTIVO
+                    option(value='TRANSFERENCIA') TRANSFERENCIA  
+              .form-group
+                button.btn.btn-primary(type='submit') Reservar

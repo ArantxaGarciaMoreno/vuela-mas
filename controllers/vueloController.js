@@ -1,6 +1,7 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
 const Vuelo = require('../models/Vuelo');
+const Op = sequelize.Op;
 
 const controller = {};
 
@@ -15,6 +16,39 @@ controller.getVuelos = async function (callback) {
         let vuelos = response.map(result => result.dataValues);
         console.log(vuelos);
         callback(vuelos, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
+controller.getVuelosATiempo = async function (callback) {
+    try {
+        let vuelosAtiempo = await db.query(
+            "SELECT `Ruta`.`CodigoIATAOrigen`, `Vuelo`.`ID`, `Vuelo`.`CodigoIATADestino`, `Vuelo`.`FechaSalida` " +
+            "FROM `Vuelo` " +
+            "INNER JOIN `Ruta` ON `Vuelo`.`IDRuta`= `Ruta`.`ID` " +
+            "WHERE `Vuelo`.`Estado` = 'A TIEMPO' " +
+            "AND `Vuelo`.`Activo`= 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(vuelosAtiempo);
+        callback(vuelosAtiempo, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
+controller.getVuelosATiempoODemorados = async function (callback) {
+    try {
+        let response = await Vuelo.findAll({
+            where: {
+                Activo: 1,
+                [Op.or]: [{Estado: 'A TIEMPO'}, {Estado: 'DEMORADO'}]
+            },
+        });
+        let vuelosAoD = response.map(result => result.dataValues);
+        console.log(vuelosAoD);
+        callback(vuelosAoD, null);
     } catch (error) {
         callback(null, error);
     }

@@ -100,7 +100,7 @@ const Pasaje = db.define('Pasaje', {
         }
     },
     FechaReserva: {
-        type: sequelize.DATE,
+        type: sequelize.DATEONLY,
         allowNull: false,
 
         validate: {
@@ -113,7 +113,6 @@ const Pasaje = db.define('Pasaje', {
         allowNull: false,
 
         validate: {
-            isAlpha: true,
             notEmpty: true
         }
     },
