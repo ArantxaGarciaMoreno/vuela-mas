@@ -73,10 +73,10 @@ block content
                         option(value=`${rutas[i].ID}` selected=(vueloUpdate.IDRuta==rutas[i].ID)) #{rutas[i].CodigoIATAOrigen} - #{rutas[i].CodigoIATADestino}, Salida #{rutas[i].HoraSalida}
                   .form-group
                     label(for='FechaSalida') Fecha de Salida
-                    input#FechaSalida.form-control(type='date' value= `${vueloUpdate.FechaSalida}` placeholder='FechaSalida' name='FechaSalida')
+                    input#FechaSalida.form-control(type='date' value= `${vueloUpdate.FechaSalida}` name='FechaSalida')
                   .form-group
                     label(for='FechaLlegada') Fecha de Llegada
-                    input#FechaLlegada.form-control(type='date' value= `${vueloUpdate.FechaLlegada}` placeholder='FechaLlegada' name='FechaLlegada')
+                    input#FechaLlegada.form-control(type='date' value= `${vueloUpdate.FechaLlegada}` name='FechaLlegada')
                   .form-group
                     label(for='IDAvion') ID Avión
                     select#IDAvion.select.form-control.input-lg(type='number' value=`${vueloUpdate.IDAvion}` name='IDAvion')
@@ -89,10 +89,10 @@ block content
                         option(value=`${aeropuertos[i].CodigoIATA}` selected=(vueloUpdate.CodigoIATADestino==aeropuertos[i].CodigoIATA)) #{aeropuertos[i].CodigoIATA}
                   .form-group
                     label(for='HoraSalida') Hora de Salida (Local Origen)
-                    input#HoraSalida.form-control(type='time' value=`${vueloUpdate.HoraSalida}` placeholder='HoraSalida' name='HoraSalida')
+                    input#HoraSalida.form-control(type='time' value=`${vueloUpdate.HoraSalida}` name='HoraSalida')
                   .form-group
                     label(for='HoraLlegada') Hora de Llegada (Local Destino)
-                    input#HoraLlegada.form-control(type='time' value=`${vueloUpdate.HoraLlegada}` placeholder='HoraHoraLlegada' name='HoraLlegada')
+                    input#HoraLlegada.form-control(type='time' value=`${vueloUpdate.HoraLlegada}` name='HoraLlegada')
                   .form-group
                     label(for='Estado') Estado
                     select#Estado.form-control(type='text' name='Estado')
