@@ -6,6 +6,7 @@ const avionController = require("../controllers/avionController");
 const rutaController = require("../controllers/rutaController");
 const empleadoController = require("../controllers/empleadoController");
 const tripulacionController = require("../controllers/tripulacionController");
+const desvioController = require("../controllers/desvioController");
 
 router.get("/", (req, res) => {
     vueloController.getVuelos((vuelos, err) => {
@@ -125,6 +126,126 @@ router.post("/show/update/:ID", (req, res) => {
                 });
             else
                 res.redirect("/vuelos/");
+        });
+    }
+});
+
+router.get("/desviar", (req, res) => {
+    if (!!req.body) {
+        desvioController.getDesvios((desvios, err) => {
+            if (err) {
+                res.json({
+                    success: false,
+                    msg: 'Failed to get desvios'
+                });
+            } else {
+                vueloController.getVuelosEnRuta((enRuta, err) => {
+                    if (err) {
+                        res.json({
+                            success: false,
+                            msg: 'Failed to get vuelos en ruta'
+                        });
+                    } else {
+                        res.render("vuelos", {desvios, enRuta});
+                    }
+                });
+            }
+        });
+    }
+});
+
+router.post("/desviar/confirm/:ID/:Destino/:Llegada", (req, res) => {
+    if (!!req.body) {
+        desvioController.deleteDesvio(req.params.ID, (err) => {
+            if (err) {
+                res.json({
+                    success: false,
+                    msg: 'Failed to confirm desvio'
+                });
+            } else {
+                vueloController.desviarVuelo(req.params.ID, req.params.Destino, req.params.Llegada, (err) => {
+                    if (err) {
+                        res.json({
+                            success: false,
+                            msg: 'Failed to desviar vuelo'
+                        });
+                    } else {
+                        res.redirect("/vuelos/desviar/")
+                    }
+                });
+            }
+        });
+    }
+});
+
+router.post("/desviar/cancel/:ID/", (req, res) => {
+    if(!!req.body) {
+        desvioController.destroyDesvio(req.params.ID, (err) => {
+            if (err) {
+                res.json({
+                    success: false,
+                    msg: 'Failed to destroy desvio'
+                });
+            } else {
+                res.redirect("/vuelos/desviar/");
+            }
+        });
+    }
+});
+
+router.get("/desviar/show/:ID/:Destino", (req, res) => {
+    if (!!req.body) {
+        desvioController.getDesvios((desvios, err) => {
+            if (err) {
+                res.json({
+                    success: false,
+                    msg: 'Failed to get desvios'
+                });
+            } else {
+                vueloController.getVuelosEnRuta((enRuta, err) => {
+                    if (err) {
+                        res.json({
+                            success: false,
+                            msg: 'Failed to get vuelos en ruta'
+                        });
+                    } else {
+                        vueloController.getVueloUpdate(req.params.ID, (vueloDesvio, err) => {
+                            if (err) {
+                                res.json({
+                                    success: false,
+                                    msg: 'Failed to get vueloDesvio'
+                                });
+                            } else {
+                                aeropuertoController.getAeropuertosDistintos(req.params.Destino, (diferentes, err) => {
+                                    if (err) {
+                                        res.json({
+                                            success: false,
+                                            msg: 'Failed to get aeropuertos diferentes'
+                                        });
+                                    } else {
+                                        res.render("vuelos", {desvios, enRuta, vueloDesvio, diferentes});
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+});
+
+router.post("/desviar/show/:ID/add", (req,res) => {
+    if(!!req.body) {
+        desvioController.createDesvio(req.body, req.params.ID, (err) => {
+            if (err) {
+                res.json({
+                    success: false,
+                    msg: 'Failed to add desvio'
+                });
+            } else {
+                res.redirect('/vuelos/desviar/');
+            }
         });
     }
 });

@@ -10,12 +10,52 @@ controller.getRutas = async function (callback) {
         let response = await Ruta.findAll({
             where: {
                 Activo: 1
-            }
+            },
+            attributes: ['ID', 'CodigoIATAOrigen', 'CodigoIATADestino', 'IDAvion', [sequelize.fn('TIME_FORMAT', sequelize.col('HoraSalida'), '%H:%i'), 'HoraSalida'], [sequelize.fn('TIME_FORMAT', sequelize.col('HoraLlegada'), '%H:%i'), 'HoraLlegada']]
         });
         let rutas = response.map(result => result.dataValues);
         console.log(rutas);
         callback(rutas, null);
     } catch(error) {
+        callback(null, error);
+    }
+}
+
+controller.getRutaZA = async function (callback) {
+    try {
+        let rutaZA = await db.query(
+            "SELECT r.ID AS ID, r.CodigoIATAOrigen AS CodigoIATAOrigen, r.CodigoIATADestino AS CodigoIATADestino, r.IDAvion AS IDAvion, TIME_FORMAT(r.HoraSalida, '%H:%i') AS HoraSalida, TIME_FORMAT(TIME(CURDATE() + INTERVAL TIME_TO_SEC(r.HoraLlegada) SECOND + INTERVAL (a.ZonaHoraria-b.ZonaHoraria)*3600 SECOND), '%H:%i') AS HoraLlegada " +
+            "FROM Ruta AS r " +
+            "INNER JOIN Aeropuerto AS a ON a.CodigoIATA = r.CodigoIATADestino " +
+            "INNER JOIN Aeropuerto AS b ON b.CodigoIATA = r.CodigoIATAOrigen " +
+            "WHERE a.Activo = 1 " +
+            "AND b.Activo = 1 " +
+            "AND r.Activo = 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(rutaZA);
+        callback(rutaZA, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
+controller.getRutaZAUpdate = async function (ID, callback) {
+    try {
+        let rutaZA = await db.query(
+            "SELECT r.ID AS ID, r.CodigoIATAOrigen AS CodigoIATAOrigen, r.CodigoIATADestino AS CodigoIATADestino, r.IDAvion AS IDAvion, TIME_FORMAT(r.HoraSalida, '%H:%i') AS HoraSalida, TIME_FORMAT(TIME(CURDATE() + INTERVAL TIME_TO_SEC(r.HoraLlegada) SECOND + INTERVAL (a.ZonaHoraria-b.ZonaHoraria)*3600 SECOND), '%H:%i') AS HoraLlegada, r.HoraLlegada AS HoraLlegadaLocal " +
+            "FROM Ruta AS r " +
+            "INNER JOIN Aeropuerto AS a ON a.CodigoIATA = r.CodigoIATADestino " +
+            "INNER JOIN Aeropuerto AS b ON b.CodigoIATA = r.CodigoIATAOrigen " +
+            "WHERE a.Activo = 1 " +
+            "AND b.Activo = 1 " +
+            "AND r.Activo = 1 " +
+            `AND r.ID = ${ID};`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(rutaZA);
+        callback(rutaZA, null);
+    } catch (error) {
         callback(null, error);
     }
 }
@@ -26,7 +66,8 @@ controller.getRutaUpdate = async function (ID, callback) {
         let rutaUpdate = await Ruta.findOne({
             where: {
                 ID
-            }
+            },
+            attributes: ['ID', 'CodigoIATAOrigen', 'CodigoIATADestino', 'IDAvion', [sequelize.fn('TIME_FORMAT', sequelize.col('HoraSalida'), '%H:%i'), 'HoraSalida'], [sequelize.fn('TIME_FORMAT', sequelize.col('HoraLlegada'), '%H:%i'), 'HoraLlegada']]
         });
         console.log(rutaUpdate);
         callback(rutaUpdate, null);

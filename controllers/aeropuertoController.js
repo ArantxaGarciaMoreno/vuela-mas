@@ -20,6 +20,20 @@ controller.getAeropuertos = async function (callback) {
     }
 }
 
+controller.getAeropuertosDistintos = async function (CodigoIATA, callback) {
+    try {
+        let diferentes = await db.query(
+            "SELECT CodigoIATA FROM Aeropuerto " +
+            `WHERE CodigoIATA != '${CodigoIATA}';`,
+            { type: sequelize.QueryTypes.SELECT }
+        ); 
+        console.log(diferentes);
+        callback(diferentes, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Obtiene el aeropuerto cuyos atributos se quieren actualizar
 controller.getAeropuertosUpdate = async function (CodigoIATA, callback) {
     try {
@@ -38,10 +52,23 @@ controller.getAeropuertosUpdate = async function (CodigoIATA, callback) {
 
 //Actualiza los atributos del aeropuerto modificado
 controller.updateAeropuerto = async function (data, CodigoIATA, callback) {
+
+    var pais;
+
+    if (data.Ciudad == 'Caracas') {
+        pais = 'Venezuela'
+    } else if (data.Ciudad == 'París') {
+        pais = 'Francia'
+    } else if (data.Ciudad == 'Dubai') {
+        pais = 'Emiratos Árabes Unidos'
+    } else if ((data.Ciudad == 'Atlanta')||(data.Ciudad == 'Miami')||(data.Ciudad == 'New York')) {
+        pais = 'Estados Unidos de América'
+    }
+
     try {
         let response = await Aeropuerto.update({
             Ciudad: data.Ciudad,
-            Pais: data.Pais,
+            Pais: pais,
             ZonaHoraria: data.ZonaHoraria
         }, {
                 where: {
@@ -86,11 +113,24 @@ controller.destroyAeropuerto = async function (CodigoIATA, callback) {
 
 //Crea un aeropuerto nuevo
 controller.createAeropuerto = async function (data, callback) {
+
+    var pais;
+
+    if (data.Ciudad == 'Caracas') {
+        pais = 'Venezuela'
+    } else if (data.Ciudad == 'París') {
+        pais = 'Francia'
+    } else if (data.Ciudad == 'Dubai') {
+        pais = 'Emiratos Árabes Unidos'
+    } else if ((data.Ciudad == 'Atlanta')||(data.Ciudad == 'Miami')||(data.Ciudad == 'New York')) {
+        pais = 'Estados Unidos de América'
+    }
+
     try {
         let response = await Aeropuerto.create({
             CodigoIATA: data.CodigoIATA,
             Ciudad: data.Ciudad,
-            Pais: data.Pais,
+            Pais: pais,
             ZonaHoraria: data.ZonaHoraria
         });
         callback(null);

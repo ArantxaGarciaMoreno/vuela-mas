@@ -4,7 +4,7 @@ block content
     h1 Bienvenido a VuelaMAS
     .row.mt-5
       .col-12
-        - if (!ofertasVuelos && !escalasOfertadas)
+        - if (!ofertasVuelos && !escalasOfertadas && !vueloEstado)
           h4.mt-5 Busca ofertas de vuelos
             div.card.bg-dark
               div.card-body.text-white
@@ -24,6 +24,33 @@ block content
                     input#FechaSalida.form-control(type='date' name='FechaSalida')
                   .form-group
                     button.btn.btn-primary(type='submit') Buscar
+      .col-12
+        - if (vuelos)
+          h4.mt-5 Consulta el Estado de un Vuelo
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action='consultarEstado/' method="POST")
+                  .form-group
+                    label(for='Vuelo') Vuelo
+                    select#Vuelo.select.form-control.input-lg(type='number' name='Vuelo')
+                      - for (var i = 0; i < vuelos.length; i++)
+                        option(value=`${vuelos[i].ID}`) #{vuelos[i].CodigoIATAOrigen} - #{vuelos[i].CodigoIATADestino} (#{vuelos[i].FechaSalida})
+                  .form-group
+                    button.btn.btn-primary(type='submit') Consultar
+        - if (vueloEstado)
+          h2 Estado del Vuelo
+          .row.mt-5
+            .col-12
+              table.table.bg-white
+                thead
+                  tr
+                    th(scope='col') Vuelo    
+                    th(scope='col') Estado
+                tbody
+                  tr
+                    td #{vueloEstado[0].CodigoIATAOrigen}-#{vueloEstado[0].CodigoIATADestino} (#{vueloEstado[0].FechaSalida})
+                    td #{vueloEstado[0].Estado}
+              a.btn.btn-outline-danger(type='button' href='/') Atrás
         - if (ofertasVuelos)
           h2 Ofertas
           .row.mt-5

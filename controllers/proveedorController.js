@@ -20,6 +20,44 @@ controller.getProveedores = async function (callback) {
     }
 }
 
+controller.getProveedoresPTR = async function (callback) {
+    try {
+        let proveedoresPTR = await db.query(
+            "SELECT `Proveedor`.`Nombre`, `Proveedor`.`Ciudad`, `Proveedor`.`Pais`, ROUND(AVG(DATEDIFF(`Alquiler`.`FechaEntrega`, `Alquiler`.`FechaSolicitud`)), 0) AS TRPromedio " +
+            "FROM `Alquiler` " +
+            "INNER JOIN `Proveedor` ON `Alquiler`.`IDProveedor`=`Proveedor`.`ID` " +
+            "WHERE `Alquiler`.`Activo` = 1 " +
+            "AND `Proveedor`.`Activo`= 1 " + 
+            "GROUP BY `Alquiler`.`IDProveedor` " + 
+            "ORDER BY TRPromedio ASC;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(proveedoresPTR);
+        callback(proveedoresPTR, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
+controller.getProveedoresPDA = async function (callback) {
+    try {
+        let proveedoresPDA = await db.query(
+            "SELECT `Proveedor`.`Nombre`, `Proveedor`.`Ciudad`, `Proveedor`.`Pais`, ROUND(AVG((`Alquiler`.`MontoPagado`) DIV (DATEDIFF(`Alquiler`.`FechaDevolucion`, `Alquiler`.`FechaEntrega`))), 2) AS PDAPromedio " +
+            "FROM `Alquiler` " +
+            "INNER JOIN `Proveedor` ON `Alquiler`.`IDProveedor`=`Proveedor`.`ID` " +
+            "WHERE `Alquiler`.`Activo` = 1 " +
+            "AND `Proveedor`.`Activo` = 1 " + 
+            "GROUP BY `Alquiler`.`IDProveedor` " + 
+            "ORDER BY PDAPromedio ASC;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(proveedoresPDA);
+        callback(proveedoresPDA, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Obtiene el proveedor cuyos atributos se quieren actualizar
 controller.getProveedorUpdate = async function (ID, callback) {
     try {

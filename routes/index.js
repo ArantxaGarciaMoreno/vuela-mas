@@ -11,9 +11,34 @@ router.get("/", (req, res) => {
                 msg: 'Failed to show aeropuertos'
             });
         else
-            res.render("index", { aeropuertos });
+            vueloController.getVuelosR((vuelos, err) => {
+                if (err) {
+                    res.json({
+                        success: false,
+                        msg: 'Failed to get vuelos'
+                    });
+                } else {
+                    res.render("index", { aeropuertos, vuelos });
+                }
+            })
+
     });
 });
+
+router.post("/consultarEstado", (req, res) => {
+    if(!!req.body) {
+        vueloController.getEstadoVuelo(req.body.Vuelo, (vueloEstado, error)=> {
+            if(error) {
+                res.json({
+                    success: false,
+                    msg: 'Failed to get Estado'
+                });
+            } else {
+                res.render('index', { vueloEstado });
+            }
+        })
+    }
+})
 
 router.post("/buscarOfertas", (req, res) => {
     if (!!req.body) {
@@ -35,9 +60,9 @@ router.post("/buscarOfertas", (req, res) => {
                                 msg: 'Failed to show primera escala'
                             });
                         } else {
-                            var data = {Origen: '', Destino: req.body.Destino, FechaLlegada: ''}
+                            var data = { Origen: '', Destino: req.body.Destino, FechaLlegada: '' }
                             vueloController.getEscalas2(escalas1, data, (escalas, error) => {
-                                if(error) {
+                                if (error) {
                                     res.json({
                                         success: false,
                                         msg: 'Failed to get escalas'
@@ -47,7 +72,7 @@ router.post("/buscarOfertas", (req, res) => {
                                     for (let i = 0; i < escalas.length; i++) {
                                         if (escalas[i][(escalas[i].length - 1)].Destino == req.body.Destino) escalasOfertadas.push(escalas[i])
                                     }
-                                    res.render('index', {escalasOfertadas});
+                                    res.render('index', { escalasOfertadas });
                                 }
                             });
                         }

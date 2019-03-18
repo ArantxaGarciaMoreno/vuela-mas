@@ -107,7 +107,16 @@ router.get("/show/:ID", (req, res) => {
                                                     msg: 'Failed to get vuelos a tiempo y demorados'
                                                 });
                                             else {
-                                                res.render("pasajes", { pasajeUpdate, clientes, vuelosAtiempo, tarifas, vuelosAoD });
+                                                pasajeController.getPasajes((pasajes, err) => {
+                                                    if(err){
+                                                        res.json({
+                                                            success: false,
+                                                            msg: 'Failed to get pasajes'
+                                                        })
+                                                    }else{
+                                                        res.render("pasajes", { pasajes, pasajeUpdate, clientes, vuelosAtiempo, tarifas, vuelosAoD });
+                                                    }
+                                                })
                                             }
                                         });
                                     }

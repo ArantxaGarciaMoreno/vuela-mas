@@ -20,13 +20,20 @@ block content
                   - if(!modelosProveedor)
                     td
                       form(action=`show/${proveedores[i].ID}`,method="GET")
-                        button.btn.btn-outline-danger(type='submit') Modificar
+                        button.btn.btn-outline-dark(type='submit') Modificar
                     td
                       form(action=`delete/${proveedores[i].ID}`,method="POST")
                         button.btn.btn-outline-danger(type='submit') Eliminar
                     td
                       form(action=`detalles/${proveedores[i].ID}`,method="GET")
-                        button.btn.btn-outline-danger(type='submit') Oferta
+                        button.btn.btn-outline-warning(type='submit') Oferta
+      div.row
+        div.col-3
+          form(action='filtrarPTR/', method="GET")
+            button.btn.btn-outline-dark(type='submit') Ordenar por tiempo de respuesta
+        div.col-3  
+          form(action='filtrarPDA/', method="GET")
+            button.btn.btn-outline-dark(type='submit') Ordenar por precio por dia de alquiler 
       - if(proveedorUpdate)
         h4.mt-5 Modificar Datos
           div.card.bg-dark
@@ -58,6 +65,44 @@ block content
                   input#Pais.form-control(type='text' placeholder='Pais' name='Pais')
                 .form-group
                   button.btn.btn-primary(type='submit') Agregar
+    - if (proveedoresPTR)
+      h2 Proveedores 
+      .row.mt-5
+        .col-12
+          table.table.bg-white
+            thead
+              tr
+                th(scope='col') Nombre
+                th(scope='col') Ciudad
+                th(scope='col') País
+                th(scope='col') Promedio de Tiempo de Respuesta (en días)          
+            tbody
+              - for (var i = 0; i < proveedoresPTR.length; i++)
+                tr
+                  th(scope='row') #{proveedoresPTR[i].Nombre}
+                  td #{proveedoresPTR[i].Ciudad}
+                  td #{proveedoresPTR[i].Pais}
+                  td #{proveedoresPTR[i].TRPromedio}
+          a.btn.btn-outline-danger(type='button' href='/proveedores/') Atrás
+    - if (proveedoresPDA)
+      h2 Proveedores 
+      .row.mt-5
+        .col-12
+          table.table.bg-white
+            thead
+              tr
+                th(scope='col') Nombre
+                th(scope='col') Ciudad
+                th(scope='col') País
+                th(scope='col') Promedio de Precio Por Dia de Alquiler (en USD)          
+            tbody
+              - for (var i = 0; i < proveedoresPDA.length; i++)
+                tr
+                  th(scope='row') #{proveedoresPDA[i].Nombre}
+                  td #{proveedoresPDA[i].Ciudad}
+                  td #{proveedoresPDA[i].Pais}
+                  td #{proveedoresPDA[i].PDAPromedio}
+          a.btn.btn-outline-danger(type='button' href='/proveedores/') Atrás
     - if (proveedorDetalle && modelosProveedor)
       h2 Proveedor 
       .row.mt-5
