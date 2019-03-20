@@ -262,3 +262,17 @@ block content
                       form(action=`/checkin/confirm/${pasajeND}/${nuevoVuelo[i].ID}/`, method="GET")
                         button.btn.btn-outline-danger(type='submit') Seleccionar Vuelo
             a.btn.btn-primary(href="javascript:history.back()") Regresar
+        - if (top)
+          h4.mt-5 Top Destinos
+            table.table.bg-dark.text-white
+              thead
+                tr
+                  th(scope='col') Localidad
+                  th(scope='col') Aeropuerto
+                  th(scope='col') No. Vuelos
+              tbody
+                - for (var i = 0; i < top.length; i++)
+                  tr
+                    td #{top[i].Ciudad}, #{top[i].Pais}
+                    td #{top[i].CodigoIATA}
+                    td #{top[i].Vuelos}

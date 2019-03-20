@@ -28,7 +28,17 @@ router.get("/", (req, res) => {
                                 msg: 'Failed to get vuelos'
                             });
                         } else {
-                            res.render("index", { aeropuertos, vuelos, pasajesCheckIn });
+                            aeropuertoController.getAeropuertosTop((top, err) => {
+                                if (err) {
+                                    console.log(err);
+                                    res.json({
+                                        success: false,
+                                        msg: "Failed to get top"
+                                    });
+                                } else {
+                                    res.render("index", { aeropuertos, vuelos, pasajesCheckIn, top });
+                                }
+                            });
                         }
                     });
                 }
