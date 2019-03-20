@@ -25,13 +25,13 @@ block content
                   td #{empleados[i].Cargo}
                   td
                     form(action=`show/${empleados[i].ID}`,method="GET")
-                      button.btn.btn-outline-danger(type='submit') Modificar
+                      button.btn.btn-outline-dark(type='submit') Modificar
                   td
                     form(action=`delete/${empleados[i].ID}`,method="POST")
                       button.btn.btn-outline-danger(type='submit') Eliminar
                   td
                     form(action=`telefonos/${empleados[i].ID}`,method="GET")
-                      button.btn.btn-outline-danger(type='submit') Teléfonos
+                      button.btn.btn-outline-warning(type='submit') Teléfonos
       - if(empleadoUpdate)
         h4.mt-5 Modificar Datos del Empleado
           div.card.bg-dark

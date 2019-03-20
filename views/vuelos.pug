@@ -12,7 +12,7 @@ block content
                 th(scope='col') Ruta
                 th(scope='col') Fecha Salida
                 th(scope='col') Fecha Llegada
-                th(scope='col') Avion
+                th(scope='col') Avión
                 th(scope='col') Destino
                 th(scope='col') Hora de Salida (Local Origen)
                 th(scope='col') Hora de Llegada (Local Destino)
@@ -36,13 +36,13 @@ block content
                   td #{vuelos[i].Estado}
                   td
                     form(action=`show/${vuelos[i].ID}`,method="GET")
-                      button.btn.btn-outline-danger(type='submit') Modificar
+                      button.btn.btn-outline-dark(type='submit') Modificar
                   td
                     form(action=`delete/${vuelos[i].ID}`,method="POST")
                       button.btn.btn-outline-danger(type='submit') Eliminar
                   td
                     form(action=`tripulacion/${vuelos[i].ID}`,method="GET")
-                      button.btn.btn-outline-danger(type='submit') Tripulación        
+                      button.btn.btn-outline-warning(type='submit') Tripulación        
             - else
               tr
                 th(scope='row') #{vueloUpdate.ID}
@@ -100,7 +100,7 @@ block content
                       option(value='DEMORADO' selected=(vueloUpdate.Estado=='DEMORADO')) DEMORADO
                       option(value='CANCELADO' selected=(vueloUpdate.Estado=='CANCELADO')) CANCELADO
                       option(value='EN VUELO' selected=(vueloUpdate.Estado=='EN VUELO')) EN VUELO
-                      option(value='ATERRIZO' selected=(vueloUpdate.Estado=='ATERRIZO')) ATERRIZÓ
+                      option(value='ATERRIZÓ' selected=(vueloUpdate.Estado=='ATERRIZÓ')) ATERRIZÓ
                       option(value='DESVIADO' selected=(vueloUpdate.Estado=='DESVIADO')) DESVIADO
                   .form-group
                   button.btn.btn-danger(type="submit") Modificar
@@ -143,7 +143,7 @@ block content
                     option(value='DEMORADO') DEMORADO
                     option(value='CANCELADO') CANCELADO
                     option(value='EN VUELO') EN VUELO
-                    option(value='ATERRIZO') ATERRIZÓ
+                    option(value='ATERRIZÓ') ATERRIZÓ
                     option(value='DESVIADO') DESVIADO
                 .form-group
                   button.btn.btn-primary(type='submit') Agregar

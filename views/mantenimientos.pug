@@ -27,7 +27,7 @@ block content
                 td #{mantenimientos[i].Descripcion}
                 td
                   form(action=`show/${mantenimientos[i].IDAvion}-${mantenimientos[i].FechaEntrada}`,method="GET")
-                    button.btn.btn-outline-danger(type='submit') Modificar
+                    button.btn.btn-outline-dark(type='submit') Modificar
                 td
                   form(action=`delete/${mantenimientos[i].IDAvion}-${mantenimientos[i].FechaEntrada}`,method="POST")
                     button.btn.btn-outline-danger(type='submit') Eliminar

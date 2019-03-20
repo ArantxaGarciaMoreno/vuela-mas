@@ -28,6 +28,32 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/filtrarPTR/", (req, res) => {
+    proveedorController.getProveedoresPTR((proveedoresPTR, err) => {
+        if(err)
+            res.json({
+                success: false,
+                msg: 'Failed to show proveedoresPTR'
+            });
+        else {
+            res.render("proveedores", { proveedoresPTR });
+        }
+    });
+});
+
+router.get("/filtrarPDA/", (req, res) => {
+    proveedorController.getProveedoresPDA((proveedoresPDA, err) => {
+        if(err)
+            res.json({
+                success: false,
+                msg: 'Failed to show proveedoresPDA'
+            });
+        else {
+            res.render("proveedores", { proveedoresPDA });
+        }
+    });
+});
+
 router.post("/delete/:ID", (req, res) => {
     if (!!req.params.ID) {
         proveedorController.deleteProveedor(req.params.ID, (err) => {

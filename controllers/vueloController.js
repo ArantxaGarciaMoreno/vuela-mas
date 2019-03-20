@@ -21,17 +21,17 @@ controller.getVuelos = async function (callback) {
     }
 }
 
-controller.getVuelosEnRuta = async function (callback) {
+controller.getVuelosR = async function (callback) {
     try {
-        let vuelosEnRuta = await db.query(
-            "SELECT ID, CodigoIATADestino, HoraLlegada FROM Vuelo " +
-            "LEFT JOIN Desvio ON Vuelo.ID = Desvio.IDVuelo " +
-            "WHERE Desvio.IDVuelo IS NULL " +
-            "AND Vuelo.Activo = 1;",
+        let vuelos = await db.query(
+            "SELECT `Ruta`.`CodigoIATAOrigen`, `Vuelo`.`ID`, `Vuelo`.`CodigoIATADestino`, `Vuelo`.`FechaSalida` " +
+            "FROM `Vuelo` " +
+            "INNER JOIN `Ruta` ON `Vuelo`.`IDRuta`= `Ruta`.`ID` " +
+            "WHERE `Vuelo`.`Activo`= 1;",
             { type: sequelize.QueryTypes.SELECT }
         );
-        console.log(vuelosEnRuta);
-        callback(vuelosEnRuta, null);
+        console.log(vuelos);
+        callback(vuelos, null);
     } catch (error) {
         callback(null, error);
     }
@@ -98,7 +98,7 @@ controller.getVuelosATiempoODemorados = async function (callback) {
         let response = await Vuelo.findAll({
             where: {
                 Activo: 1,
-                [Op.or]: [{Estado: 'A TIEMPO'}, {Estado: 'DEMORADO'}]
+                [Op.or]: [{ Estado: 'A TIEMPO' }, { Estado: 'DEMORADO' }]
             },
         });
         let vuelosAoD = response.map(result => result.dataValues);
@@ -106,6 +106,22 @@ controller.getVuelosATiempoODemorados = async function (callback) {
         callback(vuelosAoD, null);
     } catch (error) {
         callback(null, error);
+    }
+}
+
+controller.getVuelosEnRuta = async function (callback) {
+    try {
+        let vuelosEnRuta = await db.query(
+            "SELECT ID, CodigoIATADestino, HoraLlegada FROM Vuelo " +
+            "LEFT JOIN Desvio ON Vuelo.ID = Desvio.IDVuelo " +
+            "WHERE Desvio.IDVuelo IS NULL " +
+            "AND Vuelo.Activo = 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(vuelosEnRuta);
+        callback(vuelosEnRuta, null);
+    } catch (error) {
+        callback(null, error)
     }
 }
 
@@ -169,10 +185,10 @@ controller.desviarVuelo = async function (IDVuelo, Destino, Llegada, callback) {
             HoraLlegada: Llegada,
             Estado: 'DESVIADO'
         }, {
-            where: {
-                ID: IDVuelo
-            }
-        });
+                where: {
+                    ID: IDVuelo
+                }
+            });
         callback(null);
     } catch (error) {
         callback(error);
@@ -215,6 +231,43 @@ controller.createVuelo = async function (data, callback) {
     }
 }
 
+controller.getEstadoVuelo = async function (ID, callback) {
+    try {
+        let vueloEstado = await db.query(
+            "SELECT `Ruta`.`CodigoIATAOrigen`, `Vuelo`.`CodigoIATADestino`, `Vuelo`.`FechaSalida`, `Vuelo`.`Estado` " +
+            "FROM `Vuelo` " +
+            "INNER JOIN `Ruta` ON `Vuelo`.`IDRuta`= `Ruta`.`ID` " +
+            "WHERE `Vuelo`.`ID`= " + ID + " " + 
+            "AND `Vuelo`.`Activo`= 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(vueloEstado);
+        callback(vueloEstado, null);
+    } catch (error) {
+        callback(null, error)
+    }
+}
+
+controller.getAvionVuelo = async function (ID, callback) {
+    try {
+        let avionVuelo = await db.query(
+            "SELECT `Avion`.`ID` AS AvionID, `Avion`.`IDModeloAvion`, `Avion`.`Fabricante`, `Avion`.`Estado` AS AvionE, `Avion`.`hasInternet`, `Avion`.`CantTV`, `Vuelo`.`ID` AS VueloID, `Ruta`.`CodigoIATAOrigen`, `Modelo_Avion`.`Nombre`, " +
+            "`Ruta`.`CodigoIATADestino` AS RDestino, `Vuelo`.`FechaSalida`, `Vuelo`.`FechaLlegada`, `Vuelo`.`IDAvion`, `Vuelo`.`CodigoIATADestino` AS VDestino, `Vuelo`.`HoraSalida`, `Vuelo`.`HoraLlegada`, `Vuelo`.`Estado` " +
+            "FROM `Vuelo` " +
+            "INNER JOIN `Avion` ON `Vuelo`.`IDAvion`= `Avion`.`ID` " +
+            "INNER JOIN `Ruta` ON `Vuelo`.`IDRuta`= `Ruta`.`ID` " +
+            "INNER JOIN `Modelo_Avion` ON `Avion`.`IDModeloAvion`= `Modelo_Avion`.`ID` " +
+            "WHERE `Vuelo`.`ID` = " + ID + " " + 
+            "AND `Vuelo`.`Activo`= 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(avionVuelo);
+        callback(avionVuelo, null);
+    } catch (error) {
+        callback(null, error)
+    }
+}
+
 //Busca los vuelos que puede tomar un cliente
 controller.getOfertasVuelos = async function (data, callback) {
     try {
@@ -231,6 +284,23 @@ controller.getOfertasVuelos = async function (data, callback) {
         );
         console.log(ofertasVuelos);
         callback(ofertasVuelos, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
+controller.getVuelosAvion = async function (ID, callback) {
+    try {
+        let vuelosAvion = await db.query(
+            "SELECT `Vuelo`.`ID`, `Ruta`.`CodigoIATAOrigen`, `Vuelo`.`CodigoIATADestino`, `Vuelo`.`FechaSalida`, `Vuelo`.`IDAvion`, `Vuelo`.`HoraSalida`, `Vuelo`.`HoraLlegada`, `Vuelo`.`Estado` " +
+            "FROM `Vuelo` " +
+            "INNER JOIN `Ruta` ON `Vuelo`.`IDRuta`=`Ruta`.`ID` " +
+            "WHERE `Vuelo`.`IDAvion` =  '" + ID + "' " +
+            "AND `Vuelo`.`Activo` = 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(vuelosAvion);
+        callback(vuelosAvion, null);
     } catch (error) {
         callback(null, error);
     }
@@ -255,8 +325,8 @@ controller.getEscalas1 = async function (data, callback) {
     }
 }
 
-controller.getEscalas2 = async function (escalas1, data, callback){
-    var escalas = new  Array(escalas1.length);
+controller.getEscalas2 = async function (escalas1, data, callback) {
+    var escalas = new Array(escalas1.length);
     let escalas2;
     var cont;
     var aux;
@@ -271,16 +341,16 @@ controller.getEscalas2 = async function (escalas1, data, callback){
         aux = [];
         aux.push(escalas1[i]);
         cont = 0;
-        do{
+        do {
             try {
                 escalas2 = await db.query(
                     "SELECT `Vuelo`.`ID`, `Vuelo`.`HoraSalida`, `Vuelo`.`HoraLlegada`, `Ruta`.`CodigoIATAOrigen`," +
                     " `Ruta`.`CodigoIATADestino` AS Destino, `Vuelo`.`FechaSalida`, `Vuelo`.`FechaLlegada` FROM `Vuelo`" +
                     " INNER JOIN `Ruta` ON `Ruta`.`ID` = `Vuelo`.`IDRuta`" +
-                    " WHERE `Ruta`.`CodigoIATAOrigen` = '"+data.Origen+"'" +
-                    " AND YEAR(`Vuelo`.`FechaSalida`) >= YEAR('"+data.FechaLlegada+"')" +
-                    " AND MONTH(`Vuelo`.`FechaSalida`) >= MONTH('"+data.FechaLlegada+"')" +
-                    " AND DAY(`Vuelo`.`FechaSalida`) >=  DAY('"+data.FechaLlegada+"')" +
+                    " WHERE `Ruta`.`CodigoIATAOrigen` = '" + data.Origen + "'" +
+                    " AND YEAR(`Vuelo`.`FechaSalida`) >= YEAR('" + data.FechaLlegada + "')" +
+                    " AND MONTH(`Vuelo`.`FechaSalida`) >= MONTH('" + data.FechaLlegada + "')" +
+                    " AND DAY(`Vuelo`.`FechaSalida`) >=  DAY('" + data.FechaLlegada + "')" +
                     " AND `Vuelo`.`Estado`='A TIEMPO'" +
                     " AND `Vuelo`.`Activo` = 1" +
                     " ORDER BY `Vuelo`.`FechaSalida` ASC LIMIT 1;",
@@ -290,13 +360,13 @@ controller.getEscalas2 = async function (escalas1, data, callback){
                 cont++;
                 cont2 = 0;
 
-                if(escalas2.length > 0){
+                if (escalas2.length > 0) {
                     data.Origen = escalas2[0].Destino
                     data.FechaLlegada = escalas2[0].FechaLlegada
                     posicion = 0;
 
                     for (let k = 0; k < escalas2.length; k++) {
-                        if(escalas2[k].Destino == data.Destino){
+                        if (escalas2[k].Destino == data.Destino) {
                             data.Origen = escalas2[k].Destino
                             data.FechaLlegada = escalas2[k].FechaLlegada
                             posicion = k;
@@ -306,25 +376,25 @@ controller.getEscalas2 = async function (escalas1, data, callback){
 
                     origenes.push(escalas2[posicion].Origen);
 
-                    for(let j =0; j < origenes.length; j++) {
+                    for (let j = 0; j < origenes.length; j++) {
                         if (origenes[j] == escalas2[posicion].Destino) {
                             cont2++;
                         }
                     }
 
-                    if(cont2 == 0){
+                    if (cont2 == 0) {
                         aux.push(escalas2[posicion]);
                     }
 
                 } else {
                     posicion = 0;
-                    escalas2 = [[{Destino: ''}]]
+                    escalas2 = [[{ Destino: '' }]]
                 }
-            } catch(error){
+            } catch (error) {
                 callback(null, error);
             }
-        }while(data.Destino != escalas2[posicion].Destino && cont <= 3);
-        
+        } while (data.Destino != escalas2[posicion].Destino && cont <= 3);
+
         escalas[i] = aux;
         origenes = [];
     }

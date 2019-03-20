@@ -3,8 +3,8 @@ block content
   .container.pt-4
     h1 Bienvenido a VuelaMAS
     .row.mt-5
-      .col-12
-        - if (!ofertasVuelos && !escalasOfertadas && !pasajeR && !asientos && !nuevoVuelo)
+      .col-6
+        - if (!ofertasVuelos && !escalasOfertadas && !vueloEstado && !avionVuelo && !pasajeR && !asientos && !nuevoVuelo)
           h4.mt-5 Busca ofertas de vuelos
             div.card.bg-dark
               div.card-body.text-white
@@ -23,7 +23,98 @@ block content
                     label(for='FechaSalida') Fecha de Viaje
                     input#FechaSalida.form-control(type='date' name='FechaSalida')
                   .form-group
-                    button.btn.btn-primary(type='submit') Buscar
+                    button.btn.btn-outline-warning(type='submit') Buscar
+      .col-6
+        - if (vuelos)
+          h4.mt-5 Consulta el Estado de un Vuelo
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action='consultarEstado/' method="POST")
+                  .form-group
+                    label(for='Vuelo') Vuelo
+                    select#Vuelo.select.form-control.input-lg(type='number' name='Vuelo')
+                      - for (var i = 0; i < vuelos.length; i++)
+                        option(value=`${vuelos[i].ID}`) #{vuelos[i].CodigoIATAOrigen} - #{vuelos[i].CodigoIATADestino} (#{vuelos[i].FechaSalida})
+                  .form-group
+                    button.btn.btn-outline-warning(type='submit') Consultar
+      .col-6
+        - if (vuelos)
+          h4.mt-5 Consulta el Avión que se usó y/o usará en un vuelo
+            div.card.bg-dark
+              div.card-body.text-white
+                form(action='consultarAvion/' method="POST")
+                  .form-group
+                    label(for='VueloA') Vuelo
+                    select#VueloA.select.form-control.input-lg(type='number' name='VueloA')
+                      - for (var i = 0; i < vuelos.length; i++)
+                        option(value=`${vuelos[i].ID}`) #{vuelos[i].CodigoIATAOrigen} - #{vuelos[i].CodigoIATADestino} (#{vuelos[i].FechaSalida})
+                  .form-group
+                    button.btn.btn-outline-warning(type='submit') Consultar
+        - if (vueloEstado)
+          h2 Estado del Vuelo
+          .row.mt-5
+            .col-12
+              table.table.bg-white
+                thead
+                  tr
+                    th(scope='col') Vuelo    
+                    th(scope='col') Estado
+                tbody
+                  tr
+                    td #{vueloEstado[0].CodigoIATAOrigen}-#{vueloEstado[0].CodigoIATADestino} (#{vueloEstado[0].FechaSalida})
+                    td #{vueloEstado[0].Estado}
+              a.btn.btn-outline-danger(type='button' href='/') Atrás
+        - if (avionVuelo)
+          h2 Vuelo
+          .row.mt-5
+            .col-12
+              table.table.bg-white
+                thead
+                  tr
+                    th(scope='col') ID    
+                    th(scope='col') Ruta
+                    th(scope='col') Fecha Salida
+                    th(scope='col') Fecha Llegada
+                    th(scope='col') Avión
+                    th(scope='col') Destino
+                    th(scope='col') Hora de Salida (Local Origen)
+                    th(scope='col') Hora de Llegada (Local Destino)
+                    th(scope='col') Estado
+                tbody
+                  tr
+                    th(scope='row') #{avionVuelo[0].VueloID}
+                    td #{avionVuelo[0].CodigoIATAOrigen}-#{avionVuelo[0].RDestino}
+                    td #{avionVuelo[0].FechaSalida}
+                    td #{avionVuelo[0].FechaLlegada}
+                    td #{avionVuelo[0].AvionID}
+                    td #{avionVuelo[0].VDestino}
+                    td #{avionVuelo[0].HoraSalida}
+                    td #{avionVuelo[0].HoraLlegada}
+                    td #{avionVuelo[0].Estado}
+          h2 Avion
+          .row.mt-5
+            .col-12
+              table.table.bg-white
+                thead
+                  tr
+                    th(scope='col') ID
+                    th(scope='col') Modelo
+                    th(scope='col') Fabricante
+                    th(scope='col') Estado
+                    th(scope='col') Internet
+                    th(scope='col') Cantidad de TVs
+                tbody
+                  tr
+                    th(scope='row') #{avionVuelo[0].AvionID}
+                    td #{avionVuelo[0].Nombre}
+                    td #{avionVuelo[0].Fabricante}
+                    td #{avionVuelo[0].AvionE}
+                    - if(avionVuelo[0].hasInternet == 1)
+                      td Si
+                    - else
+                      td No
+                    td #{avionVuelo[0].CantTV}
+              a.btn.btn-outline-danger(type='button' href='/') Atrás
         - if (ofertasVuelos)
           h2 Ofertas
           .row.mt-5
@@ -48,11 +139,12 @@ block content
                       td #{ofertasVuelos[i].HoraSalida}
                       td #{ofertasVuelos[i].HoraLlegada}
                       td #{ofertasVuelos[i].Estado}
+              a(href="/" style="margin: 15px").btn.btn-outline-warning Regresar
         - if (escalasOfertadas)
           h3.text-center Ofertas
           .row.mt-5
             - for (let i =0; i< escalasOfertadas.length; i++)
-              .col-6
+              div.col-3
                 table.table.btn-outline-dark
                   thead.card-header
                     tr.bg-none
@@ -61,16 +153,36 @@ block content
                       - else
                         th(scope='col') #{escalasOfertadas[i].length - 1} Escala
                       th(scope='col') Viaje
-                      th(scope='col')
                   tbody.card-body
                     tr
                       td
                         - for (let j = 1; j < escalasOfertadas[i].length; j++)
                           p #{escalasOfertadas[i][j].CodigoIATAOrigen}
+                        p(style="visibility:hidden") ...
                       td #{escalasOfertadas[i][0].CodigoIATAOrigen} - #{escalasOfertadas[i][(escalasOfertadas[i].length - 1)].Destino}
-                      td
-                        form(action=`#`, method="POST")
-                          button.btn.btn-outline-warning(type='submit') Ver oferta
+                        div.col-9
+                          table.table
+                            thead.card-header.bg-dark.text-warning
+                              th(scope='col') Vuelo
+                              th(scope='col') Hora de salida
+                              th(scope='col') Hora de llegada
+                              th(scope='col') Origen
+                              th(scope='col') Destino
+                              th(scope='col') Fecha de salida
+                              th(scope='col') Fecha de llegada
+                            tbody.card-body
+                            - for (let j = 0; j < escalasOfertadas[i].length; j++)
+                              tr
+                                td(scope='row') #{escalasOfertadas[i][j].ID}
+                                td #{escalasOfertadas[i][j].HoraSalida}
+                                td #{escalasOfertadas[i][j].HoraLlegada}
+                                td #{escalasOfertadas[i][j].CodigoIATAOrigen}
+                                td #{escalasOfertadas[i][j].Destino}
+                                td #{escalasOfertadas[i][j].FechaSalida}
+                                td #{escalasOfertadas[i][j].FechaLlegada}
+                                td
+                                  form(action=`#`, method="POST")
+                                    button.btn.btn-outline-warning(type='submit') Ver oferta
         - if(pasajesCheckIn)
           h4.mt-5 Realizar Check-In
             div.card.bg-dark
@@ -82,7 +194,7 @@ block content
                         - for (var i = 0; i < pasajesCheckIn.length; i++)
                           option(value=`${pasajesCheckIn[i].ID}`) #{pasajesCheckIn[i].ID} - #{pasajesCheckIn[i].ApellidoP}, #{pasajesCheckIn[i].NombreP}
                     .form-group
-                      button.btn.btn-primary(type='submit') Proceder
+                      button.btn.btn-outline-warning(type='submit') Proceder
         - if (pasajeR && vueloR)
           h4.mt-5 Datos del Pasaje
             table.table.bg-white
@@ -111,6 +223,7 @@ block content
                   td
                     form(action=`select-flight/${pasajeR[0].ID}/${vueloR[0].ID}/`, method="GET")
                       button.btn.btn-outline-danger(type='submit') Abordar Vuelo Distinto
+            a.btn.btn-primary(href="javascript:history.back()") Regresar
         - if (asientos && asientosE && asientosPC && cliente)
           h4.mt-5 Seleccione su asiento
             div.card.bg-dark
@@ -129,6 +242,7 @@ block content
                               option(value=`${asientosPC[i][0]}`) Primera Clase - No. #{asientosPC[i][0]}
                     .form-group
                       button.btn.btn-primary(type='submit') Seleccionar
+            a.btn.btn-primary(href="javascript:history.back()" style="margin-top: 10px") Regresar
         - if (nuevoVuelo && pasajeND)
           h4.mt-5 Seleccione un vuelo nuevo
           h4.mt-5 Ruta #{nuevoVuelo[0].Origen} - #{nuevoVuelo[0].Destino}
@@ -147,3 +261,4 @@ block content
                     td
                       form(action=`/checkin/confirm/${pasajeND}/${nuevoVuelo[i].ID}/`, method="GET")
                         button.btn.btn-outline-danger(type='submit') Seleccionar Vuelo
+            a.btn.btn-primary(href="javascript:history.back()") Regresar

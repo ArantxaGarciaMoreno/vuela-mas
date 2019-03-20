@@ -28,7 +28,7 @@ block content
                 td #{alquileres[i].MontoPagado}
                 td
                   form(action=`show/${alquileres[i].IDProveedor}/${alquileres[i].IDAvion}/${alquileres[i].FechaSolicitud}/`,method="GET")
-                    button.btn.btn-outline-danger(type='submit') Modificar
+                    button.btn.btn-outline-dark(type='submit') Modificar
                 td
                   form(action=`delete/${alquileres[i].IDProveedor}/${alquileres[i].IDAvion}/${alquileres[i].FechaSolicitud}`,method="POST")
                     button.btn.btn-outline-danger(type='submit') Eliminar

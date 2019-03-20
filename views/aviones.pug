@@ -35,14 +35,17 @@ block content
                   td No
                 td
                   form(action=`show/${aviones[i].ID}`,method="GET")
-                    button.btn.btn-outline-danger(type='submit') Modificar
+                    button.btn.btn-outline-dark(type='submit') Modificar
                 td
                   form(action=`delete/${aviones[i].ID}`,method="POST")
                     button.btn.btn-outline-danger(type='submit') Eliminar
                 - if(!!aviones[i].IDAvion)
                   td
                     form(action=`detalle/${aviones[i].ID}`,method="GET")
-                      button.btn.btn-outline-danger(type='submit') Detalle
+                      button.btn.btn-outline-warning(type='submit') Alquiler
+                td
+                    form(action=`uso/${aviones[i].ID}`,method="GET")
+                      button.btn.btn-outline-dark(type='submit') Uso
           - if(avionUpdate)
             h4.mt-5 Modificar Avion
               div.card.bg-dark
@@ -63,6 +66,7 @@ block content
                         option(value='EN RUTA' selected=(avionUpdate.Estado=='EN RUTA')) EN RUTA
                         option(value='DAÑADO' selected=(avionUpdate.Estado=='DAÑADO')) DAÑADO
                         option(value='EN ESPERA' selected=(avionUpdate.Estado=='EN ESPERA')) EN ESPERA
+                        option(value='ALQUILADO' selected=(avionUpdate.Estado=='ALQUILADO')) ALQUILADO
                     .form-group
                       label(for='hasInternet') Internet
                       select#hasInternet.select.form-control.input-lg(type='number' name='hasInternet')
@@ -92,6 +96,7 @@ block content
                         option(value='EN RUTA') EN RUTA
                         option(value='DAÑADO') DAÑADO
                         option(value='EN ESPERA') EN ESPERA
+                        option(value='ALQUILADO') ALQUILADO
                     .form-group
                       label(for='hasInternet') Internet
                       select#hasInternet.select.form-control.input-lg(type='number' name='hasInternet')
@@ -101,7 +106,7 @@ block content
                       label(for='CantTV') Cantidad de TVs
                       input#CantTV.form-control(type='number' placeholder='CantTV' name='CantTV')
                     .form-group
-                      button.btn.btn-primary(type='submit') Agregar
+                      button.btn.btn-warning(type='submit') Agregar
     - if (alquileres && avion)
       h2 Detalle de Alquileres
       .row.mt-5
@@ -148,4 +153,32 @@ block content
                   td #{alquileres[i].FechaEntrega}
                   td #{alquileres[i].FechaDevolucion}
                   td #{alquileres[i].MontoPagado}
-            a.btn.btn-primary(href='/aviones/') Regresar
+            a.btn.btn-warning(href='/aviones/') Regresar
+    - if (vuelosAvion)
+      h2 Historial de uso del avión seleccionado
+      .row.mt-5
+        .col-12
+          table.table.bg-white
+            thead
+              tr
+                th(scope='col') ID    
+                th(scope='col') Ruta
+                th(scope='col') Fecha Salida
+                th(scope='col') Fecha Llegada
+                th(scope='col') Avión
+                th(scope='col') Hora de Salida (Local Origen)
+                th(scope='col') Hora de Llegada (Local Destino)
+                th(scope='col') Estado
+            tbody
+            - if(!vueloUpdate)
+              - for (var i = 0; i < vuelosAvion.length; i++)
+                tr
+                  th(scope='row') #{vuelosAvion[i].ID}
+                  td #{vuelosAvion[i].CodigoIATAOrigen}-#{vuelosAvion[i].CodigoIATADestino}
+                  td #{vuelosAvion[i].FechaSalida}
+                  td #{vuelosAvion[i].FechaLlegada}
+                  td #{vuelosAvion[i].IDAvion}
+                  td #{vuelosAvion[i].HoraSalida}
+                  td #{vuelosAvion[i].HoraLlegada}
+                  td #{vuelosAvion[i].Estado} 
+          a.btn.btn-warning(href='/aviones/') Regresar     
