@@ -12,7 +12,7 @@ block content
                 th(scope='col') Ruta
                 th(scope='col') Fecha Salida
                 th(scope='col') Fecha Llegada
-                th(scope='col') Avion
+                th(scope='col') Avión
                 th(scope='col') Destino
                 th(scope='col') Hora de Salida (Local Origen)
                 th(scope='col') Hora de Llegada (Local Destino)
@@ -36,13 +36,13 @@ block content
                   td #{vuelos[i].Estado}
                   td
                     form(action=`show/${vuelos[i].ID}`,method="GET")
-                      button.btn.btn-outline-danger(type='submit') Modificar
+                      button.btn.btn-outline-dark(type='submit') Modificar
                   td
                     form(action=`delete/${vuelos[i].ID}`,method="POST")
                       button.btn.btn-outline-danger(type='submit') Eliminar
                   td
                     form(action=`tripulacion/${vuelos[i].ID}`,method="GET")
-                      button.btn.btn-outline-danger(type='submit') Tripulación        
+                      button.btn.btn-outline-warning(type='submit') Tripulación        
             - else
               tr
                 th(scope='row') #{vueloUpdate.ID}

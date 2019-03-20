@@ -28,13 +28,13 @@ block content
                       td UTC ±#{aeropuertos[i].ZonaHoraria}:00
                   td
                     form(action=`show/${aeropuertos[i].CodigoIATA}`,method="GET")
-                      button.btn.btn-outline-danger(type='submit') Modificar
+                      button.btn.btn-outline-dark(type='submit') Modificar
                   td
                     form(action=`delete/${aeropuertos[i].CodigoIATA}`,method="POST")
                       button.btn.btn-outline-danger(type='submit') Eliminar
                   td
                     form(action=`pistas/${aeropuertos[i].CodigoIATA}`,method="GET")
-                      button.btn.btn-outline-danger(type='submit') Pistas
+                      button.btn.btn-outline-warning(type='submit') Pistas
             - else
               tr
                 th(scope='row') #{aeropuertosUpdate.CodigoIATA}

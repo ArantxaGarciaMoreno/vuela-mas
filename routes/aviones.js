@@ -4,6 +4,7 @@ const avionController = require("../controllers/avionController");
 const alquilerController = require("../controllers/alquilerController");
 const modeloAvionController = require("../controllers/modeloAvionController");
 const proveedorController = require("../controllers/proveedorController");
+const vueloController = require("../controllers/vueloController");
 
 router.get("/", (req, res) => {
     avionController.getAviones((aviones, err) => {
@@ -64,6 +65,21 @@ router.get("/detalle/:ID", (req, res) => {
                         });
                     }
                 });
+            }
+        });
+    }
+});
+
+router.get("/uso/:ID", (req, res) => {
+    if(!!req.params.ID) {
+        vueloController.getVuelosAvion(req.params.ID, (vuelosAvion, err) => {
+            if (err) {
+                res.json({
+                    success: false,
+                    msg: 'Failed to get vuelos en los que fue usado y sera usado el avion'
+                });
+            } else {
+                res.render("aviones", {vuelosAvion});
             }
         });
     }

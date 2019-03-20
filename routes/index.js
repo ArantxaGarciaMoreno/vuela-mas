@@ -40,6 +40,22 @@ router.post("/consultarEstado", (req, res) => {
     }
 })
 
+router.post("/consultarAvion", (req, res) => {
+    if(!!req.body) {
+        vueloController.getAvionVuelo(req.body.VueloA, (avionVuelo, error)=> {
+            if(error) {
+                console.log(error);
+                res.json({
+                    success: false,
+                    msg: 'Failed to get Avion'
+                });
+            } else {
+                res.render('index', { avionVuelo });
+            }
+        })
+    }
+})
+
 router.post("/buscarOfertas", (req, res) => {
     if (!!req.body) {
         vueloController.getOfertasVuelos(req.body, (ofertasVuelos, error) => {

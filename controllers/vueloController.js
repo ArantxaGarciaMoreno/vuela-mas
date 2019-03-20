@@ -209,6 +209,26 @@ controller.getEstadoVuelo = async function (ID, callback) {
     }
 }
 
+controller.getAvionVuelo = async function (ID, callback) {
+    try {
+        let avionVuelo = await db.query(
+            "SELECT `Avion`.`ID` AS AvionID, `Avion`.`IDModeloAvion`, `Avion`.`Fabricante`, `Avion`.`Estado` AS AvionE, `Avion`.`hasInternet`, `Avion`.`CantTV`, `Vuelo`.`ID` AS VueloID, `Ruta`.`CodigoIATAOrigen`, `Modelo_Avion`.`Nombre`, " +
+            "`Ruta`.`CodigoIATADestino` AS RDestino, `Vuelo`.`FechaSalida`, `Vuelo`.`FechaLlegada`, `Vuelo`.`IDAvion`, `Vuelo`.`CodigoIATADestino` AS VDestino, `Vuelo`.`HoraSalida`, `Vuelo`.`HoraLlegada`, `Vuelo`.`Estado` " +
+            "FROM `Vuelo` " +
+            "INNER JOIN `Avion` ON `Vuelo`.`IDAvion`= `Avion`.`ID` " +
+            "INNER JOIN `Ruta` ON `Vuelo`.`IDRuta`= `Ruta`.`ID` " +
+            "INNER JOIN `Modelo_Avion` ON `Avion`.`IDModeloAvion`= `Modelo_Avion`.`ID` " +
+            "WHERE `Vuelo`.`ID` = " + ID + " " + 
+            "AND `Vuelo`.`Activo`= 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(avionVuelo);
+        callback(avionVuelo, null);
+    } catch (error) {
+        callback(null, error)
+    }
+}
+
 //Busca los vuelos que puede tomar un cliente
 controller.getOfertasVuelos = async function (data, callback) {
     try {
@@ -225,6 +245,23 @@ controller.getOfertasVuelos = async function (data, callback) {
         );
         console.log(ofertasVuelos);
         callback(ofertasVuelos, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
+controller.getVuelosAvion = async function (ID, callback) {
+    try {
+        let vuelosAvion = await db.query(
+            "SELECT `Vuelo`.`ID`, `Ruta`.`CodigoIATAOrigen`, `Vuelo`.`CodigoIATADestino`, `Vuelo`.`FechaSalida`, `Vuelo`.`IDAvion`, `Vuelo`.`HoraSalida`, `Vuelo`.`HoraLlegada`, `Vuelo`.`Estado` " +
+            "FROM `Vuelo` " +
+            "INNER JOIN `Ruta` ON `Vuelo`.`IDRuta`=`Ruta`.`ID` " +
+            "WHERE `Vuelo`.`IDAvion` =  '" + ID + "' " +
+            "AND `Vuelo`.`Activo` = 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(vuelosAvion);
+        callback(vuelosAvion, null);
     } catch (error) {
         callback(null, error);
     }
