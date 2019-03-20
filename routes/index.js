@@ -5,6 +5,7 @@ const vueloController = require("../controllers/vueloController");
 const pasajeController = require("../controllers/pasajeController");
 const avionController = require("../controllers/avionController");
 const rutaController = require("../controllers/rutaController");
+const clienteController = require("../controllers/clienteController");
 
 router.get("/", (req, res) => {
     aeropuertoController.getAeropuertos((aeropuertos, err) => {
@@ -28,7 +29,16 @@ router.get("/", (req, res) => {
                                 msg: 'Failed to get vuelos'
                             });
                         } else {
-                            res.render("index", { aeropuertos, vuelos, pasajesCheckIn });
+                            clienteController.getCompradores((compradores, err) => {
+                                if (err) {
+                                    res.json({
+                                        success: false,
+                                        msg: 'Failed to get compradores'
+                                    });
+                                } else {
+                                    res.render("index", { aeropuertos, vuelos, pasajesCheckIn, compradores });
+                                }
+                            });
                         }
                     });
                 }
@@ -38,7 +48,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/checkin", (req, res) => {
-    if(!!req.body) {
+    if (!!req.body) {
         pasajeController.getCheckIn(req.body, (pasajeR, err) => {
             if (err) {
                 console.log(err);
@@ -55,7 +65,7 @@ router.post("/checkin", (req, res) => {
                             msg: "Failed to load vuelo"
                         });
                     } else {
-                        res.render("index", {pasajeR, vueloR});
+                        res.render("index", { pasajeR, vueloR });
                     }
                 });
             }
@@ -63,10 +73,42 @@ router.post("/checkin", (req, res) => {
     }
 });
 
+router.post("/pasajesReservados/confirmar/:ID", (req, res) => {
+    if (!!req.params.ID) {
+        pasajeController.confirmarCompra(req.params.ID, (err) => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    success: false,
+                    msg: "Failed to confirmar compra"
+                });
+            } else {
+                res.redirect('/');
+            }
+        });
+    }
+});
+
+router.post("/pasajesReservados", (req, res) => {
+    if (!!req.body) {
+        pasajeController.getPasajesReservados(req.body, (pasajesReservados, err) => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    success: false,
+                    msg: "Failed to get pasajes reservados"
+                });
+            } else {
+                res.render("index", { pasajesReservados });
+            }
+        });
+    }
+});
+
 router.get("/checkin/confirm/:ID/:Flight", (req, res) => {
-    if(!!req.body){
+    if (!!req.body) {
         avionController.getAsientos(req.params.Flight, (asientos, err) => {
-            if(err) {
+            if (err) {
                 console.log(err);
                 res.json({
                     success: false,
@@ -101,43 +143,43 @@ router.get("/checkin/confirm/:ID/:Flight", (req, res) => {
                                         var asientosE = [];
 
                                         for (var i = 0; i < asientos[0].AsientosPC; i++) {
-                                            for(var j = 0; j < ocupadosPC.length; j++) {
-                                                if((ocupadosPC[j].Ocupado == (i+1))) {
-                                                    asientosPC.push([(i+1), "Ocupado"]);
+                                            for (var j = 0; j < ocupadosPC.length; j++) {
+                                                if ((ocupadosPC[j].Ocupado == (i + 1))) {
+                                                    asientosPC.push([(i + 1), "Ocupado"]);
                                                 } else {
-                                                    if(ocupadosPC[j].Ocupado > i+1){
-                                                        if(asientosPC.length < (i+1)){
-                                                            asientosPC.push([(i+1), "Libre"]);
+                                                    if (ocupadosPC[j].Ocupado > i + 1) {
+                                                        if (asientosPC.length < (i + 1)) {
+                                                            asientosPC.push([(i + 1), "Libre"]);
                                                         }
                                                     }
                                                 }
                                             }
-                                            if(asientosPC.length < (i+1)) {
-                                                asientosPC.push([(i+1), "Libre"]);
+                                            if (asientosPC.length < (i + 1)) {
+                                                asientosPC.push([(i + 1), "Libre"]);
                                             }
                                         }
 
                                         for (var i = 0; i < asientos[0].AsientosE; i++) {
-                                            for(var j = 0; j < ocupadosE.length; j++) {
-                                                if((ocupadosE[j].Ocupado == (i+1))) {
-                                                    asientosE.push([(i+1), "Ocupado"]);
+                                            for (var j = 0; j < ocupadosE.length; j++) {
+                                                if ((ocupadosE[j].Ocupado == (i + 1))) {
+                                                    asientosE.push([(i + 1), "Ocupado"]);
                                                 } else {
-                                                    if(ocupadosE[j].Ocupado > i+1){
-                                                        if(asientosE.length < (i+1)){
-                                                            asientosE.push([(i+1), "Libre"]);
+                                                    if (ocupadosE[j].Ocupado > i + 1) {
+                                                        if (asientosE.length < (i + 1)) {
+                                                            asientosE.push([(i + 1), "Libre"]);
                                                         }
                                                     }
                                                 }
                                             }
-                                            if(asientosE.length < (i+1)) {
-                                                asientosE.push([(i+1), "Libre"]);
+                                            if (asientosE.length < (i + 1)) {
+                                                asientosE.push([(i + 1), "Libre"]);
                                             }
                                         }
 
                                         console.log(asientosPC);
                                         console.log(asientosE);
 
-                                        res.render("index", {asientos, asientosE, asientosPC, cliente});
+                                        res.render("index", { asientos, asientosE, asientosPC, cliente });
                                     }
                                 });
                             }
@@ -150,7 +192,7 @@ router.get("/checkin/confirm/:ID/:Flight", (req, res) => {
 });
 
 router.get("/checkin/select-flight/:ID/:Flight", (req, res) => {
-    if(!!req.body) {
+    if (!!req.body) {
         vueloController.getVuelo(req.params.Flight, (vuelo, err) => {
             if (err) {
                 console.log(err);
@@ -165,15 +207,16 @@ router.get("/checkin/select-flight/:ID/:Flight", (req, res) => {
                         msg: "Failed to get ruta"
                     } else {
                         vueloController.getVueloDestino(vuelo.ID, vuelo.FechaSalida, vuelo.HoraSalida, ruta.CodigoIATAOrigen, ruta.CodigoIATADestino, (nuevoVuelo, err) => {
-                            if(err) {
+                            if (err) {
                                 console.log(err);
                                 res.json({
                                     success: false,
                                     msg: "Failed to get vuelos"
                                 });
                             } else {
+                                console.log(nuevoVuelo);
                                 var pasajeND = req.params.ID;
-                                res.render("index", {nuevoVuelo, pasajeND});
+                                res.render("index", { nuevoVuelo, pasajeND });
                             }
                         });
                     }
@@ -184,7 +227,7 @@ router.get("/checkin/select-flight/:ID/:Flight", (req, res) => {
 });
 
 router.post("/checkin/confirm/:ID/:Flight/get-seat", (req, res) => {
-    if(!!req.body) {
+    if (!!req.body) {
         pasajeController.reservarAsiento(req.params.ID, req.params.Flight, req.body, (err) => {
             if (err) {
                 console.log(err);
@@ -200,9 +243,9 @@ router.post("/checkin/confirm/:ID/:Flight/get-seat", (req, res) => {
 });
 
 router.post("/consultarEstado", (req, res) => {
-    if(!!req.body) {
-        vueloController.getEstadoVuelo(req.body.Vuelo, (vueloEstado, error)=> {
-            if(error) {
+    if (!!req.body) {
+        vueloController.getEstadoVuelo(req.body.Vuelo, (vueloEstado, error) => {
+            if (error) {
                 res.json({
                     success: false,
                     msg: 'Failed to get Estado'
@@ -215,9 +258,9 @@ router.post("/consultarEstado", (req, res) => {
 })
 
 router.post("/consultarAvion", (req, res) => {
-    if(!!req.body) {
-        vueloController.getAvionVuelo(req.body.VueloA, (avionVuelo, error)=> {
-            if(error) {
+    if (!!req.body) {
+        vueloController.getAvionVuelo(req.body.VueloA, (avionVuelo, error) => {
+            if (error) {
                 console.log(error);
                 res.json({
                     success: false,

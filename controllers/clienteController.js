@@ -49,6 +49,22 @@ controller.getCliente = async function (ID, callback) {
     }
 }
 
+controller.getCompradores = async function (callback) {
+    try {
+        let compradores = await db.query(
+            "SELECT c.ID, c.Pasaporte, c.Nombre, c.Apellido FROM pasaje " +
+            "INNER JOIN Cliente AS c ON pasaje.IDComprador = c.ID " +
+            "WHERE pasaje.Activo = 1 " +
+            "GROUP BY pasaje.IDComprador;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(compradores);
+        callback(compradores, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Actualiza los atributos del cliente modificado
 controller.updateCliente = async function (data, ID, callback) {
     try {

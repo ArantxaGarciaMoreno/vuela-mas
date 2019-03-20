@@ -48,6 +48,29 @@ controller.getPasajesCheckIn = async function (callback) {
     }
 }
 
+controller.getPasajesReservados = async function (data, callback) {
+    try {
+        let pasajesReservados = await db.query(
+            "SELECT `Pasaje`.`ID`, `Pasaje`.`Estado`, Pasajero.`Nombre`, Pasajero.`Apellido`, VueloR.`FechaSalida`, VueloR.`FechaLlegada`, VueloR.`HoraSalida`, VueloR.`HoraLlegada`, `Ruta`.`CodigoIATAOrigen`, VueloR.`CodigoIATADestino`, " +
+            "`Tarifa`.`CantEquipaje`, `Tarifa`.`PesoEquipaje`, `Tarifa`.`Clase`, `Tarifa`.`PrecioBase` " +
+            "FROM `Pasaje` " +
+            "INNER JOIN `Cliente` AS Pasajero ON Pasajero.`ID` = `Pasaje`.`IDPasajero` " +
+            "INNER JOIN `Vuelo` AS VueloR ON `Pasaje`.`IDVueloReservado` = VueloR.`ID` " +
+            "INNER JOIN `Ruta` ON VueloR.`IDRuta` = `Ruta`.`ID` " +
+            "INNER JOIN `Tarifa` ON `Pasaje`.`IDTarifa` = `Tarifa`.`ID` " +
+            "WHERE `Pasaje`.`IDComprador` = '" + data.Comprador + "' " +
+            "AND `Pasaje`.`FechaReserva` = '" + data.FechaReserva + "' " +
+            "AND `Pasaje`.`Activo` = 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(pasajesReservados);
+        callback(pasajesReservados, null);
+    } catch(error) {
+        console.log(error);
+        callback(null, error);
+    }
+}
+
 controller.getCheckedInE = async function (IDVuelo, callback) {
     try {
         let checkedin = await db.query(
@@ -114,6 +137,22 @@ controller.reservarAsiento = async function (ID, Vuelo, data, callback) {
         let response = await Pasaje.update({
             IDVueloAbordado: Vuelo,
             Asiento: data.Asiento,
+        }, {
+            where: {
+                ID
+            }
+        });
+        callback(null);
+    } catch(error) {
+        console.log(error);
+        callback(error);
+    }
+}
+
+controller.confirmarCompra = async function (ID, callback) {
+    try {
+        let response = await Pasaje.update({
+            Estado: 'PAGADO'
         }, {
             where: {
                 ID
