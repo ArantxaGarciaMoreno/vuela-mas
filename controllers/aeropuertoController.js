@@ -34,6 +34,23 @@ controller.getAeropuertosDistintos = async function (CodigoIATA, callback) {
     }
 }
 
+controller.getAeropuertosTop = async function (callback) {
+    try {
+        let top = await db.query(
+            "SELECT a.Ciudad, a.Pais, a.CodigoIATA, COUNT(IF(v.Estado != 'DESVIADO' AND v.Estado != 'CANCELADO' AND v.Activo !=0 AND v.Activo IS NOT NULL AND CONCAT(v.FechaLlegada, ' ', v.HoraLlegada) <= NOW(), 1, NULL)) AS Vuelos FROM aeropuerto AS a " +
+            "LEFT JOIN vuelo AS v ON v.CodigoIATADestino = a.CodigoIATA " +
+            "GROUP BY a.CodigoIATA " +
+            "ORDER BY Vuelos DESC, a.Pais ASC;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(top);
+        callback(top, null)
+    } catch (error) {
+        console.log(error);
+        callback(null, error);
+    }
+}
+
 //Obtiene el aeropuerto cuyos atributos se quieren actualizar
 controller.getAeropuertosUpdate = async function (CodigoIATA, callback) {
     try {

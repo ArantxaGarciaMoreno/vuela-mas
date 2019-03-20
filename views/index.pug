@@ -286,7 +286,7 @@ block content
                         option(value=`${asientosPC[i][0]}`) Primera Clase - No. #{asientosPC[i][0]}
               .form-group
                 button.btn.btn-primary(type='submit') Seleccionar
-          a.btn.btn-primary(href="javascript:history.back()" style="margin-top: 10px") Regresar
+        a.btn.btn-primary(href="javascript:history.back()" style="margin-top: 10px") Regresar
     - if (nuevoVuelo && pasajeND)
       h4.mt-5 Seleccione un vuelo nuevo
       h4.mt-5 Ruta #{nuevoVuelo[0].Origen} - #{nuevoVuelo[0].Destino}
@@ -306,3 +306,17 @@ block content
                     form(action=`/checkin/confirm/${pasajeND}/${nuevoVuelo[i].ID}/`, method="GET")
                       button.btn.btn-outline-danger(type='submit') Seleccionar Vuelo
           a.btn.btn-primary(href="javascript:history.back()") Regresar
+    - if (top)
+          h4.mt-5 Top Destinos
+            table.table.bg-dark.text-white
+              thead
+                tr
+                  th(scope='col') Localidad
+                  th(scope='col') Aeropuerto
+                  th(scope='col') No. Vuelos
+              tbody
+                - for (var i = 0; i < top.length; i++)
+                  tr
+                    td #{top[i].Ciudad}, #{top[i].Pais}
+                    td #{top[i].CodigoIATA}
+                    td #{top[i].Vuelos}

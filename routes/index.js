@@ -36,7 +36,17 @@ router.get("/", (req, res) => {
                                         msg: 'Failed to get compradores'
                                     });
                                 } else {
-                                    res.render("index", { aeropuertos, vuelos, pasajesCheckIn, compradores });
+                                    aeropuertoController.getAeropuertosTop((top, err) => {
+                                        if (err) {
+                                            console.log(err);
+                                            res.json({
+                                                success: false,
+                                                msg: "Failed to get top"
+                                            });
+                                        } else {
+                                            res.render("index", { aeropuertos, vuelos, pasajesCheckIn, top, compradores });
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -46,7 +56,6 @@ router.get("/", (req, res) => {
         }
     });
 });
-
 router.post("/checkin", (req, res) => {
     if (!!req.body) {
         pasajeController.getCheckIn(req.body, (pasajeR, err) => {

@@ -8,15 +8,17 @@ const controller = {};
 controller.getPasajes = async function (callback) {
     try {
         let pasajes = await db.query(
-            "SELECT `Pasaje`.`ID` AS PasajeID, Pasajero.`Pasaporte` AS PasaporteP, Pasajero.`Nombre` AS NombreP, Pasajero.`Apellido` AS ApellidoP, RutaR.`CodigoIATAOrigen` AS CodigoIATAOrigenR," +
-            "VueloR.`CodigoIATADestino` AS CodigoIATADestinoR, VueloR.`FechaSalida` AS FechaSalidaR,`Tarifa`.`Clase`,`Tarifa`.`ID` AS TarifaID," +
+            "SELECT `Pasaje`.`ID` AS PasajeID, Pasajero.`Pasaporte` AS PasaporteP, Pasajero.`Nombre` AS NombreP, Pasajero.`Apellido` AS ApellidoP, RutaR.`CodigoIATAOrigen` AS CodigoIATAOrigenR, RutaA.`CodigoIATAOrigen` AS CodigoIATAOrigenA," +
+            "VueloR.`CodigoIATADestino` AS CodigoIATADestinoR, VueloA.`CodigoIATADestino` AS CodigoIATADestinoA,VueloR.`FechaSalida` AS FechaSalidaR, VueloA.`FechaSalida` AS FechaSalidaA, `Tarifa`.`Clase`,`Tarifa`.`ID` AS TarifaID," +
             "Comprador.`Pasaporte` AS PasaporteC, Comprador.`Nombre` AS NombreC, Comprador.`Apellido` AS ApellidoC," +
             "`Pasaje`.`Asiento`, `Pasaje`.`Estado`, `Pasaje`.`FechaReserva`, `Pasaje`.`MetodoPago` " +
             "FROM `Pasaje` " +
             "INNER JOIN `Cliente` AS Pasajero ON `Pasaje`.`IDPasajero`= Pasajero.`ID` " +
             "INNER JOIN `Cliente` AS Comprador ON `Pasaje`.`IDComprador`= Comprador.`ID` " +
             "INNER JOIN `Vuelo` AS VueloR ON `Pasaje`.`IDVueloReservado`= VueloR.`ID` " +
+            "INNER JOIN `Vuelo` AS VueloA ON `Pasaje`.`IDVueloAbordado`= VueloA.`ID` " +
             "INNER JOIN `Ruta` AS RutaR ON VueloR.`IDRuta`= RutaR.`ID` " +
+            "INNER JOIN `Ruta` AS RutaA ON VueloA.`IDRuta`= RutaA.`ID` " +
             "INNER JOIN `Tarifa` ON `Pasaje`.`IDTarifa`=`Tarifa`.`ID` " +
             "WHERE `Pasaje`.`Activo`= 1;",
             { type: sequelize.QueryTypes.SELECT }
