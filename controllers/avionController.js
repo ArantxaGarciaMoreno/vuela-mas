@@ -56,6 +56,22 @@ controller.getAvionesPropios = async function (callback) {
     }
 }
 
+controller.getAsientos = async function (ID, callback) {
+    try {
+        let asientos = await db.query(
+            "SELECT a.ID AS ID, m.CantAsientosECO AS AsientosE, m.CantAsientosPC AS AsientosPC FROM avion AS a " +
+            "INNER JOIN Vuelo AS v ON v.IDAvion = a.ID " +
+            "INNER JOIN Modelo_Avion AS m ON a.IDModeloAvion = m.ID " +
+            "WHERE v.ID = " + ID + ";",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(asientos);
+        callback(asientos, null);
+    } catch (error) {
+        callback(null, error);
+    }
+}
+
 //Obtiene el avion cuyos atributos se quieren actualizar
 controller.getAvionUpdate = async function (ID, callback) {
     try {

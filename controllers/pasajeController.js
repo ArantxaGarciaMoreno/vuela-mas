@@ -32,6 +32,116 @@ controller.getPasajes = async function (callback) {
     }
 }
 
+controller.getPasajesCheckIn = async function (callback) {
+    try {
+        let checkin = await db.query(
+            "SELECT Pasaje.ID AS ID, Pasajero.Nombre AS NombreP, Pasajero.Apellido AS ApellidoP " +
+            "FROM Pasaje " +
+            "INNER JOIN Cliente AS Pasajero ON Pasajero.ID = Pasaje.IDPasajero " +
+            "WHERE Pasaje.IDVueloAbordado IS NULL " +
+            "AND Pasaje.Estado = 'PAGADO';",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(checkin);
+        callback(checkin, null);
+    } catch(error) {
+        console.log(error);
+        callback(null, error);
+    }
+}
+
+controller.getCheckedInE = async function (IDVuelo, callback) {
+    try {
+        let checkedin = await db.query(
+            "select p.ID AS ID, p.Asiento as Ocupado, t.Clase as Clase from pasaje as p " +
+            "inner join vuelo as v on v.ID = " + IDVuelo + " " +
+            "inner join avion as a on v.IDAvion = a.ID " +
+            "inner join modelo_avion as m on m.ID = a.IDModeloAvion " +
+            "inner join tarifa as t on t.ID = p.IDTarifa " +
+            "where p.Asiento is not null " +
+            "and t.Clase = 'Economica';",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(checkedin);
+        callback(checkedin, null)
+    } catch(error) {
+        console.log(error);
+        callback(null, error)
+    }
+}
+
+controller.getCheckedInPC = async function (IDVuelo, callback) {
+    try {
+        let checkedin = await db.query(
+            "select p.ID AS ID, p.Asiento as Ocupado, t.Clase as Clase from pasaje as p " +
+            "inner join vuelo as v on v.ID = p.IDVueloReservado " +
+            "inner join avion as a on v.IDAvion = a.ID " +
+            "inner join modelo_avion as m on m.ID = a.IDModeloAvion " +
+            "inner join tarifa as t on t.ID = p.IDTarifa " +
+            "where p.Asiento is not null " +
+            "and t.Clase = 'Primera Clase' " +
+            "and v.ID = " + IDVuelo + " " +
+            "order by p.Asiento asc;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(checkedin);
+        callback(checkedin, null)
+    } catch(error) {
+        console.log(error);
+        callback(null, error)
+    }
+}
+
+controller.getCheckIn = async function (data, callback) {
+    try {
+        let checkin = await db.query(
+            "SELECT Pasaje.ID AS ID, Pasajero.Nombre AS NombreP, Pasajero.Apellido AS ApellidoP " +
+            "FROM Pasaje " +
+            "INNER JOIN Cliente AS Pasajero ON Pasajero.ID = Pasaje.IDPasajero " +
+            "WHERE Pasaje.ID = " + data.Pasaje + ";",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(checkin);
+        callback(checkin, null);
+    } catch(error) {
+        console.log(error);
+        callback(null, error);
+    }
+}
+
+controller.reservarAsiento = async function (ID, Vuelo, data, callback) {
+    try {
+        let response = await Pasaje.update({
+            IDVueloAbordado: Vuelo,
+            Asiento: data.Asiento,
+        }, {
+            where: {
+                ID
+            }
+        });
+        callback(null);
+    } catch(error) {
+        console.log(error);
+        callback(error);
+    }
+}
+
+controller.getClase = async function (ID, callback) {
+    try {
+        let clase = await db.query(
+            "select p.ID as ID, t.clase as Clase from pasaje as p " +
+            "inner join tarifa as t on t.ID = p.IDTarifa " +
+            "where p.ID = " + ID + ";",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(clase);
+        callback(clase, null);
+    } catch (error) {
+        console.log(error);
+        callback(null, error);
+    }
+}
+
 //Desactiva un pasaje (Activo = 0)
 controller.deletePasaje = async function (ID, callback) {
     try {

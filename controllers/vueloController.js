@@ -37,6 +37,45 @@ controller.getVuelosEnRuta = async function (callback) {
     }
 }
 
+controller.getVueloCheckin = async function (data, callback) {
+    try {
+        let vueloCheckin = await db.query(
+            "SELECT v.ID AS ID, o.Ciudad AS Origen, d.Ciudad AS Destino, v.HoraSalida AS Hora, v.FechaSalida AS Fecha FROM Vuelo AS v " +
+            "INNER JOIN Aeropuerto AS o ON o.CodigoIATA = v.CodigoIATADestino " +
+            "INNER JOIN Ruta AS r ON r.ID = v.IDRuta " +
+            "INNER JOIN Aeropuerto AS d ON d.CodigoIATA = r.CodigoIATAOrigen " +
+            "INNER JOIN Pasaje AS p ON p.ID = " + data.Pasaje + " " +
+            "WHERE v.ID = p.IDVueloReservado;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(vueloCheckin);
+        callback(vueloCheckin, null);
+    } catch(error) {
+        console.log(error);
+        callback(null, error);
+    }
+}
+
+controller.getVueloDestino = async function (Vuelo, Fecha, Hora, Origen, Destino, callback) {
+    try {
+        let mismoDestino = await db.query(
+            "SELECT v.ID, r.CodigoIATAOrigen AS Origen, r.CodigoIATADestino AS Destino, v.FechaSalida AS Fecha, v.HoraSalida AS Hora FROM Vuelo AS v " +
+            "INNER JOIN Ruta AS r ON r.ID = v.IDRuta " +
+            "WHERE TIMEDIFF('" + Fecha + " " + Hora + "', CONCAT(v.FechaSalida, ' ', v.HoraSalida)) < 0 " +
+            "AND r.CodigoIATAOrigen = '" + Origen + "' " +
+            "AND r.CodigoIATADestino = '" + Destino + "' " + 
+            "AND v.ID != " + Vuelo +" " +
+            "ORDER BY Fecha ASC, Hora ASC;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(mismoDestino);
+        callback(mismoDestino, null);
+    } catch(error) {
+        console.log(error);
+        callback(null, error);
+    }
+}
+
 controller.getVuelosATiempo = async function (callback) {
     try {
         let vuelosAtiempo = await db.query(
