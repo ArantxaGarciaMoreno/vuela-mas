@@ -134,6 +134,10 @@ router.post("/vuelo-cancelado/cancelar-boleto/:ID", (req, res) => {
 });
 
 router.get("/vuelo-cancelado/siguiente-vuelo/:IDCancelado/:Clase/:Fecha/:Hora/:Origen/:Destino/:IDBoleto", (req, res) => {
+    
+    console.log(req.params.Origen);
+    console.log(req.params.Destino);
+    
     if (!!req.params) {
         vueloController.getVueloDestino(req.params.IDCancelado, req.params.Fecha, req.params.Hora, req.params.Origen, req.params.Destino, (vuelos, err) => {
             if (err) {
@@ -143,7 +147,8 @@ router.get("/vuelo-cancelado/siguiente-vuelo/:IDCancelado/:Clase/:Fecha/:Hora/:O
                     msg: "Failed to get vuelos"
                 });
             } else {
-                vueloController.getSiguienteDisp(vuelos, req.params.Clase, req.params.Fecha, req.params.Hora, req.params.IDCancelado, (siguiente, err) => {
+                console.log(vuelos);
+                vueloController.getSiguienteDisp(vuelos, req.params.Clase, req.params.Fecha, req.params.Hora, req.params.IDCancelado, req.params.Origen, req.params.Destino, (siguiente, err) => {
                     if (err) {
                         console.log(err);
                         res.json({
@@ -151,6 +156,8 @@ router.get("/vuelo-cancelado/siguiente-vuelo/:IDCancelado/:Clase/:Fecha/:Hora/:O
                             msg: "Failed to get siguiente vuelo disponible"
                         });
                     } else {
+                        console.log(siguiente);
+                       
                         res.render("index", { siguiente });
                     }
                 });

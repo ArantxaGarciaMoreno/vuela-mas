@@ -16,9 +16,9 @@ controller.getPasajes = async function (callback) {
             "INNER JOIN `Cliente` AS Pasajero ON `Pasaje`.`IDPasajero`= Pasajero.`ID` " +
             "INNER JOIN `Cliente` AS Comprador ON `Pasaje`.`IDComprador`= Comprador.`ID` " +
             "INNER JOIN `Vuelo` AS VueloR ON `Pasaje`.`IDVueloReservado`= VueloR.`ID` " +
-            "INNER JOIN `Vuelo` AS VueloA ON `Pasaje`.`IDVueloAbordado`= VueloA.`ID` " +
+            "LEFT JOIN `Vuelo` AS VueloA ON `Pasaje`.`IDVueloAbordado`= VueloA.`ID` " +
             "INNER JOIN `Ruta` AS RutaR ON VueloR.`IDRuta`= RutaR.`ID` " +
-            "INNER JOIN `Ruta` AS RutaA ON VueloA.`IDRuta`= RutaA.`ID` " +
+            "LEFT JOIN `Ruta` AS RutaA ON VueloA.`IDRuta`= RutaA.`ID` " +
             "INNER JOIN `Tarifa` ON `Pasaje`.`IDTarifa`=`Tarifa`.`ID` " +
             "WHERE `Pasaje`.`Activo`= 1;",
             { type: sequelize.QueryTypes.SELECT }

@@ -13,7 +13,6 @@ controller.getTarifas = async function (callback) {
             }
         });
         let tarifas = response.map(result => result.dataValues);
-        console.log(tarifas);
         callback(tarifas, null);
 
     } catch (error) {

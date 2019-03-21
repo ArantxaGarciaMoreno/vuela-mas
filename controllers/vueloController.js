@@ -323,7 +323,7 @@ controller.getVuelosAvion = async function (ID, callback) {
     }
 }
 
-controller.getSiguienteDisp =  async function (Vuelos, ClaseP, Fecha, Hora, IDCancelado, callback) {
+controller.getSiguienteDisp =  async function (Vuelos, ClaseP, Fecha, Hora, IDCancelado, Origen, Destino, callback) {
     var siguiente = [];
     var cont = 0;
     var ID
@@ -340,8 +340,8 @@ controller.getSiguienteDisp =  async function (Vuelos, ClaseP, Fecha, Hora, IDCa
             "INNER JOIN Avion AS a ON a.ID = v.IDAvion " +
             "INNER JOIN Modelo_Avion AS m ON m.ID = a.IDModeloAvion " +
             "WHERE TIMEDIFF('" + Fecha + " " + Hora + "', CONCAT(v.FechaSalida, ' ', v.HoraSalida)) < 0 " +
-            "AND r.CodigoIATAOrigen = 'IAIM' " +
-            "AND r.CodigoIATADestino = 'MIA' " +
+            "AND r.CodigoIATAOrigen = '" + Origen + "' " +
+            "AND r.CodigoIATADestino = '" + Destino + "' " +
             "AND v.ID != " + IDCancelado + " " +
             "AND (select count(distinct(p2.ID)) from pasaje as p2 " +
             "left join vuelo as v2 on v2.ID = p2.IDVueloAbordado " +

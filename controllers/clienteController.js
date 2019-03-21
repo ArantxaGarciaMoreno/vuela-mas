@@ -13,7 +13,6 @@ controller.getClientes = async function (callback) {
             },
         });
         let clientes = response.map(result => result.dataValues);
-        console.log(clientes);
         callback(clientes, null);
     } catch (error) {
         callback(null, error);
