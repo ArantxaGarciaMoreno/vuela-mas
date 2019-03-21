@@ -98,7 +98,7 @@ block content
                 label(for="IDVueloReservado") Vuelo Reservado
                 select#IDVueloReservado.select.form-control.input-lg(type='number' name='IDVueloReservado')
                     - for (var i = 0; i < vuelosAtiempo.length; i++)
-                        option(value=`${vuelosAtiempo[i].ID}`) #{vuelosAtiempo[i].CodigoIATAOrigen} - #{vuelosAtiempo[i].CodigoIATADestino} (#{vuelosAtiempo[i].FechaSalida}) 
+                        option(value=`${vuelosAtiempo[i].ID}`) #{vuelosAtiempo[i].CodigoIATAOrigen} - #{vuelosAtiempo[i].CodigoIATADestino} (#{vuelosAtiempo[i].FechaSalida} #{vuelosAtiempo[i].HoraSalida}) 
               .form-group
                 label(for="IDTarifa") Tarifa Aplicada
                 select#IDTarifa.select.form-control.input-lg(type='number' name='IDTarifa')

@@ -11,7 +11,7 @@ controller.getPasajes = async function (callback) {
             "SELECT `Pasaje`.`ID` AS PasajeID, Pasajero.`Pasaporte` AS PasaporteP, Pasajero.`Nombre` AS NombreP, Pasajero.`Apellido` AS ApellidoP, RutaR.`CodigoIATAOrigen` AS CodigoIATAOrigenR," +
             "VueloR.`CodigoIATADestino` AS CodigoIATADestinoR, VueloR.`FechaSalida` AS FechaSalidaR,`Tarifa`.`Clase`,`Tarifa`.`ID` AS TarifaID," +
             "Comprador.`Pasaporte` AS PasaporteC, Comprador.`Nombre` AS NombreC, Comprador.`Apellido` AS ApellidoC," +
-            "`Pasaje`.`Asiento`, `Pasaje`.`Estado`, `Pasaje`.`FechaReserva`, `Pasaje`.`MetodoPago` " +
+            "`Pasaje`.`Asiento`, `Pasaje`.`Estado`, `Pasaje`.`FechaReserva`, `Pasaje`.`MetodoPago`" +
             "FROM `Pasaje` " +
             "INNER JOIN `Cliente` AS Pasajero ON `Pasaje`.`IDPasajero`= Pasajero.`ID` " +
             "INNER JOIN `Cliente` AS Comprador ON `Pasaje`.`IDComprador`= Comprador.`ID` " +
@@ -109,6 +109,25 @@ controller.getCheckIn = async function (data, callback) {
     }
 }
 
+controller.getCancelado = async function (callback) {
+    try{
+        let cancelado = await db.query(
+            "SELECT p.ID, c.ID as IDCliente, t.Clase, c.Nombre, c.Apellido, v.ID AS VueloID, v.HoraSalida AS Hora, v.FechaSalida AS Fecha, r.CodigoIATAOrigen AS Origen, r.CodigoIATADestino AS Destino FROM pasaje AS p " +
+            "INNER JOIN vuelo AS v ON v.ID = p.IDVueloReservado " +
+            "INNER JOIN tarifa AS t ON t.ID = p.IDTarifa " +
+            "INNER JOIN cliente AS c ON c.ID = p.IDPasajero " +
+            "INNER JOIN ruta AS r ON r.ID = v.IDRuta " +
+            "WHERE v.Estado = 'CANCELADO' " +
+            "AND p.Activo = 1;",
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(cancelado);
+        callback(cancelado, null);
+    } catch(error) {
+        callback(null, error);
+    }
+}
+
 controller.reservarAsiento = async function (ID, Vuelo, data, callback) {
     try {
         let response = await Pasaje.update({
@@ -123,6 +142,22 @@ controller.reservarAsiento = async function (ID, Vuelo, data, callback) {
     } catch(error) {
         console.log(error);
         callback(error);
+    }
+}
+
+controller.vueloReasignado = async function (ID, Vuelo, callback) {
+    try {
+        let response = await Pasaje.update({
+            IDVueloReservado: Vuelo
+        },{
+            where: {
+                ID
+            }
+        });
+        callback(null);
+    } catch(error) {
+        console.log(error);
+        callback(null, error);
     }
 }
 

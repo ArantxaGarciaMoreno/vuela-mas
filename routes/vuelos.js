@@ -65,6 +65,22 @@ router.post("/delete/:ID", (req, res) => {
 
 });
 
+router.post("/cancelar/:ID", (req, res) => {
+    if(!!req.params.ID) {
+        vueloController.cancelarVuelo(req.params.ID, (err) => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    success: false,
+                    msg: 'Failed to calcel vuelo'
+                });
+            } else {
+                res.redirect("/vuelos/");
+            }
+        });
+    }
+});
+
 router.get("/show/:ID", (req, res) => {
     if (!!req.params.ID) {
         vueloController.getVueloUpdate(req.params.ID, (vueloUpdate, err) => {

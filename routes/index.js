@@ -36,7 +36,18 @@ router.get("/", (req, res) => {
                                         msg: "Failed to get top"
                                     });
                                 } else {
-                                    res.render("index", { aeropuertos, vuelos, pasajesCheckIn, top });
+                                    pasajeController.getCancelado((cancelados, err) => {
+                                        if (err) {
+                                            console.log(err);
+                                            res.json({
+                                                success: false,
+                                                msg: "Failed to get boletos cancelados"
+                                            });
+                                        } else {
+                                            console.log(cancelados);
+                                            res.render("index", { aeropuertos, vuelos, pasajesCheckIn, top, cancelados })
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -68,6 +79,73 @@ router.post("/checkin", (req, res) => {
                         res.render("index", {pasajeR, vueloR});
                     }
                 });
+            }
+        });
+    }
+});
+
+router.post("/vuelo-cancelado/", (req, res) => {
+    if(!!req.body) {
+        console.log(req.body);
+        var boleto = JSON.parse(req.body.Cancelado);
+        console.log(boleto);
+        res.render("index", {boleto})    
+    }
+});
+
+router.post("/vuelo-cancelado/cancelar-boleto/:ID", (req, res) => {
+    if(!!req.params) {
+        pasajeController.deletePasaje(req.params.ID, (error) => {
+            if(error) {
+                console.log(error);
+                res.json({
+                    success: false,
+                    msg: "Failed to calce pasaje"
+                });
+            } else {
+                res.redirect("/");
+            }
+        })
+    }
+});
+
+router.get("/vuelo-cancelado/siguiente-vuelo/:IDCancelado/:Clase/:Fecha/:Hora/:Origen/:Destino/:IDBoleto", (req, res) => {
+    if(!!req.params) {
+        vueloController.getVueloDestino(req.params.IDCancelado, req.params.Fecha, req.params.Hora, req.params.Origen, req.params.Destino, (vuelos, err) => {
+            if(err) {
+                console.log(err);
+                res.json({
+                    success: false,
+                    msg: "Failed to get vuelos"
+                });
+            } else {
+                vueloController.getSiguienteDisp(vuelos, req.params.Clase, req.params.Fecha, req.params.Hora, req.params.IDCancelado, (siguiente, err) => {
+                    if (err) {
+                        console.log(err);
+                        res.json({
+                            success: false,
+                            msg: "Failed to get siguiente vuelo disponible"
+                        });
+                    } else {
+                        res.render("index", {siguiente});
+                    }
+                });
+            }
+        });
+    }
+});
+
+router.post("/vuelo-cancelado/siguiente-vuelo/:IDCancelado/:Clase/:Fecha/:Hora/:Origen/:Destino/:IDBoleto/confirm/:Siguiente/", (req, res) => {
+    if(!!req.params) {
+        pasajeController.vueloReasignado(req.params.IDBoleto, req.params.Siguiente, (error) => {
+            if(error) {
+                console.log(error);
+                res.json({
+                    success: false,
+                    msg: "Failed to reasign vuelo"
+                });
+            } else {
+                res.redirect("/pasajes/");
             }
         });
     }
