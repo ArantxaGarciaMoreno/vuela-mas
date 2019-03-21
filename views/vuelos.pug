@@ -44,8 +44,9 @@ block content
                     form(action=`tripulacion/${vuelos[i].ID}`,method="GET")
                       button.btn.btn-outline-warning(type='submit') Tripulación
                   td
-                    form(action=`cancelar/${vuelos[i].ID}`,method="POST")
-                      button.btn.btn-outline-warning(type='submit') Cancelar
+                    -if(vuelos[i].Estado != 'CANCELADO')
+                      form(action=`cancelar/${vuelos[i].ID}`,method="POST")
+                        button.btn.btn-outline-warning(type='submit') Cancelar
             - else
               tr
                 th(scope='row') #{vueloUpdate.ID}
