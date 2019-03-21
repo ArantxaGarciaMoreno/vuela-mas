@@ -41,9 +41,9 @@ controller.getVueloCheckin = async function (data, callback) {
     try {
         let vueloCheckin = await db.query(
             "SELECT v.ID AS ID, o.Ciudad AS Origen, d.Ciudad AS Destino, v.HoraSalida AS Hora, v.FechaSalida AS Fecha FROM Vuelo AS v " +
-            "INNER JOIN Aeropuerto AS o ON o.CodigoIATA = v.CodigoIATADestino " +
             "INNER JOIN Ruta AS r ON r.ID = v.IDRuta " +
-            "INNER JOIN Aeropuerto AS d ON d.CodigoIATA = r.CodigoIATAOrigen " +
+            "INNER JOIN Aeropuerto AS o ON o.CodigoIATA = r.CodigoIATAOrigen " +
+            "INNER JOIN Aeropuerto AS d ON d.CodigoIATA = r.CodigoIATADestino " +
             "INNER JOIN Pasaje AS p ON p.ID = " + data.Pasaje + " " +
             "WHERE v.ID = p.IDVueloReservado;",
             { type: sequelize.QueryTypes.SELECT }
