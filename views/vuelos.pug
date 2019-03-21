@@ -42,7 +42,11 @@ block content
                       button.btn.btn-outline-danger(type='submit') Eliminar
                   td
                     form(action=`tripulacion/${vuelos[i].ID}`,method="GET")
-                      button.btn.btn-outline-warning(type='submit') Tripulación        
+                      button.btn.btn-outline-warning(type='submit') Tripulación
+                  td
+                    -if(vuelos[i].Estado != 'CANCELADO')
+                      form(action=`cancelar/${vuelos[i].ID}`,method="POST")
+                        button.btn.btn-outline-warning(type='submit') Cancelar
             - else
               tr
                 th(scope='row') #{vueloUpdate.ID}
@@ -60,7 +64,7 @@ block content
                 td #{vueloUpdate.Estado}
         - if (!vueloUpdate)
           form(action=`desviar/`,method="GET" style="margin: 15px")
-                        button.btn.btn-outline-danger(type='submit') Desvios  
+                        button.btn.btn-outline-danger(type='submit') Desvios
         - if(vueloUpdate)
           h4.mt-5 Modificar Datos del Vuelo
             div.card.bg-dark

@@ -79,11 +79,12 @@ controller.getVueloDestino = async function (Vuelo, Fecha, Hora, Origen, Destino
 controller.getVuelosATiempo = async function (callback) {
     try {
         let vuelosAtiempo = await db.query(
-            "SELECT `Ruta`.`CodigoIATAOrigen`, `Vuelo`.`ID`, `Vuelo`.`CodigoIATADestino`, `Vuelo`.`FechaSalida` " +
+            "SELECT `Ruta`.`CodigoIATAOrigen`, `Vuelo`.`ID`, `Vuelo`.`CodigoIATADestino`, `Vuelo`.`FechaSalida`, Vuelo.HoraSalida " +
             "FROM `Vuelo` " +
             "INNER JOIN `Ruta` ON `Vuelo`.`IDRuta`= `Ruta`.`ID` " +
             "WHERE `Vuelo`.`Estado` = 'A TIEMPO' " +
-            "AND `Vuelo`.`Activo`= 1;",
+            "AND `Vuelo`.`Activo`= 1 " +
+            "ORDER BY Vuelo.FechaSalida ASC, Vuelo.HoraSalida ASC;",
             { type: sequelize.QueryTypes.SELECT }
         );
         console.log(vuelosAtiempo);
@@ -191,6 +192,22 @@ controller.desviarVuelo = async function (IDVuelo, Destino, Llegada, callback) {
             });
         callback(null);
     } catch (error) {
+        callback(error);
+    }
+}
+
+controller.cancelarVuelo = async function (IDVuelo, callback) {
+    try {
+        let response = await Vuelo.update({
+            Estado: 'CANCELADO'
+        }, {
+                where: {
+                    ID: IDVuelo
+                }
+            });
+        callback(null);
+    } catch (error) {
+        console.log(error);
         callback(error);
     }
 }
@@ -304,6 +321,57 @@ controller.getVuelosAvion = async function (ID, callback) {
     } catch (error) {
         callback(null, error);
     }
+}
+
+controller.getSiguienteDisp =  async function (Vuelos, ClaseP, Fecha, Hora, IDCancelado, callback) {
+    var siguiente = [];
+    var cont = 0;
+    var ID
+    var clase = 'Primera Clase';
+    var orig = {Fecha: '2019-03-21', Hora: '10:11:00', ID:'8'}
+    var siguientes = [{ID: 4}, {ID: 10}, {ID: 9}, {ID: 5}];
+
+    do {
+        ID = Vuelos[cont].ID;
+        try {
+            let sig = await db.query(
+            "SELECT v.ID, r.CodigoIATAOrigen AS Origen, r.CodigoIATADestino AS Destino, v.FechaSalida AS Fecha, v.HoraSalida AS Hora FROM Vuelo AS v " +
+            "INNER JOIN Ruta AS r ON r.ID = v.IDRuta " +
+            "INNER JOIN Avion AS a ON a.ID = v.IDAvion " +
+            "INNER JOIN Modelo_Avion AS m ON m.ID = a.IDModeloAvion " +
+            "WHERE TIMEDIFF('" + Fecha + " " + Hora + "', CONCAT(v.FechaSalida, ' ', v.HoraSalida)) < 0 " +
+            "AND r.CodigoIATAOrigen = 'IAIM' " +
+            "AND r.CodigoIATADestino = 'MIA' " +
+            "AND v.ID != " + IDCancelado + " " +
+            "AND (select count(distinct(p2.ID)) from pasaje as p2 " +
+            "left join vuelo as v2 on v2.ID = p2.IDVueloAbordado " +
+            "inner join avion as a2 on v2.IDAvion = a2.ID " +
+            "inner join modelo_avion as m2 on m2.ID = a2.IDModeloAvion " +
+            "inner join tarifa as t2 on t2.ID = p2.IDTarifa " +
+            "where p2.Asiento is not null " +
+            "and t2.Clase = '" + ClaseP + "' " +
+            "and v2.ID = " + ID + ") < IF('"+ ClaseP +"' = 'Primera Clase', m.CantAsientosPC, m.CantAsientosECO) " +
+            "and v.ID = " + ID +" " +
+            "ORDER BY Fecha ASC, Hora ASC " +
+            "LIMIT 1;",
+            { type: sequelize.QueryTypes.SELECT }
+            );
+
+            console.log(sig);
+
+            if (sig.length > 0) {
+                siguiente[0] = sig[0];
+                console.log('Hola')
+            }
+        } catch (error) {
+            console.log(error);
+            callback(null, error);
+        }
+        cont++;
+    } while ((siguiente.length < 1)&&(cont+1 != Vuelos.length));
+    
+    console.log(siguiente);
+    callback(siguiente, null);
 }
 
 controller.getEscalas1 = async function (data, callback) {

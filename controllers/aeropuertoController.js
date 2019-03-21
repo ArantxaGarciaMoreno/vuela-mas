@@ -39,6 +39,7 @@ controller.getAeropuertosTop = async function (callback) {
         let top = await db.query(
             "SELECT a.Ciudad, a.Pais, a.CodigoIATA, COUNT(IF(v.Estado != 'DESVIADO' AND v.Estado != 'CANCELADO' AND v.Activo !=0 AND v.Activo IS NOT NULL AND CONCAT(v.FechaLlegada, ' ', v.HoraLlegada) <= NOW(), 1, NULL)) AS Vuelos FROM aeropuerto AS a " +
             "LEFT JOIN vuelo AS v ON v.CodigoIATADestino = a.CodigoIATA " +
+            "WHERE a.Activo = 1 " +
             "GROUP BY a.CodigoIATA " +
             "ORDER BY Vuelos DESC, a.Pais ASC;",
             { type: sequelize.QueryTypes.SELECT }
